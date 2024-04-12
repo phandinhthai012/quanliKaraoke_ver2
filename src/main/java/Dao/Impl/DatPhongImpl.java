@@ -11,6 +11,8 @@ import entities.PhongEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import util.DateFormatter;
+import util.TimeFormatter;
 
 public class DatPhongImpl implements DatPhongDao{
 	private String persistenceUnitName = "quanliKaraoke_ver2 mssql";
@@ -22,10 +24,17 @@ public class DatPhongImpl implements DatPhongDao{
 
 	@Override
 	public List<PhongEntity> timPhong(String trangThai, String loaiPhong, int soPhong, int sucChua) {
-//	    String query = "SELECT p FROM PhongEntity p WHERE p.trangThai LIKE :trangThai AND p.loaiPhong.tenLoaiPhong LIKE :loaiPhong AND p.soPhong like :soPhong AND p.sucChua like :sucChua";
-		String query = "SELECT p FROM PhongEntity p WHERE p.trangThai LIKE :trangThai AND p.loaiPhong.tenLoaiPhong LIKE :loaiPhong AND p.soPhong = :soPhong AND p.sucChua = :sucChua";
+		String query = "SELECT p FROM PhongEntity p WHERE p.trangThai LIKE :trangThai AND p.loaiPhong.tenLoaiPhong LIKE :loaiPhong AND CAST(p.soPhong AS STRING) like :soPhong AND (p.sucChuaCAST AS STRING) like :sucChua";
+		if (trangThai.equals("Tất cả"))
+			trangThai = "";
+		if (loaiPhong.equals("Tất cả"))
+			loaiPhong = "";
+		if (soPhong <= 0)
+			soPhong = 0;
+		if (sucChua <= 0)
+			sucChua = 0;
 		List<PhongEntity> list = new ArrayList<PhongEntity>()	;
-		return em.createQuery(query, PhongEntity.class).setParameter("trangThai", trangThai).setParameter("loaiPhong", loaiPhong).setParameter("soPhong", soPhong).setParameter("sucChua", sucChua).getResultList();
+		return em.createNativeQuery(query, PhongEntity.class).setParameter("trangThai","%"+trangThai+"%").setParameter("loaiPhong","%"+loaiPhong+"%").setParameter("soPhong","%"+String.valueOf( soPhong)+"%").setParameter("sucChua",String.valueOf(sucChua)).getResultList();
 	}
 
 	@Override
@@ -46,8 +55,16 @@ public class DatPhongImpl implements DatPhongDao{
 
 	@Override
 	public List<PhongEntity> timPhongTrongTheoNgayVaGio(LocalDate ngay, LocalTime gioNhan, LocalTime gioTra) {
-		String query = "SELECT p FROM PhongEntity p WHERE p.maPhong NOT IN (SELECT c.phong.maPhong FROM ChiTietDatPhongEntity c WHERE c.ngayDat = :ngay AND c.gioNhan < :gioTra AND c.gioTra > :gioNhan)";
-		return em.createQuery(query, PhongEntity.class).setParameter("ngay", ngay).setParameter("gioNhan", gioNhan).setParameter("gioTra", gioTra).getResultList();
+		String query = "SELECT * FROM Phong P\r\n"
+				+ "WHERE NOT EXISTS (SELECT MaPhong FROM ChiTietDatPhong CTDP JOIN ChiTietHoaDon CTHD\r\n"
+				+ "	ON CTDP.MaChiTietDatPhong = CTHD.MaChiTietDatPhong \r\n"
+				+ "	WHERE CTDP.MaPhong = P.MaPhong AND MaHoaDon IS NULL\r\n"
+				+ "	AND NgayDatPhong = ? AND (GioNhanPhong >= ? AND GioNhanPhong <= ?) AND (GioTraPhong >= ? AND GioTraPhong <= ?))\r\n";
+		return em.createNativeQuery(query, PhongEntity.class).setParameter(1, DateFormatter.formatSql(ngay)).setParameter(2, TimeFormatter.formatSql(gioNhan.minusMinutes(30))).setParameter(3, TimeFormatter.formatSql(gioTra.plusMinutes(30))).setParameter(4, TimeFormatter.formatSql(gioNhan.minusMinutes(30))).setParameter(5, TimeFormatter.formatSql(gioTra.plusMinutes(30))).getResultList();
+
+//		
+//		 String query = "SELECT p FROM PhongEntity p WHERE p.maPhong NOT IN (SELECT c.phong.maPhong FROM ChiTietDatPhongEntity c WHERE c.ngayDatPhong = :ngay AND (c.gioNhanPhong < :gioTra AND c.gioTraPhong > :gioNhan))";
+//		return em.createQuery(query, PhongEntity.class).setParameter("ngay", ngay).setParameter("gioNhan", gioNhan).setParameter("gioTra", gioTra).getResultList();
 	}
 
 	@Override

@@ -33,10 +33,10 @@ public class test2 {
 		
 //		NhanVienEntity nv = nhanVienDao.timTheoMa("NV001");
 //		System.out.println(nv);
-		PhongDao phongDao = new PhongImpl();
+//		PhongDao phongDao = new PhongImpl();
 //		LoaiPhong loaiPhong = phongDao.timTheoTenLoaiPhong("VIP");
 //		System.out.println(loaiPhong);
-		DatPhongDao datPhongDao = new DatPhongImpl();
+//		DatPhongDao datPhongDao = new DatPhongImpl();
 //		List<PhongEntity> list = datPhongDao.timPhong("Trống", "VIP", 101, 10);
 //		for (PhongEntity phongEntity : list) {
 //			System.out.println(phongEntity);
@@ -58,9 +58,15 @@ public class test2 {
 //		List<PhieuDatPhongEntity> l = lapHoaDonDao.timHoaDonTheoKhachHang(khachHangEntity);
 		PhieuDatPhongDao phieuDatPhongDao = new PhieuDatPhongImpl();
 //		List<ChiTietPhieuDatPhongEntity> list = phieuDatPhongDao.duyetChiTietPhieuDatPhongChuaThanhToan();
-		List<ChiTietPhieuDatPhongEntity> list = phieuDatPhongDao.timChiTietPhieuDatPhongTheoSoPhongVaMa(101, "PDP001");
-		for (ChiTietPhieuDatPhongEntity chiTietPhieuDatPhongEntity : list) {
-			System.out.println(chiTietPhieuDatPhongEntity);
-		}
+//		List<ChiTietPhieuDatPhongEntity> list = phieuDatPhongDao.timChiTietPhieuDatPhongTheoSoPhongVaMa(101, "PDP001");
+//		for (ChiTietPhieuDatPhongEntity chiTietPhieuDatPhongEntity : list) {
+//			System.out.println(chiTietPhieuDatPhongEntity);
+//		}
+//		List<ChiTietPhieuDatPhongEntity> list = phieuDatPhongDao.timChiTietPhieuDatPhongTheoMaPhieuDatPhong("PDP001");
+//		for (ChiTietPhieuDatPhongEntity chiTietPhieuDatPhongEntity : list) {
+//			System.out.println(chiTietPhieuDatPhongEntity);
+//		}
+//		
+		List<PhieuDatPhongEntity> list = phieuDatPhongDao.timPhieuDatPhongTruocTheoSoPhongVaKhachHang(101, "Nguyen Van A");
 	}
 }
