@@ -39,6 +39,53 @@ public class HoaDonEntity {
 	public HoaDonEntity() {
 		super();
 	}
+	
+
+
+	public HoaDonEntity(NhanVienEntity nhanVien, KhachHangEntity khachHang, LocalDate ngayLap, LocalTime gioLap) {
+		super();
+		this.nhanVien = nhanVien;
+		this.khachHang = khachHang;
+		this.ngayLap = ngayLap;
+		this.gioLap = gioLap;
+	}
+
+
+
+	public NhanVienEntity getNhanVien() {
+		return nhanVien;
+	}
+
+
+
+	public void setNhanVien(NhanVienEntity nhanVien) {
+		this.nhanVien = nhanVien;
+	}
+
+
+
+	public KhachHangEntity getKhachHang() {
+		return khachHang;
+	}
+
+
+
+	public void setKhachHang(KhachHangEntity khachHang) {
+		this.khachHang = khachHang;
+	}
+
+
+
+	public List<ChiTietHoaDonEntity> getListChiTietHoaDon() {
+		return listChiTietHoaDon;
+	}
+
+
+
+	public void setListChiTietHoaDon(List<ChiTietHoaDonEntity> listChiTietHoaDon) {
+		this.listChiTietHoaDon = listChiTietHoaDon;
+	}
+
 
 
 	public HoaDonEntity(String maHoaDon, NhanVienEntity nhanVien, KhachHangEntity khachHang, LocalDate ngayLap,

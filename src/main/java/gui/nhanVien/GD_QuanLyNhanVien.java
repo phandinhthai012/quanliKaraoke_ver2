@@ -24,8 +24,9 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import Dao.NhanVienDao;
+import Dao.Impl.NhanVienImpl;
 import controller.QuanLyNhanVienController;
-import dao.QuanLyNhanVienDAO;
 import entities.NhanVienEntity;
 import util.MoneyFormatter;
 import util.PasswordHasher;
@@ -86,7 +87,8 @@ public class GD_QuanLyNhanVien extends JPanel {
 	private ButtonGroup grpTrangThai;
 
 	private List<NhanVienEntity> listNhanVien;
-	private QuanLyNhanVienDAO quanLyNhanVienDAO = new QuanLyNhanVienDAO();
+//	private QuanLyNhanVienDAO quanLyNhanVienDAO = new QuanLyNhanVienDAO();
+	private NhanVienDao quanLyNhanVienDAO = new NhanVienImpl();
 
 	public GD_QuanLyNhanVien() {
 		setLayout(null);

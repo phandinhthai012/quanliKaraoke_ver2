@@ -22,11 +22,15 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import Dao.DichVuDao;
+import Dao.HoaDonDao;
+import Dao.KhachHangDao;
+import Dao.PhieuDatPhongDao;
+import Dao.Impl.DichVuImpl;
+import Dao.Impl.HoaDonImpl;
+import Dao.Impl.KhachHangImpl;
+import Dao.Impl.PhieuDatPhongImpl;
 import controller.DatDichVuController;
-import dao.QuanLyDichVuDAO;
-import dao.QuanLyHoaDonDAO;
-import dao.QuanLyKhachHangDAO;
-import dao.QuanLyPhieuDatPhongDAO;
 import entities.ChiTietDatPhongEntity;
 import entities.ChiTietDichVuEntity;
 import entities.ChiTietHoaDonEntity;
@@ -99,10 +103,14 @@ public class GD_DatDichVu extends JPanel {
 	private List<ChiTietDichVuEntity> listChiTietDichVu;
 	private List<ChiTietPhieuDatPhongEntity> listChiTietPhieuDatPhong;
 
-	private QuanLyDichVuDAO quanLyDichVuDAO = new QuanLyDichVuDAO();
-	private QuanLyPhieuDatPhongDAO quanLyPhieuDatPhongDAO = new QuanLyPhieuDatPhongDAO();
-	private QuanLyHoaDonDAO quanLyHoaDonDAO = new QuanLyHoaDonDAO();
-	private QuanLyKhachHangDAO quanLyKhachHangDAO = new QuanLyKhachHangDAO();
+//	private QuanLyDichVuDAO quanLyDichVuDAO = new QuanLyDichVuDAO();
+	private DichVuDao quanLyDichVuDAO = new DichVuImpl();
+//	private QuanLyPhieuDatPhongDAO quanLyPhieuDatPhongDAO = new QuanLyPhieuDatPhongDAO();
+	private PhieuDatPhongDao quanLyPhieuDatPhongDAO = new PhieuDatPhongImpl();
+//	private QuanLyHoaDonDAO quanLyHoaDonDAO = new QuanLyHoaDonDAO();
+	private HoaDonDao quanLyHoaDonDAO = new HoaDonImpl();
+//	private QuanLyKhachHangDAO quanLyKhachHangDAO = new QuanLyKhachHangDAO();
+	private KhachHangDao quanLyKhachHangDAO = new KhachHangImpl();
 
 	private ChiTietPhieuDatPhongEntity chiTietPhieuDatPhongEntity = null;
 	private ChiTietDatPhongEntity chiTietDatPhongEntity = null;
@@ -415,11 +423,14 @@ public class GD_DatDichVu extends JPanel {
 
 		cmbmodelChonPhong.addElement("");
 		for (ChiTietPhieuDatPhongEntity chiTietPhieuDatPhongEntity : listChiTietPhieuDatPhong) {
-			chiTietDatPhongEntity = quanLyHoaDonDAO
-					.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
+//			chiTietDatPhongEntity = quanLyHoaDonDAO
+//					.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
+			chiTietDatPhongEntity = quanLyHoaDonDAO.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getPhieuDatPhong().getMaPhieuDatPhong());
+//			phieuDatPhongEntity = quanLyPhieuDatPhongDAO
+//					.timPhieuDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaPhieuDatPhong());
 			phieuDatPhongEntity = quanLyPhieuDatPhongDAO
-					.timPhieuDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaPhieuDatPhong());
-			khachHangEntity = quanLyKhachHangDAO.timTheoMa(phieuDatPhongEntity.getMaKhachHang());
+					.timPhieuDatPhongTheoMa(chiTietPhieuDatPhongEntity.getPhieuDatPhong().getMaPhieuDatPhong());
+			khachHangEntity = quanLyKhachHangDAO.timTheoMa(phieuDatPhongEntity.getKhachHang().getMaKhachHang());
 			cmbmodelChonPhong
 					.addElement(chiTietDatPhongEntity.getPhong().getSoPhong() + " - " + khachHangEntity.getHoTen());
 		}
@@ -511,12 +522,20 @@ public class GD_DatDichVu extends JPanel {
 		if (row > 0) {
 			listChiTietPhieuDatPhong = quanLyPhieuDatPhongDAO.duyetChiTietPhieuDatPhongChuaThanhToan();
 			chiTietPhieuDatPhongEntity = listChiTietPhieuDatPhong.get(row - 1);
+//			chiTietDatPhongEntity = quanLyHoaDonDAO
+//					.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
+//			sửa
 			chiTietDatPhongEntity = quanLyHoaDonDAO
-					.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
+					.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
+//			phieuDatPhongEntity = quanLyPhieuDatPhongDAO
+//					.timPhieuDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaPhieuDatPhong());
+//			sửa
 			phieuDatPhongEntity = quanLyPhieuDatPhongDAO
-					.timPhieuDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaPhieuDatPhong());
+					.timPhieuDatPhongTheoMa(chiTietPhieuDatPhongEntity.getPhieuDatPhong().getMaPhieuDatPhong());
 			chiTietHoaDonEntity = quanLyHoaDonDAO.timChiTietHoaDonTheoChiTietDatPhong(chiTietDatPhongEntity);
-			khachHangEntity = quanLyKhachHangDAO.timTheoMa(phieuDatPhongEntity.getMaKhachHang());
+//			khachHangEntity = quanLyKhachHangDAO.timTheoMa(phieuDatPhongEntity.getMaKhachHang());
+//			sửa
+			khachHangEntity = quanLyKhachHangDAO.timTheoMa(phieuDatPhongEntity.getKhachHang().getMaKhachHang());
 			txtSoDienThoaiKhachHang.setText(khachHangEntity.getSoDienThoai());
 
 			tblDichVuDaChon.removeAll();
@@ -675,8 +694,11 @@ public class GD_DatDichVu extends JPanel {
 	 *********************************/
 	public void chonDat() {
 		if (kiemTraDuLieuDat()) {
+//			chiTietDatPhongEntity = quanLyHoaDonDAO
+//					.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
+//			sửa
 			chiTietDatPhongEntity = quanLyHoaDonDAO
-					.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
+					.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
 			chiTietHoaDonEntity = quanLyHoaDonDAO.timChiTietHoaDonTheoChiTietDatPhong(chiTietDatPhongEntity);
 			listChiTietDichVu = quanLyHoaDonDAO
 					.duyetDanhSachChiTietDichVuTheoChiTietHoaDon(chiTietHoaDonEntity.getMaChiTietHoaDon());

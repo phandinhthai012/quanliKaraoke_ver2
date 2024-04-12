@@ -19,8 +19,9 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import Dao.NhanVienDao;
+import Dao.Impl.NhanVienImpl;
 import controller.QuanLyTaiKhoanController;
-import dao.QuanLyNhanVienDAO;
 import entities.NhanVienEntity;
 import gui.dangNhap.GD_DangNhap;
 import gui.dangNhap.GD_DoiMatKhau;
@@ -56,7 +57,8 @@ public class GD_QuanLyTaiKhoan extends JPanel {
 	private List<NhanVienEntity> listNhanVien;
 	
 	private NhanVienEntity nhanVienEntity = new NhanVienEntity();
-	private QuanLyNhanVienDAO quanLyNhanVienDAO = new QuanLyNhanVienDAO();
+//	private QuanLyNhanVienDAO quanLyNhanVienDAO = new QuanLyNhanVienDAO();
+	private NhanVienDao quanLyNhanVienDAO = new NhanVienImpl();
 
 	private QuanLyTaiKhoanController controller;
 	

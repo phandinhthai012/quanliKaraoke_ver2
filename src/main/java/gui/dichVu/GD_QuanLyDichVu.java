@@ -21,8 +21,9 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import Dao.DichVuDao;
+import Dao.Impl.DichVuImpl;
 import controller.QuanLyDichVuController;
-import dao.QuanLyDichVuDAO;
 import entities.DichVuEntity;
 import entities.LoaiDichVu;
 import entities.NhanVienEntity;
@@ -89,7 +90,8 @@ public class GD_QuanLyDichVu extends JPanel {
 	private List<DichVuEntity> listDichVu;
 	private List<LoaiDichVu> listLoaiDichVu;
 	private QuanLyDichVuController controller;
-	private QuanLyDichVuDAO quanLyDichVuDAO = new QuanLyDichVuDAO();
+//	private QuanLyDichVuDAO quanLyDichVuDAO = new QuanLyDichVuDAO();
+	private DichVuDao quanLyDichVuDAO = new DichVuImpl();
 
 	public GD_QuanLyDichVu(NhanVienEntity nhanVienEntity) {
 		this.nhanVienEntity = nhanVienEntity;

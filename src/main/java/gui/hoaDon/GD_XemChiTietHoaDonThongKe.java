@@ -18,8 +18,9 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import Dao.HoaDonDao;
+import Dao.Impl.HoaDonImpl;
 import controller.XemChiTietHoaDonController;
-import dao.QuanLyHoaDonDAO;
 import entities.ChiTietDatPhongEntity;
 import entities.ChiTietDichVuEntity;
 import entities.ChiTietHoaDonEntity;
@@ -46,7 +47,8 @@ public class GD_XemChiTietHoaDonThongKe extends JFrame {
 	private List<ChiTietHoaDonEntity> listChiTietHoaDon;
 	private List<ChiTietDichVuEntity> listChiTietDichVu;
 
-	private QuanLyHoaDonDAO quanLyHoaDonDAO = new QuanLyHoaDonDAO();
+//	private QuanLyHoaDonDAO quanLyHoaDonDAO = new QuanLyHoaDonDAO();
+	private HoaDonDao quanLyHoaDonDAO = new HoaDonImpl();
 
 	/**
 	 * Create the frame.

@@ -29,11 +29,19 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JYearChooser;
 
+import Dao.HoaDonDao;
+import Dao.KhachHangDao;
+import Dao.NhanVienDao;
+import Dao.ThongKeDao;
+import Dao.Impl.HoaDonImpl;
+import Dao.Impl.KhachHangImpl;
+import Dao.Impl.NhanVienImpl;
+import Dao.Impl.ThongKeImpl;
 import controller.ThongKeController;
-import dao.QuanLyHoaDonDAO;
-import dao.QuanLyKhachHangDAO;
-import dao.QuanLyNhanVienDAO;
-import dao.ThongKeDAO;
+//import dao.QuanLyHoaDonDAO;
+//import dao.QuanLyKhachHangDAO;
+//import dao.QuanLyNhanVienDAO;
+//import dao.ThongKeDAO;
 import entities.ChiTietHoaDonEntity;
 import entities.HoaDonEntity;
 import entities.KhachHangEntity;
@@ -106,11 +114,15 @@ public class GD_ThongKe extends JPanel {
 	private List<ChiTietHoaDonEntity> listChiTietHoaDon = new ArrayList<>();
 	private NhanVienEntity nhanVienEntity = null;
 
-	private QuanLyHoaDonDAO quanLyHoaDonDAO = new QuanLyHoaDonDAO();
-	private QuanLyKhachHangDAO quanLyKhachHangDAO = new QuanLyKhachHangDAO();
-
-	private QuanLyNhanVienDAO quanLyNhanVienDAO = new QuanLyNhanVienDAO();
-	private ThongKeDAO thongKeDAO = new ThongKeDAO();
+//	private QuanLyHoaDonDAO quanLyHoaDonDAO = new QuanLyHoaDonDAO();
+	private HoaDonDao quanLyHoaDonDAO = new HoaDonImpl();
+//	private QuanLyKhachHangDAO quanLyKhachHangDAO = new QuanLyKhachHangDAO();
+	private KhachHangDao quanLyKhachHangDAO = new KhachHangImpl();
+//
+//	private QuanLyNhanVienDAO quanLyNhanVienDAO = new QuanLyNhanVienDAO();
+	private NhanVienDao quanLyNhanVienDAO = new NhanVienImpl();
+//	private ThongKeDAO thongKeDAO = new ThongKeDAO();
+	private ThongKeDao thongKeDAO = new ThongKeImpl();
 
 	/**
 	 * 
@@ -469,8 +481,10 @@ public class GD_ThongKe extends JPanel {
 
 		int stt = 1;
 		for (HoaDonEntity hoaDonEntity : listHoaDon) {
-			KhachHangEntity khachHangEntity = quanLyKhachHangDAO.timTheoMa(hoaDonEntity.getMaKhachHang());
-			NhanVienEntity nhanVienEntity = quanLyNhanVienDAO.timTheoMa(hoaDonEntity.getMaNhanVien());
+//			KhachHangEntity khachHangEntity = quanLyKhachHangDAO.timTheoMa(hoaDonEntity.getMaKhachHang());
+			KhachHangEntity khachHangEntity = quanLyKhachHangDAO.timTheoMa(hoaDonEntity.getKhachHang().getMaKhachHang());
+//			NhanVienEntity nhanVienEntity = quanLyNhanVienDAO.timTheoMa(hoaDonEntity.getMaNhanVien());
+			NhanVienEntity nhanVienEntity = quanLyNhanVienDAO.timTheoMa(hoaDonEntity.getNhanVien().getMaNhanVien());
 			tblmodelHoaDon.addRow(new Object[] { stt++, hoaDonEntity.getMaHoaDon(), khachHangEntity.getHoTen(),
 					nhanVienEntity.getHoTen(), hoaDonEntity.getNgayLap(), hoaDonEntity.getGioLap(),
 					MoneyFormatter.format1(tinhTongTienCuaHoaDon(hoaDonEntity)) });
@@ -490,8 +504,11 @@ public class GD_ThongKe extends JPanel {
 
 		int stt = 1;
 		for (HoaDonEntity hoaDonEntity : listHoaDon) {
-			KhachHangEntity khachHangEntity = quanLyKhachHangDAO.timTheoMa(hoaDonEntity.getMaKhachHang());
-			NhanVienEntity nhanVienEntity = quanLyNhanVienDAO.timTheoMa(hoaDonEntity.getMaNhanVien());
+//			KhachHangEntity khachHangEntity = quanLyKhachHangDAO.timTheoMa(hoaDonEntity.getMaKhachHang());
+			KhachHangEntity khachHangEntity = quanLyKhachHangDAO.timTheoMa(hoaDonEntity.getKhachHang().getMaKhachHang());
+//			NhanVienEntity nhanVienEntity = quanLyNhanVienDAO.timTheoMa(hoaDonEntity.getMaNhanVien());
+			NhanVienEntity nhanVienEntity = quanLyNhanVienDAO.timTheoMa(hoaDonEntity.getNhanVien().getMaNhanVien());
+			
 			tblmodelHoaDon.addRow(new Object[] { stt++, hoaDonEntity.getMaHoaDon(), khachHangEntity.getHoTen(),
 					nhanVienEntity.getHoTen(), hoaDonEntity.getNgayLap(), hoaDonEntity.getGioLap(),
 					MoneyFormatter.format1(tinhTongTienCuaHoaDon(hoaDonEntity)) });
@@ -509,8 +526,10 @@ public class GD_ThongKe extends JPanel {
 
 		int stt = 1;
 		for (HoaDonEntity hoaDonEntity : listHoaDon) {
-			KhachHangEntity khachHangEntity = quanLyKhachHangDAO.timTheoMa(hoaDonEntity.getMaKhachHang());
-			NhanVienEntity nhanVienEntity = quanLyNhanVienDAO.timTheoMa(hoaDonEntity.getMaNhanVien());
+//			KhachHangEntity khachHangEntity = quanLyKhachHangDAO.timTheoMa(hoaDonEntity.getMaKhachHang());
+			KhachHangEntity khachHangEntity = quanLyKhachHangDAO.timTheoMa(hoaDonEntity.getKhachHang().getMaKhachHang());
+//			NhanVienEntity nhanVienEntity = quanLyNhanVienDAO.timTheoMa(hoaDonEntity.getMaNhanVien());
+			NhanVienEntity nhanVienEntity = quanLyNhanVienDAO.timTheoMa(hoaDonEntity.getNhanVien().getMaNhanVien());
 			tblmodelHoaDon.addRow(new Object[] { stt++, hoaDonEntity.getMaHoaDon(), khachHangEntity.getHoTen(),
 					nhanVienEntity.getHoTen(), hoaDonEntity.getNgayLap(), hoaDonEntity.getGioLap(),
 					MoneyFormatter.format1(tinhTongTienCuaHoaDon(hoaDonEntity)) });

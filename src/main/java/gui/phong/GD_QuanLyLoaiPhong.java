@@ -17,8 +17,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import Dao.PhongDao;
+import Dao.Impl.PhongImpl;
 import controller.QuanLyLoaiPhongController;
-import dao.QuanLyPhongDAO;
 import entities.LoaiPhong;
 import entities.NhanVienEntity;
 
@@ -54,7 +55,8 @@ public class GD_QuanLyLoaiPhong extends JFrame {
 
 	private List<LoaiPhong> listLoaiPhong;
 	private QuanLyLoaiPhongController controller;
-	private QuanLyPhongDAO quanLyPhongDAO = new QuanLyPhongDAO();
+//	private QuanLyPhongDAO quanLyPhongDAO = new QuanLyPhongDAO();
+	private PhongDao quanLyPhongDAO = new PhongImpl();
 	private NhanVienEntity nhanVienEntity;
 
 	/**

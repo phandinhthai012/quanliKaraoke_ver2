@@ -25,8 +25,9 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import Dao.PhongDao;
+import Dao.Impl.PhongImpl;
 import controller.TimKiemPhongController;
-import dao.QuanLyPhongDAO;
 import entities.LoaiPhong;
 import entities.PhongEntity;
 import gui.dangNhap.GD_DangNhap;
@@ -62,7 +63,8 @@ public class GD_TimKiemPhong extends JFrame {
 	private DefaultComboBoxModel<String> cmbmodelLoaiPhong;
 
 	private List<PhongEntity> listPhong;
-	private QuanLyPhongDAO quanLyPhongDAO = new QuanLyPhongDAO();
+//	private QuanLyPhongDAO quanLyPhongDAO = new QuanLyPhongDAO();
+	private PhongDao quanLyPhongDAO = new PhongImpl();
 
 	public GD_TimKiemPhong() {
 		setResizable(false);

@@ -19,8 +19,10 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import Dao.KhachHangDao;
+import Dao.Impl.KhachHangImpl;
 import controller.QuanLyKhachHangController;
-import dao.QuanLyKhachHangDAO;
+//import dao.QuanLyKhachHangDAO;
 import entities.KhachHangEntity;
 
 public class GD_QuanLyKhachHang extends JPanel {
@@ -68,7 +70,8 @@ public class GD_QuanLyKhachHang extends JPanel {
 	private JScrollPane scrKhachHang;
 
 	private QuanLyKhachHangController controller;
-	private QuanLyKhachHangDAO quanLyKhachHangDAO = new QuanLyKhachHangDAO();
+//	private QuanLyKhachHangDAO quanLyKhachHangDAO = new QuanLyKhachHangDAO();
+	private KhachHangDao quanLyKhachHangDAO = new KhachHangImpl();
 	private List<KhachHangEntity> list;
 
 	public GD_QuanLyKhachHang() {

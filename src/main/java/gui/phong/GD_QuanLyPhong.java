@@ -21,8 +21,9 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import Dao.PhongDao;
+import Dao.Impl.PhongImpl;
 import controller.QuanLyPhongController;
-import dao.QuanLyPhongDAO;
 import entities.LoaiPhong;
 import entities.NhanVienEntity;
 import entities.PhongEntity;
@@ -86,7 +87,8 @@ public class GD_QuanLyPhong extends JPanel {
 	private List<PhongEntity> listPhong;
 	private List<LoaiPhong> listLoaiPhong;
 	private QuanLyPhongController controller;
-	private QuanLyPhongDAO quanLyPhongDAO = new QuanLyPhongDAO();
+//	private QuanLyPhongDAO quanLyPhongDAO = new QuanLyPhongDAO();
+	private PhongDao quanLyPhongDAO = new PhongImpl();
 	private NhanVienEntity nhanVienEntity;
 
 	public GD_QuanLyPhong(NhanVienEntity nhanVienEntity) {
@@ -477,8 +479,10 @@ public class GD_QuanLyPhong extends JPanel {
 			int sucChua = Integer.parseInt(txtSucChua.getText().trim());
 			String loaiPhong = cmbLoaiPhong.getSelectedItem().toString();
 
-			PhongEntity phongEntity = new PhongEntity(soPhong, quanLyPhongDAO.timTheoTenLoaiPhong(loaiPhong), "Trống",
-					sucChua);
+//			PhongEntity phongEntity = new PhongEntity(soPhong, quanLyPhongDAO.timTheoTenLoaiPhong(loaiPhong), "Trống",
+//					sucChua);
+//			sửa
+			PhongEntity phongEntity = new PhongEntity(soPhong, quanLyPhongDAO.timTheoTenLoaiPhong(loaiPhong), "Trống", sucChua);
 			if (quanLyPhongDAO.themPhong(phongEntity)) {
 				JOptionPane.showMessageDialog(this, "Thêm thành công");
 				chonLamMoi();

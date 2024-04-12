@@ -23,8 +23,12 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import dao.QuanLyHoaDonDAO;
-import dao.QuanLyPhieuDatPhongDAO;
+import Dao.HoaDonDao;
+import Dao.PhieuDatPhongDao;
+import Dao.Impl.HoaDonImpl;
+import Dao.Impl.PhieuDatPhongImpl;
+//import dao.QuanLyHoaDonDAO;
+//import dao.QuanLyPhieuDatPhongDAO;
 import entities.ChiTietDatPhongEntity;
 import entities.ChiTietDichVuEntity;
 import entities.ChiTietHoaDonEntity;
@@ -52,8 +56,10 @@ public class GD_XemChiTietHoaDonLapHoaDon extends JFrame implements ActionListen
 	private List<ChiTietPhieuDatPhongEntity> listChiTietPhieuDatPhong;
 	private List<ChiTietDichVuEntity> listChiTietDichVu;
 
-	private QuanLyHoaDonDAO quanLyHoaDonDAO = new QuanLyHoaDonDAO();
-	private QuanLyPhieuDatPhongDAO quanLyPhieuDatPhongDAO = new QuanLyPhieuDatPhongDAO();
+//	private QuanLyHoaDonDAO quanLyHoaDonDAO = new QuanLyHoaDonDAO();
+	private HoaDonDao quanLyHoaDonDAO = new HoaDonImpl();
+//	private QuanLyPhieuDatPhongDAO quanLyPhieuDatPhongDAO = new QuanLyPhieuDatPhongDAO();
+	private PhieuDatPhongDao quanLyPhieuDatPhongDAO = new PhieuDatPhongImpl();
 
 	/**
 	 * Create the frame.
@@ -147,8 +153,11 @@ public class GD_XemChiTietHoaDonLapHoaDon extends JFrame implements ActionListen
 
 		int stt = 1;
 		for (ChiTietPhieuDatPhongEntity chiTietPhieuDatPhongEntity : listChiTietPhieuDatPhong) {
+//			ChiTietDatPhongEntity chiTietDatPhongEntity = quanLyHoaDonDAO
+//					.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
+//			sửa
 			ChiTietDatPhongEntity chiTietDatPhongEntity = quanLyHoaDonDAO
-					.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
+					.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
 			tblmodelPhong.addRow(new Object[] { stt++, chiTietDatPhongEntity.getPhong().getSoPhong(),
 					chiTietDatPhongEntity.getPhong().getLoaiPhong().getTenLoaiPhong(),
 					chiTietDatPhongEntity.getPhong().getSucChua(),
@@ -163,8 +172,10 @@ public class GD_XemChiTietHoaDonLapHoaDon extends JFrame implements ActionListen
 				.duyetDanhSachChiTietPhieuDatPhongTheoPhieuDatPhong(phieuDatPhongEntity.getMaPhieuDatPhong());
 		if (row >= 0) {
 			txtSoPhong.setText(tblPhong.getValueAt(row, 1).toString());
+//			ChiTietDatPhongEntity chiTietDatPhongEntity = quanLyHoaDonDAO
+//					.timChiTietDatPhongTheoMa(listChiTietPhieuDatPhong.get(row).getMaChiTietDatPhong());
 			ChiTietDatPhongEntity chiTietDatPhongEntity = quanLyHoaDonDAO
-					.timChiTietDatPhongTheoMa(listChiTietPhieuDatPhong.get(row).getMaChiTietDatPhong());
+					.timChiTietDatPhongTheoMa(listChiTietPhieuDatPhong.get(row).getChiTietDatPhong().getMaChiTietDatPhong());
 			ChiTietHoaDonEntity chiTietHoaDonEntity = quanLyHoaDonDAO
 					.timChiTietHoaDonTheoChiTietDatPhong(chiTietDatPhongEntity);
 			listChiTietDichVu = quanLyHoaDonDAO

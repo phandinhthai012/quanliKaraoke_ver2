@@ -42,13 +42,13 @@ public class PhongEntity {
 		this.sucChua = sucChua;
 	}
 
-//	public PhongEntity(int soPhong, LoaiPhong loaiPhong, String trangThai, int sucChua) {
-//		super();
-//		this.soPhong = soPhong;
-//		this.loaiPhong = loaiPhong;
-//		this.trangThai = trangThai;
-//		this.sucChua = sucChua;
-//	}
+	public PhongEntity(int soPhong, LoaiPhong loaiPhong, String trangThai, int sucChua) {
+		super();
+		this.soPhong = soPhong;
+		this.loaiPhong = loaiPhong;
+		this.trangThai = trangThai;
+		this.sucChua = sucChua;
+	}
 
 	public String getMaPhong() {
 		return maPhong;

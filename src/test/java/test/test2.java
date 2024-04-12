@@ -7,14 +7,17 @@ import Dao.HoaDonDao;
 import Dao.KhachHangDao;
 import Dao.LapHoaDonDao;
 import Dao.NhanVienDao;
+import Dao.PhieuDatPhongDao;
 import Dao.PhongDao;
 import Dao.Impl.DatPhongImpl;
 import Dao.Impl.HoaDonImpl;
 import Dao.Impl.KhachHangImpl;
 import Dao.Impl.LapHoaDonImpl;
 import Dao.Impl.NhanVienImpl;
+import Dao.Impl.PhieuDatPhongImpl;
 import Dao.Impl.PhongImpl;
 import entities.ChiTietDatPhongEntity;
+import entities.ChiTietPhieuDatPhongEntity;
 import entities.KhachHangEntity;
 import entities.LoaiPhong;
 import entities.NhanVienEntity;
@@ -48,10 +51,16 @@ public class test2 {
 //		ChiTietDatPhongEntity chiTietDatPhongEntity = hoaDonDao.timChiTietDatPhongTheoMaPhongDeNhanPhong("P001");
 //		System.out.println(chiTietDatPhongEntity);
 //	}
-		LapHoaDonDao lapHoaDonDao = new LapHoaDonImpl();
-		KhachHangDao khachHangDao = new KhachHangImpl();
-		KhachHangEntity khachHangEntity = khachHangDao.timTheoMa("KH001");
-		System.out.println(khachHangEntity);
-		List<PhieuDatPhongEntity> l = lapHoaDonDao.timHoaDonTheoKhachHang(khachHangEntity);
+//		LapHoaDonDao lapHoaDonDao = new LapHoaDonImpl();
+//		KhachHangDao khachHangDao = new KhachHangImpl();
+//		KhachHangEntity khachHangEntity = khachHangDao.timTheoMa("KH001");
+//		System.out.println(khachHangEntity);
+//		List<PhieuDatPhongEntity> l = lapHoaDonDao.timHoaDonTheoKhachHang(khachHangEntity);
+		PhieuDatPhongDao phieuDatPhongDao = new PhieuDatPhongImpl();
+//		List<ChiTietPhieuDatPhongEntity> list = phieuDatPhongDao.duyetChiTietPhieuDatPhongChuaThanhToan();
+		List<ChiTietPhieuDatPhongEntity> list = phieuDatPhongDao.timChiTietPhieuDatPhongTheoSoPhongVaMa(101, "PDP001");
+		for (ChiTietPhieuDatPhongEntity chiTietPhieuDatPhongEntity : list) {
+			System.out.println(chiTietPhieuDatPhongEntity);
+		}
 	}
 }

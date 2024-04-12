@@ -48,11 +48,19 @@ import com.itextpdf.text.pdf.PdfPRow;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import Dao.HoaDonDao;
+import Dao.KhachHangDao;
+import Dao.LapHoaDonDao;
+import Dao.PhieuDatPhongDao;
+import Dao.Impl.HoaDonImpl;
+import Dao.Impl.KhachHangImpl;
+import Dao.Impl.LapHoaDonImpl;
+import Dao.Impl.PhieuDatPhongImpl;
 import controller.LapHoaDonController;
-import dao.LapHoaDonDAO;
-import dao.QuanLyHoaDonDAO;
-import dao.QuanLyKhachHangDAO;
-import dao.QuanLyPhieuDatPhongDAO;
+//import dao.LapHoaDonDAO;
+//import dao.QuanLyHoaDonDAO;
+//import dao.QuanLyKhachHangDAO;
+//import dao.QuanLyPhieuDatPhongDAO;
 import entities.ChiTietDatPhongEntity;
 import entities.ChiTietDichVuEntity;
 import entities.ChiTietHoaDonEntity;
@@ -111,10 +119,14 @@ public class GD_LapHoaDon extends JPanel {
 	private List<ChiTietHoaDonEntity> listChiTietHoaDon;
 	private List<ChiTietDichVuEntity> listChiTietDichVu;
 
-	private QuanLyPhieuDatPhongDAO quanLyPhieuDatPhongDAO = new QuanLyPhieuDatPhongDAO();
-	private QuanLyKhachHangDAO quanLyKhachHangDAO = new QuanLyKhachHangDAO();
-	private LapHoaDonDAO lapHoaDonDAO = new LapHoaDonDAO();
-	private QuanLyHoaDonDAO quanLyHoaDonDAO = new QuanLyHoaDonDAO();
+//	private QuanLyPhieuDatPhongDAO quanLyPhieuDatPhongDAO = new QuanLyPhieuDatPhongDAO();
+	private PhieuDatPhongDao quanLyPhieuDatPhongDAO = new PhieuDatPhongImpl();
+//	private QuanLyKhachHangDAO quanLyKhachHangDAO = new QuanLyKhachHangDAO();
+	private KhachHangDao quanLyKhachHangDAO = new KhachHangImpl();
+//	private LapHoaDonDAO lapHoaDonDAO = new LapHoaDonDAO();
+	private LapHoaDonDao lapHoaDonDAO = new LapHoaDonImpl();
+//	private QuanLyHoaDonDAO quanLyHoaDonDAO = new QuanLyHoaDonDAO();
+	private HoaDonDao quanLyHoaDonDAO = new HoaDonImpl();
 
 	private NhanVienEntity nhanVienEntity;
 	private KhachHangEntity khachHangEntity;
@@ -408,7 +420,8 @@ public class GD_LapHoaDon extends JPanel {
 
 		int stt = 1;
 		for (PhieuDatPhongEntity phieuDatPhongEntity : listPhieuDatPhong) {
-			KhachHangEntity khachHangEntity = quanLyKhachHangDAO.timTheoMa(phieuDatPhongEntity.getMaKhachHang());
+//			KhachHangEntity khachHangEntity = quanLyKhachHangDAO.timTheoMa(phieuDatPhongEntity.getMaKhachHang());
+			KhachHangEntity khachHangEntity = quanLyKhachHangDAO.timTheoMa(phieuDatPhongEntity.getKhachHang().getMaKhachHang());
 			tblmodelHoaDon.addRow(new Object[] { stt++, khachHangEntity.getHoTen(), khachHangEntity.getSoDienThoai(),
 					lapHoaDonDAO.demSoLuongPhong(phieuDatPhongEntity.getMaPhieuDatPhong()),
 					MoneyFormatter.format1(tinhTongTienThanhToan(phieuDatPhongEntity.getMaPhieuDatPhong())) });
@@ -420,7 +433,8 @@ public class GD_LapHoaDon extends JPanel {
 		listPhieuDatPhong = quanLyPhieuDatPhongDAO.duyetDanhSachPhieuDatPhongChuaThanhToan();
 		int row = tblHoaDon.getSelectedRow();
 		if (row >= 0) {
-			khachHangEntity = quanLyKhachHangDAO.timTheoMa(listPhieuDatPhong.get(row).getMaKhachHang());
+//			khachHangEntity = quanLyKhachHangDAO.timTheoMa(listPhieuDatPhong.get(row).getMaKhachHang());
+			khachHangEntity = quanLyKhachHangDAO.timTheoMa(listPhieuDatPhong.get(row).getKhachHang().getMaKhachHang());
 			txtTenKhachHang.setText(khachHangEntity.getHoTen());
 			txtSoDienThoai.setText(khachHangEntity.getSoDienThoai());
 			txtSoLuongPhong.setText(
@@ -478,8 +492,9 @@ public class GD_LapHoaDon extends JPanel {
 	/***** LẬP HÓA ĐƠN *****/
 	public void chonLapHoaDon() {
 		if (kiemTraTienNhan()) {
-			hoaDonEntity = new HoaDonEntity(nhanVienEntity.getMaNhanVien(), khachHangEntity.getMaKhachHang(),
-					LocalDate.now(), LocalTime.now());
+//			hoaDonEntity = new HoaDonEntity(nhanVienEntity.getMaNhanVien(), khachHangEntity.getMaKhachHang(),
+//					LocalDate.now(), LocalTime.now());
+			hoaDonEntity = new HoaDonEntity(nhanVienEntity, khachHangEntity,LocalDate.now(), LocalTime.now());
 			if (lapHoaDonDAO.themHoaDon(hoaDonEntity)) {
 				hoaDonEntity = lapHoaDonDAO.timHoaDonVuaTao();
 				listChiTietHoaDon = lapHoaDonDAO.duyetDanhSachChiTietHoaDon(phieuDatPhongEntity.getMaPhieuDatPhong());
@@ -533,8 +548,10 @@ public class GD_LapHoaDon extends JPanel {
 		listChiTietPhieuDatPhong = quanLyPhieuDatPhongDAO
 				.duyetDanhSachChiTietPhieuDatPhongTheoPhieuDatPhong(maPhieuDatPhong);
 		for (ChiTietPhieuDatPhongEntity chiTietPhieuDatPhongEntity : listChiTietPhieuDatPhong) {
+//			ChiTietDatPhongEntity chiTietDatPhongEntity = quanLyHoaDonDAO
+//					.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
 			ChiTietDatPhongEntity chiTietDatPhongEntity = quanLyHoaDonDAO
-					.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
+					.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
 
 			double gioHat = TimeFormatter.tinhSoPhut(chiTietDatPhongEntity.getGioNhanPhong(),
 					chiTietDatPhongEntity.getGioTraPhong()) / 60.0;

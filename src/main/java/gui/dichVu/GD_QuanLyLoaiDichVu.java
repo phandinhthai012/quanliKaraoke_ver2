@@ -17,8 +17,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import Dao.DichVuDao;
+import Dao.Impl.DichVuImpl;
 import controller.QuanLyLoaiDichVuController;
-import dao.QuanLyDichVuDAO;
 import entities.LoaiDichVu;
 import entities.NhanVienEntity;
 
@@ -50,7 +51,8 @@ public class GD_QuanLyLoaiDichVu extends JFrame {
 
 	private List<LoaiDichVu> listLoaiDichVu;
 	private QuanLyLoaiDichVuController controller;
-	private QuanLyDichVuDAO quanLyDichVuDAO = new QuanLyDichVuDAO();
+//	private QuanLyDichVuDAO quanLyDichVuDAO = new QuanLyDichVuDAO();
+	private DichVuDao quanLyDichVuDAO = new DichVuImpl();
 	private NhanVienEntity nhanVienEntity;
 
 	/**

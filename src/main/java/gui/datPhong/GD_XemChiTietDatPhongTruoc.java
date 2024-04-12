@@ -11,10 +11,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import Dao.HoaDonDao;
+import Dao.KhachHangDao;
+import Dao.PhieuDatPhongDao;
+import Dao.Impl.HoaDonImpl;
+import Dao.Impl.KhachHangImpl;
+import Dao.Impl.PhieuDatPhongImpl;
 import controller.XemDanhSachDatTruocController;
-import dao.QuanLyHoaDonDAO;
-import dao.QuanLyKhachHangDAO;
-import dao.QuanLyPhieuDatPhongDAO;
+
 import entities.ChiTietDatPhongEntity;
 import entities.ChiTietPhieuDatPhongEntity;
 import entities.KhachHangEntity;
@@ -56,9 +60,12 @@ public class GD_XemChiTietDatPhongTruoc extends JDialog {
 	private List<ChiTietDatPhongEntity> listChiTietDatPhong;
 	private List<PhieuDatPhongEntity> listPhieuDatPhong;
 
-	private QuanLyKhachHangDAO quanLyKhachHangDAO = new QuanLyKhachHangDAO();
-	private QuanLyHoaDonDAO quanLyHoaDonDAO = new QuanLyHoaDonDAO();
-	private QuanLyPhieuDatPhongDAO quanLyPhieuDatPhongDAO = new QuanLyPhieuDatPhongDAO();
+//	private QuanLyKhachHangDAO quanLyKhachHangDAO = new QuanLyKhachHangDAO();
+	private KhachHangDao quanLyKhachHangDAO = new KhachHangImpl();
+//	private QuanLyHoaDonDAO quanLyHoaDonDAO = new QuanLyHoaDonDAO();
+	private HoaDonDao quanLyHoaDonDAO = new HoaDonImpl();
+//	private QuanLyPhieuDatPhongDAO quanLyPhieuDatPhongDAO = new QuanLyPhieuDatPhongDAO();
+	private PhieuDatPhongDao quanLyPhieuDatPhongDAO = new PhieuDatPhongImpl();
 	private SendData<ChiTietPhieuDatPhongEntity> send;
 
 	/**
@@ -171,11 +178,18 @@ public class GD_XemChiTietDatPhongTruoc extends JDialog {
 
 		int stt = 1;
 		for (ChiTietPhieuDatPhongEntity chiTietPhieuDatPhongEntity : listChiTietPhieuDatPhong) {
+//			PhieuDatPhongEntity phieuDatPhongEntity = timPhieuDatPhongTheoMa(listPhieuDatPhong,
+//					chiTietPhieuDatPhongEntity.getMaPhieuDatPhong());
+//			sửa
 			PhieuDatPhongEntity phieuDatPhongEntity = timPhieuDatPhongTheoMa(listPhieuDatPhong,
-					chiTietPhieuDatPhongEntity.getMaPhieuDatPhong());
-			KhachHangEntity khachHangEntity = timKhachHangTheoMa(listKhachHang, phieuDatPhongEntity.getMaKhachHang());
+					chiTietPhieuDatPhongEntity.getPhieuDatPhong().getMaPhieuDatPhong());
+//			KhachHangEntity khachHangEntity = timKhachHangTheoMa(listKhachHang, phieuDatPhongEntity.getMaKhachHang());
+			KhachHangEntity khachHangEntity = timKhachHangTheoMa(listKhachHang, phieuDatPhongEntity.getKhachHang().getMaKhachHang());
+//			ChiTietDatPhongEntity chiTietDatPhongEntity = timChiTietDatPhongTheoMa(listChiTietDatPhong,
+//					chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
+//			sửa
 			ChiTietDatPhongEntity chiTietDatPhongEntity = timChiTietDatPhongTheoMa(listChiTietDatPhong,
-					chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
+					chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
 
 			tblmodelDanhSachDatPhong
 					.addRow(new Object[] { stt++, chiTietPhieuDatPhongEntity.getMaChiTietPhieuDatPhong(),
@@ -197,12 +211,21 @@ public class GD_XemChiTietDatPhongTruoc extends JDialog {
 
 			int stt = 1;
 			for (ChiTietPhieuDatPhongEntity chiTietPhieuDatPhongEntity : listChiTietPhieuDatPhong) {
+//				PhieuDatPhongEntity phieuDatPhongEntity = timPhieuDatPhongTheoMa(listPhieuDatPhong,
+//						chiTietPhieuDatPhongEntity.getMaPhieuDatPhong());
+//				sửa
 				PhieuDatPhongEntity phieuDatPhongEntity = timPhieuDatPhongTheoMa(listPhieuDatPhong,
-						chiTietPhieuDatPhongEntity.getMaPhieuDatPhong());
+						chiTietPhieuDatPhongEntity.getPhieuDatPhong().getMaPhieuDatPhong());
+//				KhachHangEntity khachHangEntity = timKhachHangTheoMa(listKhachHang,
+//						phieuDatPhongEntity.getMaKhachHang());
+//				sửa
 				KhachHangEntity khachHangEntity = timKhachHangTheoMa(listKhachHang,
-						phieuDatPhongEntity.getMaKhachHang());
+						phieuDatPhongEntity.getKhachHang().getMaKhachHang());
+//				ChiTietDatPhongEntity chiTietDatPhongEntity = timChiTietDatPhongTheoMa(listChiTietDatPhong,
+//						chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
+//				sửa
 				ChiTietDatPhongEntity chiTietDatPhongEntity = timChiTietDatPhongTheoMa(listChiTietDatPhong,
-						chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
+						chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
 
 				if (String.valueOf(chiTietDatPhongEntity.getPhong().getSoPhong()).contains(soPhong)
 						&& khachHangEntity.getHoTen().toLowerCase().contains(tenKhachHang.toLowerCase())) {
