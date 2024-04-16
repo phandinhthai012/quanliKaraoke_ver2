@@ -307,7 +307,7 @@ CREATE TABLE NhanVien(
 	NamSinh INT NOT NULL,
 	MucLuong MONEY NOT NULL,
 	ChucVu NVARCHAR(8) NOT NULL,
-	TrangThai NVARCHAR(13) NOT NULL -- Đã nghỉ hoặc đang làm việc
+	TrangThai bit NOT NULL -- Đã nghỉ(0) hoặc đang làm việc(1)
 ) 
 GO
 
@@ -500,17 +500,17 @@ GO
 ----------------------------------------------------------------------------------------------------------
 --____________________________________________INSERT DATA_________________________________________________
 
-INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Phan Thị Huỳnh Thư', '0333411964', 'phanthihthu@gmail.com', '226505948824', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 1993, 35000, N'Quản lí', N'Đang làm việc')
-INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Trần Thị Huyền Trân', '0907293510', 'tranthihuyentran@gmail.com', '222828115276', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 1999, 30000, N'Quản lí', N'Đang làm việc')
-INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Nguyễn Minh Hải', '0389660754', 'nguyenhai2009@gmail.com', '217958221685', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 1989, 28000, N'Tiếp tân', N'Đang làm việc')
-INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Nguyễn Tiến Dũng', '0782566343', 'nguyentdung1110@gmail.com', '211019927954', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 2000, 28000, N'Tiếp tân', N'Đang làm việc')
-INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Phan Thanh Nam', '0936279762', 'thanhnam1210@gmail.com', '219422793198', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 2000, 28000, N'Tiếp tân', N'Đã nghỉ')
-INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Nguyễn Vân', '0984164251', 'nguyenvan@gmail.com', '227794341138', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 1999, 28000, N'Tiếp tân', N'Đang làm việc')
-INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Bùi Tuấn Phú', '0982464251', 'fubui03@gmail.com', '229894341138', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 1999, 28000, N'Tiếp tân', N'Đang làm việc')
-INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Nguyễn Thị Nên Hoài', '0982876251', 'nenhoai@gmail.com', '229894344538', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 2000, 29000, N'Tiếp tân', N'Đang làm việc')
-INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Trần Thị Lệ Giang', '0970876251', 'legiang0301@gmail.com', '229894994538', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 2001, 30000, N'Tiếp tân', N'Đang làm việc')
-INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Văn Công Thành Đạt', '0367306158', 'vancongthanhdata10@gmail.com', '229004994538', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 2003, 27000, N'Tiếp tân', N'Đang làm việc')
-INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Nguyễn Tấn Thái Dương', '0356309561', 'duongnguyen1323@gmail.com', '229004994538', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 1998, 31000, N'Tiếp tân', N'Đang làm việc')
+INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Phan Thị Huỳnh Thư', '0333411964', 'phanthihthu@gmail.com', '226505948824', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 1993, 35000, N'Quản lí',1)
+INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Trần Thị Huyền Trân', '0907293510', 'tranthihuyentran@gmail.com', '222828115276', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 1999, 30000, N'Quản lí', 1)
+INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Nguyễn Minh Hải', '0389660754', 'nguyenhai2009@gmail.com', '217958221685', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 1989, 28000, N'Tiếp tân',1)
+INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Nguyễn Tiến Dũng', '0782566343', 'nguyentdung1110@gmail.com', '211019927954', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 2000, 28000, N'Tiếp tân',1)
+INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Phan Thanh Nam', '0936279762', 'thanhnam1210@gmail.com', '219422793198', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 2000, 28000, N'Tiếp tân', 0)
+INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Nguyễn Vân', '0984164251', 'nguyenvan@gmail.com', '227794341138', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 1999, 28000, N'Tiếp tân', 1)
+INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Bùi Tuấn Phú', '0982464251', 'fubui03@gmail.com', '229894341138', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 1999, 28000, N'Tiếp tân', 1)
+INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Nguyễn Thị Nên Hoài', '0982876251', 'nenhoai@gmail.com', '229894344538', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 2000, 29000, N'Tiếp tân', 1)
+INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Trần Thị Lệ Giang', '0970876251', 'legiang0301@gmail.com', '229894994538', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 2001, 30000, N'Tiếp tân', 1)
+INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Văn Công Thành Đạt', '0367306158', 'vancongthanhdata10@gmail.com', '229004994538', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 2003, 27000, N'Tiếp tân', 1)
+INSERT INTO [dbo].[NhanVien] ([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai]) VALUES (N'Nguyễn Tấn Thái Dương', '0356309561', 'duongnguyen1323@gmail.com', '229004994538', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 1998, 31000, N'Tiếp tân', 1)
 GO
 
 select * from NhanVien
