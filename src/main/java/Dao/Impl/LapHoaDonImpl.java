@@ -29,7 +29,7 @@ public class LapHoaDonImpl implements LapHoaDonDao {
 
 	@Override
 	public double tinhTienDichVu(String maPhieuDatPhong) {
-		String query = "SELECT SUM(c.dichVu.giaDichVu*c.soLuong) FROM ChiTietDichVuEntity c join c.chiTietHoaDon h join h.chiTietDatPhong d Join d.chiTietPhieuDatPhong p WHERE p.phieuDatPhong.maPhieuDatPhong = :maPhieuDatPhong";
+		String query = "SELECT SUM(c.dichVu.gia*c.soLuong) FROM ChiTietDichVuEntity c join c.chiTietHoaDon h join h.chiTietDatPhong d Join d.chiTietPhieuDatPhong p WHERE p.phieuDatPhong.maPhieuDatPhong = :maPhieuDatPhong";
 		double tienDichVu = em.createQuery(query, Double.class).setParameter("maPhieuDatPhong", maPhieuDatPhong).getSingleResult();
 		return tienDichVu;
 	}
@@ -37,11 +37,13 @@ public class LapHoaDonImpl implements LapHoaDonDao {
 	@Override
 	public boolean themHoaDon(HoaDonEntity hoaDonEntity) {
 		EntityTransaction tr = em.getTransaction();
+		String query = "insert HoaDon (MaNhanVien, MaKhachHang, NgayLap, GioLap)"
+				+ " values (:maNhanVien, :maKhachHang, :ngayLap, :gioLap)";
 		try {
 			tr.begin();
-			em.persist(hoaDonEntity);
+			boolean i = em.createNativeQuery(query).setParameter("maNhanVien", hoaDonEntity.getNhanVien().getMaNhanVien()).setParameter("maKhachHang", hoaDonEntity.getKhachHang().getMaKhachHang()).setParameter("ngayLap", hoaDonEntity.getNgayLap()).setParameter("gioLap", hoaDonEntity.getGioLap()).executeUpdate()>0;
 			tr.commit();
-			return true;
+			return i;
 		} catch (Exception e) {
 			tr.rollback();
 			e.printStackTrace();
@@ -58,6 +60,7 @@ public class LapHoaDonImpl implements LapHoaDonDao {
 	@Override
 	public boolean capNhatChiTietHoaDon(ChiTietHoaDonEntity chiTietHoaDonEntity, String maHoaDon) {
 		EntityTransaction tr = em.getTransaction();
+		chiTietHoaDonEntity.setHoaDon(em.find(HoaDonEntity.class, maHoaDon));
 		try {
 			tr.begin();
 			em.merge(chiTietHoaDonEntity);

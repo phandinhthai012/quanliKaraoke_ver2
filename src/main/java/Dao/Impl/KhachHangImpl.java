@@ -10,10 +10,10 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
 public class KhachHangImpl implements KhachHangDao {
-	
-	private String persistenceUnitName ="quanliKaraoke_ver2 mssql";
+
+	private String persistenceUnitName = "quanliKaraoke_ver2 mssql";
 	private EntityManager em;
-	
+
 	public KhachHangImpl() {
 		em = Persistence.createEntityManagerFactory(persistenceUnitName).createEntityManager();
 	}
@@ -27,9 +27,15 @@ public class KhachHangImpl implements KhachHangDao {
 	@Override
 	public KhachHangEntity them(KhachHangEntity khachHangEntity) {
 		EntityTransaction tx = em.getTransaction();
+		String query = "INSERT INTO KhachHang"
+				+ "([HoTen],[SoDienThoai],[Email],[NamSinh],[SoLanDatPhong]) VALUES (:hoTen, :soDienThoai, :email, :namSinh, :soLanDatPhong)";
 		try {
 			tx.begin();
-			em.persist(khachHangEntity);
+			boolean result = em.createNativeQuery(query).setParameter("hoTen", khachHangEntity.getHoTen())
+					.setParameter("soDienThoai", khachHangEntity.getSoDienThoai())
+					.setParameter("email", khachHangEntity.getEmail())
+					.setParameter("namSinh", khachHangEntity.getNamSinh())
+					.setParameter("soLanDatPhong", khachHangEntity.getSoLanDatPhong()).executeUpdate() > 0;
 			tx.commit();
 			return khachHangEntity;
 		} catch (Exception e) {
@@ -43,7 +49,7 @@ public class KhachHangImpl implements KhachHangDao {
 	public int chinhSua(KhachHangEntity khachHangEntity) {
 		EntityTransaction tx = em.getTransaction();
 		KhachHangEntity exitsKhachHang = em.find(KhachHangEntity.class, khachHangEntity.getMaKhachHang());
-		if(exitsKhachHang == null)
+		if (exitsKhachHang == null)
 			return 0;
 		try {
 			tx.begin();
@@ -65,7 +71,8 @@ public class KhachHangImpl implements KhachHangDao {
 	@Override
 	public KhachHangEntity timTheoSoDienThoai(String soDienThoai) {
 		String query = "SELECT kh FROM KhachHangEntity kh WHERE kh.soDienThoai = :soDienThoai";
-		KhachHangEntity kh = em.createQuery(query, KhachHangEntity.class).setParameter("soDienThoai", soDienThoai).getSingleResult();
+		KhachHangEntity kh = em.createQuery(query, KhachHangEntity.class).setParameter("soDienThoai", soDienThoai)
+				.getSingleResult();
 		return kh;
 	}
 
@@ -73,7 +80,9 @@ public class KhachHangImpl implements KhachHangDao {
 	public List<KhachHangEntity> timKiem(String hoTen, String soDienThoai, int slTu, int slDen) {
 		List<KhachHangEntity> listKhachHang = new ArrayList<>();
 		String query = "SELECT kh FROM KhachHangEntity kh where kh.hoTen like :hoTen and kh.soDienThoai like :soDienThoai and kh.soLanDatPhong >= :slTu and kh.soLanDatPhong <= :slDen";
-		listKhachHang = em.createQuery(query, KhachHangEntity.class).setParameter("hoTen", hoTen).setParameter("soDienThoai", soDienThoai).setParameter("slTu", slTu).setParameter("slDen", slDen).getResultList();
+		listKhachHang = em.createQuery(query, KhachHangEntity.class).setParameter("hoTen","%" + hoTen + "%")
+				.setParameter("soDienThoai","%"+soDienThoai+"%").setParameter("slTu", slTu).setParameter("slDen", slDen)
+				.getResultList();
 		return listKhachHang;
-	}	
+	}
 }

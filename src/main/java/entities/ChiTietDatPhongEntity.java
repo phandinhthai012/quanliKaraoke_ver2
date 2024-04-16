@@ -96,6 +96,30 @@ public class ChiTietDatPhongEntity {
 		return ngayNhanPhong;
 	}
 
+	public LocalDate getNgayDatPhong() {
+		return ngayDatPhong;
+	}
+
+	public void setNgayDatPhong(LocalDate ngayDatPhong) {
+		this.ngayDatPhong = ngayDatPhong;
+	}
+
+	public ChiTietHoaDonEntity getChiTietHoaDon() {
+		return chiTietHoaDon;
+	}
+
+	public void setChiTietHoaDon(ChiTietHoaDonEntity chiTietHoaDon) {
+		this.chiTietHoaDon = chiTietHoaDon;
+	}
+
+	public ChiTietPhieuDatPhongEntity getChiTietPhieuDatPhong() {
+		return chiTietPhieuDatPhong;
+	}
+
+	public void setChiTietPhieuDatPhong(ChiTietPhieuDatPhongEntity chiTietPhieuDatPhong) {
+		this.chiTietPhieuDatPhong = chiTietPhieuDatPhong;
+	}
+
 	public void setNgayNhanPhong(LocalDate ngayNhanPhong) {
 		this.ngayNhanPhong = ngayNhanPhong;
 	}

@@ -447,7 +447,6 @@ public class GD_QuanLyNhanVien extends JPanel {
 			String soDienThoai = txtTimTheoSoDienThoai.getText().trim();
 			String chucVu = cmbTimTheoChucVu.getSelectedItem().toString();
 			String trangThai = cmbmodelTimTheoTrangThai.getSelectedItem().toString();
-
 			tblNhanVien.removeAll();
 			tblmodelNhanVien.setRowCount(0);
 			listNhanVien = quanLyNhanVienDAO.timKiem(hoTen, soDienThoai, chucVu, trangThai);

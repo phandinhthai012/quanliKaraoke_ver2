@@ -1,5 +1,6 @@
 package Dao.Impl;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
@@ -26,11 +27,12 @@ public class HoaDonImpl implements HoaDonDao {
 		ChiTietHoaDonEntity chiTietHoaDonEntity = new ChiTietHoaDonEntity();
 		chiTietHoaDonEntity.getChiTietDatPhong().setMaChiTietDatPhong(maChiTietDatPhong);
 		EntityTransaction tr = em.getTransaction();
+		String query = "INSERT INTO ChiTietHoaDon (MaChiTietDatPhong)\r\n" + "VALUES (?)";
 		try {
 			tr.begin();
-			em.persist(chiTietHoaDonEntity);
+			boolean kq = em.createNativeQuery(query).setParameter(1, maChiTietDatPhong).executeUpdate() > 0;
 			tr.commit();
-			return true;
+			return kq;
 		} catch (Exception e) {
 			tr.rollback();
 			e.printStackTrace();
@@ -70,9 +72,19 @@ public class HoaDonImpl implements HoaDonDao {
 	@Override
 	public boolean themChiTietDatPhong(ChiTietDatPhongEntity chiTietDatPhongEntity) {
 		EntityTransaction tr = em.getTransaction();
+		String query = "INSERT INTO ChiTietDatPhong (MaPhong, NgayDatPhong, GioNhanPhong, GioTraPhong) VALUES (:maPhong, :ngayDatPhong, :gioNhanPhong, :gioTraPhong)";
 		try {
+//			statement.setString(1, chiTietDatPhongEntity.getPhong().getMaPhong());
+//			statement.setDate(2, Date.valueOf(chiTietDatPhongEntity.getNgayNhanPhong()));
+//			statement.setTime(3, Time.valueOf(chiTietDatPhongEntity.getGioNhanPhong()));
+//			statement.setTime(4, Time.valueOf(chiTietDatPhongEntity.getGioTraPhong()));
 			tr.begin();
-			em.persist(chiTietDatPhongEntity);
+			boolean result = em.createNativeQuery(query)
+					.setParameter("maPhong", chiTietDatPhongEntity.getPhong().getMaPhong())
+					.setParameter("ngayDatPhong", Date.valueOf(chiTietDatPhongEntity.getNgayDatPhong()))
+					.setParameter("gioNhanPhong", Time.valueOf(chiTietDatPhongEntity.getGioNhanPhong()))
+					.setParameter("gioTraPhong", Time.valueOf(chiTietDatPhongEntity.getGioTraPhong()))
+					.executeUpdate() > 0;
 			tr.commit();
 			return true;
 		} catch (Exception e) {
@@ -138,14 +150,14 @@ public class HoaDonImpl implements HoaDonDao {
 	@Override
 	public List<ChiTietDichVuEntity> duyetDanhSachChiTietDichVuTheoChiTietHoaDon(String maChiTietHoaDon) {
 		String query = "SELECT c FROM ChiTietDichVuEntity c WHERE c.chiTietHoaDon.maChiTietHoaDon like :maChiTietHoaDon";
-		return em.createQuery(query, ChiTietDichVuEntity.class).setParameter("maChiTietHoaDon", maChiTietHoaDon)
+		return em.createQuery(query, ChiTietDichVuEntity.class).setParameter("maChiTietHoaDon","%" + maChiTietHoaDon + "%")
 				.getResultList();
 	}
 
 	@Override
 	public boolean xoaChiTietDichvuTheoMaHoaDon(String maChiTietHoaDon) {
 		String query = "DELETE FROM ChiTietDichVuEntity c WHERE c.chiTietHoaDon.maChiTietHoaDon LIKE :maChiTietHoaDon";
-		return em.createQuery(query).setParameter("maChiTietHoaDon", maChiTietHoaDon).executeUpdate() > 0;
+		return em.createQuery(query).setParameter("maChiTietHoaDon","%"+ maChiTietHoaDon + "%").executeUpdate() > 0;
 	}
 
 	@Override
@@ -171,11 +183,15 @@ public class HoaDonImpl implements HoaDonDao {
 	public boolean themChiTietDichVu(ChiTietDichVuEntity chiTietDichVuEntity, ChiTietHoaDonEntity chiTietHoaDonEntity) {
 		chiTietDichVuEntity.setChiTietHoaDon(chiTietHoaDonEntity);
 		EntityTransaction tr = em.getTransaction();
+		String query = "INSERT INTO ChiTietDichVu (MaDichVu, MaChiTietHoaDon, SoLuong) VALUES (:maDichVu, :maChiTietHoaDon, :soLuong)";
 		try {
 			tr.begin();
-			em.persist(chiTietDichVuEntity);
+			boolean result = em.createNativeQuery(query)
+					.setParameter("maDichVu", chiTietDichVuEntity.getDichVu().getMaDichVu())
+					.setParameter("maChiTietHoaDon", chiTietDichVuEntity.getChiTietHoaDon().getMaChiTietHoaDon())
+					.setParameter("soLuong", chiTietDichVuEntity.getSoLuong()).executeUpdate() > 0;
 			tr.commit();
-			return true;
+			return result;
 		} catch (Exception e) {
 			tr.rollback();
 			e.printStackTrace();

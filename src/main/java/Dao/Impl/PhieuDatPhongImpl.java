@@ -36,11 +36,15 @@ public class PhieuDatPhongImpl implements PhieuDatPhongDao {
 	@Override
 	public boolean themChiTietPhieuDatPhong(ChiTietPhieuDatPhongEntity chiTietPhieuDatPhongEntity) {
 		EntityTransaction tx = em.getTransaction();
+		String query = "INSERT INTO ChiTietPhieuDatPhong (MaPhieuDatPhong, MaChiTietDatPhong) VALUES (?, ?)";
 		try {
 			tx.begin();
-			em.persist(chiTietPhieuDatPhongEntity);
+		 	boolean result = em.createNativeQuery(query)
+					.setParameter(1, chiTietPhieuDatPhongEntity.getPhieuDatPhong().getMaPhieuDatPhong())
+					.setParameter(2, chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong())
+					.executeUpdate()>0;
 			tx.commit();
-			return true;
+			return result;
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();

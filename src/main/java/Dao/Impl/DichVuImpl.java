@@ -40,9 +40,10 @@ public class DichVuImpl implements DichVuDao {
 	@Override
 	public boolean themLoaiDichVu(LoaiDichVu loaiDichVu) {
 		EntityTransaction tr = em.getTransaction();
+		String query = "INSERT LoaiDichVu (TenLoaiDichVu)\r\n" + "VALUES (?)";
 		try {
 			tr.begin();
-			em.persist(loaiDichVu);
+			boolean result = em.createNativeQuery(query).setParameter(1, loaiDichVu.getTenLoaiDichVu()).executeUpdate() > 0;
 			tr.commit();
 			return true;
 		} catch (Exception e) {

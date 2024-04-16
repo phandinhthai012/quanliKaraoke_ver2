@@ -7,6 +7,7 @@ import Dao.ThongKeDao;
 import entities.HoaDonEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
+import util.DateFormatter;
 
 public class ThongKeImpl implements ThongKeDao {
 	
@@ -19,7 +20,7 @@ public class ThongKeImpl implements ThongKeDao {
 	@Override
 	public List<HoaDonEntity> duyetDanhSachHoaDonTheoNgay(LocalDate ngay) {
 		String query = "SELECT hd FROM HoaDonEntity hd WHERE hd.ngayLap =:ngay";
-		return em.createQuery(query, HoaDonEntity.class).setParameter("ngay", ngay).getResultList();
+		return em.createQuery(query, HoaDonEntity.class).setParameter("ngay", DateFormatter.formatSql(ngay)).getResultList();
 		
 	}
 
@@ -43,8 +44,10 @@ public class ThongKeImpl implements ThongKeDao {
 //				+ "JOIN ChiTietHoaDon CTHD ON CTHD.MaChiTietHoaDon = CTDV.MaChiTietHoaDon\r\n"
 //				+ "JOIN HoaDon HD ON HD.MaHoaDon = CTHD.MaHoaDon \r\n"
 //				+ "JOIN DichVu DV ON DV.MaDichVu = CTDV.MaDichVu\r\n" + "WHERE CTHD.MaHoaDon = ?";
-		String query = "SELECT SUM(ctdv.soLuong*ctdv.gia) FROM ChiTietDichVuEntity ctdv JOIN ctdv.chiTietHoaDon cthd JOIN cthd.hoaDon hd WHERE hd.maHoaDon =:maHoaDon";
+//		String query = "SELECT SUM(ctdv.soLuong*ctdv.gia) FROM ChiTietDichVuEntity ctdv JOIN ctdv.chiTietHoaDon cthd JOIN cthd.hoaDon hd WHERE hd.maHoaDon =:maHoaDon";
+		String query = "SELECT SUM(ctdv.soLuongtdv.gia) FROM ChiTietDichVuEntity ctdv join ctdv.chiTietHoaDon cthd join cthd.hoaDon hd WHERE hd join ctdv.dichVu dv WHERE hd.maHoaDon =:maHoaDon";
+//		return em.createQuery(query, Double.class).setParameter("maHoaDon", hoaDonEntity.getMaHoaDon()).getSingleResult();
 		return em.createQuery(query, Double.class).setParameter("maHoaDon", hoaDonEntity.getMaHoaDon()).getSingleResult();
+	
 	}
-
 }

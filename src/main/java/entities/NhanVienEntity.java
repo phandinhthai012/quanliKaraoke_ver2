@@ -17,7 +17,8 @@ import jakarta.persistence.Table;
 @Table(name = "NhanVien")
 public class NhanVienEntity {
 	@Id
-	@Column(name = "MaNhanVien")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "MaNhanVien",nullable = true)
 	private String maNhanVien;
 	@Column(name = "HoTen")
 	private String hoTen;

@@ -32,7 +32,6 @@ public class LoaiDichVu {
 	}
 
 	public LoaiDichVu(String tenLoaiDichVu) {
-		super();
 		this.tenLoaiDichVu = tenLoaiDichVu;
 	}
 
