@@ -1,5 +1,7 @@
 package Dao.Impl;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,23 +11,23 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
-public class KhachHangImpl implements KhachHangDao {
+public class KhachHangImpl extends UnicastRemoteObject implements KhachHangDao {
 
 	private String persistenceUnitName = "quanliKaraoke_ver2 mssql";
 	private EntityManager em;
 
-	public KhachHangImpl() {
+	public KhachHangImpl()throws RemoteException  {
 		em = Persistence.createEntityManagerFactory(persistenceUnitName).createEntityManager();
 	}
 
 	@Override
-	public List<KhachHangEntity> duyetDanhSach() {
+	public List<KhachHangEntity> duyetDanhSach()throws RemoteException  {
 		String query = "SELECT kh FROM KhachHangEntity kh";
 		return em.createQuery(query, KhachHangEntity.class).getResultList();
 	}
 
 	@Override
-	public KhachHangEntity them(KhachHangEntity khachHangEntity) {
+	public KhachHangEntity them(KhachHangEntity khachHangEntity) throws RemoteException {
 		EntityTransaction tx = em.getTransaction();
 		String query = "INSERT INTO KhachHang"
 				+ "([HoTen],[SoDienThoai],[Email],[NamSinh],[SoLanDatPhong]) VALUES (:hoTen, :soDienThoai, :email, :namSinh, :soLanDatPhong)";
@@ -46,7 +48,7 @@ public class KhachHangImpl implements KhachHangDao {
 	}
 
 	@Override
-	public int chinhSua(KhachHangEntity khachHangEntity) {
+	public int chinhSua(KhachHangEntity khachHangEntity)throws RemoteException  {
 		EntityTransaction tx = em.getTransaction();
 		KhachHangEntity exitsKhachHang = em.find(KhachHangEntity.class, khachHangEntity.getMaKhachHang());
 		if (exitsKhachHang == null)
@@ -64,12 +66,12 @@ public class KhachHangImpl implements KhachHangDao {
 	}
 
 	@Override
-	public KhachHangEntity timTheoMa(String MaKhachHang) {
+	public KhachHangEntity timTheoMa(String MaKhachHang)throws RemoteException  {
 		return em.find(KhachHangEntity.class, MaKhachHang);
 	}
 
 	@Override
-	public KhachHangEntity timTheoSoDienThoai(String soDienThoai) {
+	public KhachHangEntity timTheoSoDienThoai(String soDienThoai) throws RemoteException {
 		String query = "SELECT kh FROM KhachHangEntity kh WHERE kh.soDienThoai = :soDienThoai";
 		KhachHangEntity kh = em.createQuery(query, KhachHangEntity.class).setParameter("soDienThoai", soDienThoai)
 				.getSingleResult();
@@ -77,7 +79,7 @@ public class KhachHangImpl implements KhachHangDao {
 	}
 
 	@Override
-	public List<KhachHangEntity> timKiem(String hoTen, String soDienThoai, int slTu, int slDen) {
+	public List<KhachHangEntity> timKiem(String hoTen, String soDienThoai, int slTu, int slDen) throws RemoteException {
 		List<KhachHangEntity> listKhachHang = new ArrayList<>();
 		String query = "SELECT kh FROM KhachHangEntity kh where kh.hoTen like :hoTen and kh.soDienThoai like :soDienThoai and kh.soLanDatPhong >= :slTu and kh.soLanDatPhong <= :slDen";
 		listKhachHang = em.createQuery(query, KhachHangEntity.class).setParameter("hoTen","%" + hoTen + "%")

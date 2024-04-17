@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.rmi.RemoteException;
 
 import gui.khachHang.GD_QuanLyKhachHang;
 
@@ -19,20 +20,30 @@ public class QuanLyKhachHangController implements ActionListener,MouseListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if(o.equals(giaoDienQuanLyKhachHang.btnThem)){
-			giaoDienQuanLyKhachHang.chonChucNangThem();
-		} else if(o.equals(giaoDienQuanLyKhachHang.btnChinhSua)) {
-			giaoDienQuanLyKhachHang.chonChucNangChinhSua();
-		} else if(o.equals(giaoDienQuanLyKhachHang.btnTimKiem)) {
-			giaoDienQuanLyKhachHang.chonChucNangTimKiem();
-		} else if(o.equals(giaoDienQuanLyKhachHang.btnLamMoi)) {
-			giaoDienQuanLyKhachHang.chonChucNangLamMoi();
+		try {
+			if(o.equals(giaoDienQuanLyKhachHang.btnThem)){
+				giaoDienQuanLyKhachHang.chonChucNangThem();
+			} else if(o.equals(giaoDienQuanLyKhachHang.btnChinhSua)) {
+				giaoDienQuanLyKhachHang.chonChucNangChinhSua();
+			} else if(o.equals(giaoDienQuanLyKhachHang.btnTimKiem)) {
+				giaoDienQuanLyKhachHang.chonChucNangTimKiem();
+			} else if(o.equals(giaoDienQuanLyKhachHang.btnLamMoi)) {
+				giaoDienQuanLyKhachHang.chonChucNangLamMoi();
+			}
+		} catch (RemoteException e2) {
+			e2.printStackTrace();
 		}
+		
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		giaoDienQuanLyKhachHang.hienThiThongTin();
+		try {
+			giaoDienQuanLyKhachHang.hienThiThongTin();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	@Override

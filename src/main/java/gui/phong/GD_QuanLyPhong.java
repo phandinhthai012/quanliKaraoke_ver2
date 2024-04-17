@@ -2,7 +2,9 @@ package gui.phong;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.SystemColor;
+import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -91,7 +93,7 @@ public class GD_QuanLyPhong extends JPanel {
 	private PhongDao quanLyPhongDAO = new PhongImpl();
 	private NhanVienEntity nhanVienEntity;
 
-	public GD_QuanLyPhong(NhanVienEntity nhanVienEntity) {
+	public GD_QuanLyPhong(NhanVienEntity nhanVienEntity) throws RemoteException {
 		this.nhanVienEntity = nhanVienEntity;
 		setLayout(null);
 		setBounds(0, 0, 1365, 694);
@@ -401,8 +403,9 @@ public class GD_QuanLyPhong extends JPanel {
 		loadData();
 	}
 
-	/***** loadData *****/
-	private void loadData() {
+	/***** loadData 
+	 * @throws RemoteException *****/
+	private void loadData() throws RemoteException {
 		tblPhong.removeAll();
 		tblPhong.setRowSelectionAllowed(false);
 		tblmodelPhong.setRowCount(0);
@@ -416,8 +419,9 @@ public class GD_QuanLyPhong extends JPanel {
 
 	}
 
-	/***** HIỂN THỊ THÔNG TIN *****/
-	public void hienThiThongTin() {
+	/***** HIỂN THỊ THÔNG TIN 
+	 * @throws RemoteException *****/
+	public void hienThiThongTin() throws RemoteException {
 		listPhong = quanLyPhongDAO.duyetDanhSach();
 		int row = tblPhong.getSelectedRow();
 		if (row >= 0) {
@@ -438,8 +442,9 @@ public class GD_QuanLyPhong extends JPanel {
 		}
 	}
 
-	/***** LÀM MỚI *****/
-	public void chonLamMoi() {
+	/***** LÀM MỚI 
+	 * @throws RemoteException *****/
+	public void chonLamMoi() throws RemoteException {
 		txtMaPhong.setText("");
 		txtSoPhong.setText("");
 		txtSucChua.setText("");
@@ -457,8 +462,10 @@ public class GD_QuanLyPhong extends JPanel {
 		loadData();
 	}
 
-	/***** THÊM LOẠI PHÒNG *****/
-	public void chonThemLoaiPhong() {
+	/***** THÊM LOẠI PHÒNG 
+	 * @throws RemoteException 
+	 * @throws HeadlessException *****/
+	public void chonThemLoaiPhong() throws HeadlessException, RemoteException {
 		if (kiemTraTenLoaiPhong()) {
 			String tenLoaiPhong = txtTenLoaiPhong.getText();
 			LoaiPhong loaiPhong = new LoaiPhong(tenLoaiPhong);
@@ -472,8 +479,9 @@ public class GD_QuanLyPhong extends JPanel {
 		}
 	}
 
-	/***** THÊM PHÒNG *****/
-	public void chonThemPhong() {
+	/***** THÊM PHÒNG 
+	 * @throws RemoteException *****/
+	public void chonThemPhong() throws RemoteException {
 		if (kiemTraDuLieuThemPhong()) {
 			int soPhong = Integer.parseInt(txtSoPhong.getText().trim());
 			int sucChua = Integer.parseInt(txtSucChua.getText().trim());
@@ -495,7 +503,7 @@ public class GD_QuanLyPhong extends JPanel {
 	}
 
 	/***** XÓA PHÒNG *****/
-	public void chonXoaPhong() {
+	public void chonXoaPhong()  throws RemoteException{
 		int row = tblPhong.getSelectedRow();
 		if (row >= 0) {
 			if (JOptionPane.showConfirmDialog(this, "Xác nhận xóa?", "Thông báo",
@@ -514,7 +522,7 @@ public class GD_QuanLyPhong extends JPanel {
 	}
 
 	/***** CHỈNH SỬA PHÒNG *****/
-	public void chonSuaPhong() {
+	public void chonSuaPhong()  throws RemoteException{
 		int row = tblPhong.getSelectedRow();
 		if (row >= 0) {
 			if (kiemTraDuLieuChinhSua()) {
@@ -543,7 +551,7 @@ public class GD_QuanLyPhong extends JPanel {
 	}
 
 	/***** TÌM KIẾM *****/
-	public void chonTimKiem() {
+	public void chonTimKiem() throws RemoteException {
 		if (kiemTraDuLieuTimKiem()) {
 			String tenLoai = cmbmodelLoaiPhongTimKiem.getSelectedItem().toString();
 			String trangThai = txtTimBangTrangThai.getText().trim();
@@ -569,12 +577,12 @@ public class GD_QuanLyPhong extends JPanel {
 	}
 
 	/***** XEM LOẠI PHÒNG *****/
-	public void chonXemLoaiPhong() {
+	public void chonXemLoaiPhong()throws RemoteException {
 		new GD_QuanLyLoaiPhong(nhanVienEntity).setVisible(true);
 	}
 
 	/***** loadCmbLoaiPhong *****/
-	private void loadCmbLoaiPhong() {
+	private void loadCmbLoaiPhong() throws RemoteException {
 		listLoaiPhong = quanLyPhongDAO.duyetDanhSachLoaiPhong();
 		cmbmodelLoaiPhong.removeAllElements();
 		cmbmodelLoaiPhong.addElement("");
@@ -582,8 +590,9 @@ public class GD_QuanLyPhong extends JPanel {
 			cmbmodelLoaiPhong.addElement(loaiPhong.getTenLoaiPhong());
 	}
 
-	/***** loadCmbMaLoaiPhong *****/
-	private void loadCmbMaLoaiPhong() {
+	/***** loadCmbMaLoaiPhong 
+	 * @throws RemoteException *****/
+	private void loadCmbMaLoaiPhong() throws RemoteException {
 		listLoaiPhong = quanLyPhongDAO.duyetDanhSachLoaiPhong();
 		cmbmodelMaLoaiPhong.removeAllElements();
 		cmbmodelMaLoaiPhong.addElement("");
@@ -592,8 +601,9 @@ public class GD_QuanLyPhong extends JPanel {
 
 	}
 
-	/***** loadCmbLoaiPhongTimKiem *****/
-	private void loadCmbLoaiPhongTimKiem() {
+	/***** loadCmbLoaiPhongTimKiem 
+	 * @throws RemoteException *****/
+	private void loadCmbLoaiPhongTimKiem() throws RemoteException {
 		listLoaiPhong = quanLyPhongDAO.duyetDanhSachLoaiPhong();
 		cmbmodelLoaiPhongTimKiem.removeAllElements();
 		cmbmodelLoaiPhongTimKiem.addElement("Tất cả");
@@ -603,7 +613,7 @@ public class GD_QuanLyPhong extends JPanel {
 	}
 
 	/***** KIỂM TRA DỮ LIỆU THÊM *****/
-	private boolean kiemTraDuLieuThemPhong() {
+	private boolean kiemTraDuLieuThemPhong()throws RemoteException {
 		if (!kiemTraSoPhongThem())
 			return false;
 
@@ -618,8 +628,9 @@ public class GD_QuanLyPhong extends JPanel {
 
 	/**
 	 * soPhong
+	 * @throws RemoteException 
 	 */
-	private boolean kiemTraSoPhongThem() {
+	private boolean kiemTraSoPhongThem() throws RemoteException {
 		listPhong = quanLyPhongDAO.duyetDanhSach();
 		if (txtSoPhong.getText().trim().length() > 0) {
 			try {
@@ -688,8 +699,9 @@ public class GD_QuanLyPhong extends JPanel {
 
 	/**
 	 * tenLoai
+	 * @throws RemoteException 
 	 */
-	private boolean kiemTraTenLoaiPhong() {
+	private boolean kiemTraTenLoaiPhong() throws RemoteException {
 		listLoaiPhong = quanLyPhongDAO.duyetDanhSachLoaiPhong();
 		if (txtTenLoaiPhong.getText().trim().length() > 0) {
 			if (listLoaiPhong.contains(new LoaiPhong("", txtTenLoaiPhong.getText().trim()))) {
@@ -707,8 +719,9 @@ public class GD_QuanLyPhong extends JPanel {
 		return true;
 	}
 
-	/***** KIỂM TRA DỮ LIỆU CẦN CHỈNH SỬA *****/
-	private boolean kiemTraDuLieuChinhSua() {
+	/***** KIỂM TRA DỮ LIỆU CẦN CHỈNH SỬA 
+	 * @throws RemoteException *****/
+	private boolean kiemTraDuLieuChinhSua() throws RemoteException {
 		if (!kiemTraSoPhongChinhSua())
 			return false;
 
@@ -723,8 +736,9 @@ public class GD_QuanLyPhong extends JPanel {
 
 	/**
 	 * soPhong
+	 * @throws RemoteException 
 	 */
-	private boolean kiemTraSoPhongChinhSua() {
+	private boolean kiemTraSoPhongChinhSua() throws RemoteException {
 		listPhong = quanLyPhongDAO.duyetDanhSach();
 		if (txtSoPhong.getText().trim().length() > 0) {
 			try {
@@ -818,8 +832,9 @@ public class GD_QuanLyPhong extends JPanel {
 		return true;
 	}
 
-	/***** HIỆN THỊ TEN LOẠI PHÒNG *****/
-	public void hienThiTenLoaiPhong() {
+	/***** HIỆN THỊ TEN LOẠI PHÒNG 
+	 * @throws RemoteException *****/
+	public void hienThiTenLoaiPhong() throws RemoteException {
 		if (cmbMaLoaiPhong.getSelectedIndex() > 0) {
 			String maLoaiPhong = cmbMaLoaiPhong.getSelectedItem().toString();
 			String tenLoai = quanLyPhongDAO.timTheoMaLoaiPhong(maLoaiPhong).getTenLoaiPhong();

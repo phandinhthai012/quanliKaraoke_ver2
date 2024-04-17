@@ -4,12 +4,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
+import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.HeadlessException;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -61,8 +64,9 @@ public class GD_QuanLyLoaiPhong extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws RemoteException 
 	 */
-	public GD_QuanLyLoaiPhong(NhanVienEntity nhanVienEntity) {
+	public GD_QuanLyLoaiPhong(NhanVienEntity nhanVienEntity) throws RemoteException {
 		this.nhanVienEntity = nhanVienEntity;
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(GD_QuanLyLoaiPhong.class.getResource("/images/iconLogo.png")));
@@ -173,7 +177,7 @@ public class GD_QuanLyLoaiPhong extends JFrame {
 		kiemTraQuyen();
 	}
 
-	private void loadData() {
+	private void loadData() throws RemoteException {
 		tblLoaiPhong.removeAll();
 		tblLoaiPhong.setRowSelectionAllowed(false);
 		tblmodelLoaiPhong.setRowCount(0);
@@ -185,7 +189,7 @@ public class GD_QuanLyLoaiPhong extends JFrame {
 		}
 	}
 
-	public void hienThiThongTin() {
+	public void hienThiThongTin() throws RemoteException {
 		listLoaiPhong = quanLyPhongDAO.duyetDanhSachLoaiPhong();
 		int row = tblLoaiPhong.getSelectedRow();
 		if (row >= 0) {
@@ -194,7 +198,7 @@ public class GD_QuanLyLoaiPhong extends JFrame {
 		}
 	}
 
-	public void chonChinhSua() {
+	public void chonChinhSua() throws HeadlessException, RemoteException {
 		int row = tblLoaiPhong.getSelectedRow();
 		if (row >= 0) {
 			if (kiemTraDuLieuChinhSua()) {
@@ -215,7 +219,7 @@ public class GD_QuanLyLoaiPhong extends JFrame {
 		}
 	}
 
-	public void chonXoa() {
+	public void chonXoa() throws  RemoteException {
 		int row = tblLoaiPhong.getSelectedRow();
 		if (row >= 0) {
 			if (quanLyPhongDAO.xoaLoaiPhong(txtMaLoaiPhong.getText())) {
@@ -231,7 +235,7 @@ public class GD_QuanLyLoaiPhong extends JFrame {
 		}
 	}
 
-	public void chonLamMoi() {
+	public void chonLamMoi() throws RemoteException {
 		txtMaLoaiPhong.setText("");
 		txtTenLoai.setText("");
 		loadData();
@@ -241,7 +245,7 @@ public class GD_QuanLyLoaiPhong extends JFrame {
 		this.dispose();
 	}
 
-	private boolean kiemTraDuLieuChinhSua() {
+	private boolean kiemTraDuLieuChinhSua() throws RemoteException {
 		listLoaiPhong = quanLyPhongDAO.duyetDanhSachLoaiPhong();
 		if (txtTenLoai.getText().trim().length() > 0) {
 			if (listLoaiPhong.contains(new LoaiPhong("", txtTenLoai.getText()))) {

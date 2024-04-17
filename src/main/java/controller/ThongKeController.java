@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.rmi.RemoteException;
 
 import gui.thongKe.GD_ThongKe;
 
@@ -46,21 +47,26 @@ public class ThongKeController implements ActionListener, MouseListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if (o.equals(giaoDienThongKe.btnTimKiemDoanhThuNgay)) {
-			giaoDienThongKe.chonTimKiemDoanhThuNgay();
-		} else if (o.equals(giaoDienThongKe.btnTimKiemDoanhThuThang)) {
-			giaoDienThongKe.chonTimKiemDoanhThuThang();
-		} else if (o.equals(giaoDienThongKe.btnTimKiemDoanhThuNam)) {
-			giaoDienThongKe.chonTimKiemDoanhThuNam();
-		}  else if (o.equals(giaoDienThongKe.btnXemChiTietHoaDonDoanhThu)) {
-			giaoDienThongKe.chonXemChiTietDoanhThu();
-		} else if (o.equals(giaoDienThongKe.radTheoNgay)) {
-			giaoDienThongKe.chonTheoNgay();
-		} else if (o.equals(giaoDienThongKe.radTheoThang)) {
-			giaoDienThongKe.chonTheoThang();
-		} else if (o.equals(giaoDienThongKe.radTheoNam)) {
-			giaoDienThongKe.chonTheoNam();
+		try {
+			if (o.equals(giaoDienThongKe.btnTimKiemDoanhThuNgay)) {
+				giaoDienThongKe.chonTimKiemDoanhThuNgay();
+			} else if (o.equals(giaoDienThongKe.btnTimKiemDoanhThuThang)) {
+				giaoDienThongKe.chonTimKiemDoanhThuThang();
+			} else if (o.equals(giaoDienThongKe.btnTimKiemDoanhThuNam)) {
+				giaoDienThongKe.chonTimKiemDoanhThuNam();
+			}  else if (o.equals(giaoDienThongKe.btnXemChiTietHoaDonDoanhThu)) {
+				giaoDienThongKe.chonXemChiTietDoanhThu();
+			} else if (o.equals(giaoDienThongKe.radTheoNgay)) {
+				giaoDienThongKe.chonTheoNgay();
+			} else if (o.equals(giaoDienThongKe.radTheoThang)) {
+				giaoDienThongKe.chonTheoThang();
+			} else if (o.equals(giaoDienThongKe.radTheoNam)) {
+				giaoDienThongKe.chonTheoNam();
+			}
+		} catch (RemoteException e2) {
+			e2.printStackTrace();
 		}
+		
 	}
 
 }

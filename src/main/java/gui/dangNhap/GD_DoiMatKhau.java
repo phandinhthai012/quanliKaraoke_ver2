@@ -2,7 +2,9 @@ package gui.dangNhap;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.rmi.RemoteException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -52,9 +54,9 @@ public class GD_DoiMatKhau extends JDialog {
 
 	private NhanVienEntity nhanVienEntity = new NhanVienEntity();
 //	private QuanLyNhanVienDAO quanLyNhanVienDAO = new QuanLyNhanVienDAO();
-	private NhanVienDao quanLyNhanVienDAO = new NhanVienImpl();
+	private NhanVienDao quanLyNhanVienDAO= new NhanVienImpl();
 
-	public GD_DoiMatKhau(NhanVienEntity nhanVienEntity) {
+	public GD_DoiMatKhau(NhanVienEntity nhanVienEntity) throws RemoteException {
 		this.nhanVienEntity = nhanVienEntity;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(GD_DoiMatKhau.class.getResource("/images/iconLogo1.png")));
 		setTitle("Đổi mật khẩu");
@@ -170,7 +172,7 @@ public class GD_DoiMatKhau extends JDialog {
 		this.dispose();
 	}
 
-	public void chonDoiMatKhau() {
+	public void chonDoiMatKhau() throws RemoteException {
 		if (kiemTraMatKhau()) {
 			String matKhauMoi = new String(txtMatKhauMoi.getPassword());
 			if (JOptionPane.showConfirmDialog(this, "Xác nhận đổi mật khẩu?", "Thông báo",

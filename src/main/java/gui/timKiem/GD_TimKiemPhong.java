@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
+import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -66,7 +67,7 @@ public class GD_TimKiemPhong extends JFrame {
 //	private QuanLyPhongDAO quanLyPhongDAO = new QuanLyPhongDAO();
 	private PhongDao quanLyPhongDAO = new PhongImpl();
 
-	public GD_TimKiemPhong() {
+	public GD_TimKiemPhong() throws RemoteException {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(GD_TimKiemPhong.class.getResource("/images/iconLogo1.png")));
 		setTitle("Quản lý kệ thống Karaoke NNice");
@@ -82,7 +83,12 @@ public class GD_TimKiemPhong extends JFrame {
 			public void windowClosing(WindowEvent windowEvent) {
 				if (JOptionPane.showConfirmDialog(null, "Quay về màn hình đăng nhập", "Thông báo",
 						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					new GD_DangNhap().setVisible(true);
+					try {
+						new GD_DangNhap().setVisible(true);
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					myframe.dispose();
 				}
 			}
@@ -226,7 +232,7 @@ public class GD_TimKiemPhong extends JFrame {
 		loadLoaiPhong();
 	}
 
-	private void loadData() {
+	private void loadData() throws RemoteException {
 		listPhong = quanLyPhongDAO.duyetDanhSach();
 		tblPhong.removeAll();
 		tblPhong.setRowSelectionAllowed(false);
@@ -238,7 +244,7 @@ public class GD_TimKiemPhong extends JFrame {
 					phongEntity.getLoaiPhong().getTenLoaiPhong(), phongEntity.getSucChua() });
 	}
 
-	private void loadLoaiPhong() {
+	private void loadLoaiPhong() throws RemoteException {
 		List<LoaiPhong> listLoaiPhong = quanLyPhongDAO.duyetDanhSachLoaiPhong();
 		cmbmodelLoaiPhong.addElement("Tất cả");
 		for (LoaiPhong loaiPhong : listLoaiPhong)
@@ -250,11 +256,11 @@ public class GD_TimKiemPhong extends JFrame {
 		if (row >= 0) {
 			txtSoPhong.setText(tblPhong.getValueAt(row, 1).toString());
 			txtLoaiPhong.setText(tblPhong.getValueAt(row, 2).toString());
-			txtLoaiPhong.setText(tblPhong.getValueAt(row, 3).toString());
+			txtSucChua.setText(tblPhong.getValueAt(row, 3).toString());
 		}
 	}
 
-	public void chonLamMoi() {
+	public void chonLamMoi() throws RemoteException {
 		cmbLoaiPhong.setSelectedIndex(0);
 		cmbSucChua.setSelectedIndex(0);
 		txtSoPhong.setText("");
@@ -263,7 +269,7 @@ public class GD_TimKiemPhong extends JFrame {
 		loadData();
 	}
 
-	public void chonTimKiem() {
+	public void chonTimKiem() throws RemoteException {
 		int sucChua = -1;
 		String loaiPhong = cmbLoaiPhong.getSelectedItem().toString();
 		if (cmbSucChua.getSelectedIndex() == 1)

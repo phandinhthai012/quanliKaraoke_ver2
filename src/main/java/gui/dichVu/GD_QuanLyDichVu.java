@@ -2,6 +2,8 @@ package gui.dichVu;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
+import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -93,7 +95,7 @@ public class GD_QuanLyDichVu extends JPanel {
 //	private QuanLyDichVuDAO quanLyDichVuDAO = new QuanLyDichVuDAO();
 	private DichVuDao quanLyDichVuDAO = new DichVuImpl();
 
-	public GD_QuanLyDichVu(NhanVienEntity nhanVienEntity) {
+	public GD_QuanLyDichVu(NhanVienEntity nhanVienEntity) throws RemoteException {
 		this.nhanVienEntity = nhanVienEntity;
 		setBounds(0, 0, 1365, 694);
 		setLayout(null);
@@ -363,8 +365,9 @@ public class GD_QuanLyDichVu extends JPanel {
 //		kiemTraQuyen();
 	}
 
-	/***** loadData *****/
-	private void loadData() {
+	/***** loadData 
+	 * @throws RemoteException *****/
+	private void loadData() throws RemoteException {
 		tblDichVu.removeAll();
 		tblDichVu.setRowSelectionAllowed(false);
 		tblmodelDichVu.setRowCount(0);
@@ -377,8 +380,9 @@ public class GD_QuanLyDichVu extends JPanel {
 		}
 	}
 
-	/***** HIỂN THỊ THÔNG TIN *****/
-	public void hienThiThongTin() {
+	/***** HIỂN THỊ THÔNG TIN 
+	 * @throws RemoteException *****/
+	public void hienThiThongTin() throws RemoteException {
 		listDichVu = quanLyDichVuDAO.duyetDanhSach();
 		int row = tblDichVu.getSelectedRow();
 		if (row >= 0) {
@@ -391,8 +395,9 @@ public class GD_QuanLyDichVu extends JPanel {
 		}
 	}
 
-	/***** THÊM DỊCH VỤ *****/
-	public void chonThemDichVu() {
+	/***** THÊM DỊCH VỤ 
+	 * @throws RemoteException *****/
+	public void chonThemDichVu() throws RemoteException {
 		if (kiemTraDuLieuThem()) {
 			String tenDV = txtTenDV.getText().trim();
 			String loaiDV = cmbLoaiDV.getSelectedItem().toString();
@@ -409,8 +414,10 @@ public class GD_QuanLyDichVu extends JPanel {
 		}
 	}
 
-	/***** THÊM LOẠI DỊCH VỤ *****/
-	public void chonThemLoaiDichVu() {
+	/***** THÊM LOẠI DỊCH VỤ 
+	 * @throws RemoteException 
+	 * @throws HeadlessException *****/
+	public void chonThemLoaiDichVu() throws HeadlessException, RemoteException {
 		if (kiemTraTenLoaiDichVu()) {
 			String tenLoai = txtTenLoaiDichVu.getText();
 			LoaiDichVu loaiDichVu = new LoaiDichVu(tenLoai);
@@ -424,8 +431,10 @@ public class GD_QuanLyDichVu extends JPanel {
 		}
 	}
 
-	/**** XÓA *****/
-	public void chonXoaDichVu() {
+	/**** XÓA 
+	 * @throws RemoteException 
+	 * @throws HeadlessException *****/
+	public void chonXoaDichVu() throws HeadlessException, RemoteException {
 		int row = tblDichVu.getSelectedRow();
 		if (row >= 0) {
 			if (JOptionPane.showConfirmDialog(this, "Xác nhận xóa dịch vụ", "Thông báo",
@@ -443,8 +452,9 @@ public class GD_QuanLyDichVu extends JPanel {
 		}
 	}
 
-	/**** CHỈNH SỬA *****/
-	public void chonChinhSuaDichVu() {
+	/**** CHỈNH SỬA 
+	 * @throws RemoteException *****/
+	public void chonChinhSuaDichVu() throws RemoteException {
 		int row = tblDichVu.getSelectedRow();
 		if (row >= 0) {
 			if (kiemTraDuLieuChinhSua()) {
@@ -473,8 +483,9 @@ public class GD_QuanLyDichVu extends JPanel {
 		}
 	}
 
-	/***** LÀM MỚI *****/
-	public void chonLamMoi() {
+	/***** LÀM MỚI 
+	 * @throws RemoteException *****/
+	public void chonLamMoi() throws RemoteException {
 		txtGia.setText("");
 		txtGiaDen.setText("");
 		txtGiaDichVuTu.setText("");
@@ -490,13 +501,15 @@ public class GD_QuanLyDichVu extends JPanel {
 		loadData();
 	}
 
-	/**** XEM LOẠI DỊCH VỤ *****/
-	public void chonXemLoaiDichVu() {
+	/**** XEM LOẠI DỊCH VỤ 
+	 * @throws RemoteException *****/
+	public void chonXemLoaiDichVu() throws RemoteException {
 		new GD_QuanLyLoaiDichVu(nhanVienEntity).setVisible(true);
 	}
 
-	/**** TÌM KIẾM *****/
-	public void chonTimKiem() {
+	/**** TÌM KIẾM 
+	 * @throws RemoteException *****/
+	public void chonTimKiem() throws RemoteException {
 		if (kiemTraDuLieuTim()) {
 			String loaiDV = cmbLoaiDVTimKiem.getSelectedItem().toString().trim();
 			Double giaTu = null;
@@ -519,8 +532,9 @@ public class GD_QuanLyDichVu extends JPanel {
 		}
 	}
 
-	/**** HIỂN THỊ TÊN LOẠI DỊCH VỤ KHI CHỌN TRONG cmbMaLoaiDichVu *****/
-	public void hienThiTenLoaiDichVu() {
+	/**** HIỂN THỊ TÊN LOẠI DỊCH VỤ KHI CHỌN TRONG cmbMaLoaiDichVu 
+	 * @throws RemoteException *****/
+	public void hienThiTenLoaiDichVu() throws RemoteException {
 		if (cmbMaLoaiDichVu.getSelectedIndex() > 0) {
 			String maLoaiDichVu = cmbMaLoaiDichVu.getSelectedItem().toString();
 			String tenLoai = quanLyDichVuDAO.timTheoMaLoaiDichVu(maLoaiDichVu).getTenLoaiDichVu();
@@ -528,8 +542,9 @@ public class GD_QuanLyDichVu extends JPanel {
 		}
 	}
 
-	/**** loadCmbLoaiDichVu *****/
-	private void loadCmbLoaiDichVu() {
+	/**** loadCmbLoaiDichVu 
+	 * @throws RemoteException *****/
+	private void loadCmbLoaiDichVu() throws RemoteException {
 		listLoaiDichVu = quanLyDichVuDAO.duyetDanhSachLoaiDichVu();
 		cmbmodelLoaiDV.removeAllElements();
 		cmbmodelLoaiDV.addElement("");
@@ -538,8 +553,9 @@ public class GD_QuanLyDichVu extends JPanel {
 		}
 	}
 
-	/**** loadCmbMaLoaiDichVu *****/
-	private void loadCmbMaLoaiDichVu() {
+	/**** loadCmbMaLoaiDichVu 
+	 * @throws RemoteException *****/
+	private void loadCmbMaLoaiDichVu() throws RemoteException {
 		listLoaiDichVu = quanLyDichVuDAO.duyetDanhSachLoaiDichVu();
 		cmbmodelMaLoaiDichVu.removeAllElements();
 		cmbmodelMaLoaiDichVu.addElement("");
@@ -548,8 +564,9 @@ public class GD_QuanLyDichVu extends JPanel {
 		}
 	}
 
-	/**** loadCmbLoaiDichVuTimKiem *****/
-	private void loadCmbLoaiDichVuTimKiem() {
+	/**** loadCmbLoaiDichVuTimKiem 
+	 * @throws RemoteException *****/
+	private void loadCmbLoaiDichVuTimKiem() throws RemoteException {
 		listLoaiDichVu = quanLyDichVuDAO.duyetDanhSachLoaiDichVu();
 		cmbmodelLoaiDVTimKiem.removeAllElements();
 		cmbmodelLoaiDVTimKiem.addElement("Tất cả");
@@ -560,8 +577,9 @@ public class GD_QuanLyDichVu extends JPanel {
 
 	/**
 	 * KIỂM TRA DỮ LIỆU THÊM
+	 * @throws RemoteException 
 	 */
-	private boolean kiemTraDuLieuThem() {
+	private boolean kiemTraDuLieuThem() throws RemoteException {
 		if (!kiemTraTenDichVuThem()) {
 			return false;
 		}
@@ -575,7 +593,7 @@ public class GD_QuanLyDichVu extends JPanel {
 	}
 
 	// kiểm tra tên loại dịch vu
-	private boolean kiemTraTenLoaiDichVu() {
+	private boolean kiemTraTenLoaiDichVu() throws RemoteException {
 		listLoaiDichVu = quanLyDichVuDAO.duyetDanhSachLoaiDichVu();
 		if (txtTenLoaiDichVu.getText().trim().length() > 0) {
 			if (listLoaiDichVu.contains(new LoaiDichVu("", txtTenLoaiDichVu.getText().trim()))) {
@@ -620,7 +638,7 @@ public class GD_QuanLyDichVu extends JPanel {
 	}
 
 	// kiểm tra loại dịch vụ
-	private boolean kiemTraLoaiDichVu() {
+	private boolean kiemTraLoaiDichVu() throws RemoteException {
 		listDichVu = quanLyDichVuDAO.duyetDanhSach();
 		if (cmbLoaiDV.getSelectedIndex() == 0) {
 			JOptionPane.showMessageDialog(this, "Hãy chọn loại dịch vụ ", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -631,7 +649,7 @@ public class GD_QuanLyDichVu extends JPanel {
 	}
 
 	// kiểm tra tên dịch vụ
-	private boolean kiemTraTenDichVuThem() {
+	private boolean kiemTraTenDichVuThem() throws RemoteException {
 		String tenDV = txtTenDV.getText();
 		listDichVu = quanLyDichVuDAO.duyetDanhSach();
 		if (txtTenDV.getText().trim().length() > 0) {
@@ -652,8 +670,9 @@ public class GD_QuanLyDichVu extends JPanel {
 
 	/**
 	 * Kiểm tra dữ liệu chỉnh sửa
+	 * @throws RemoteException 
 	 */
-	private boolean kiemTraDuLieuChinhSua() {
+	private boolean kiemTraDuLieuChinhSua() throws RemoteException {
 		if (!kiemTraTenDichVuChinhSua()) {
 			return false;
 		}
@@ -667,7 +686,7 @@ public class GD_QuanLyDichVu extends JPanel {
 	}
 
 	// Kiểm tra tên dịch vụ
-	private boolean kiemTraTenDichVuChinhSua() {
+	private boolean kiemTraTenDichVuChinhSua() throws RemoteException {
 		String tenDV = txtTenDV.getText();
 		listDichVu = quanLyDichVuDAO.duyetDanhSach();
 		if (txtTenDV.getText().trim().length() > 0) {

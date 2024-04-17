@@ -2,6 +2,8 @@ package gui.nhanVien;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +92,7 @@ public class GD_QuanLyNhanVien extends JPanel {
 //	private QuanLyNhanVienDAO quanLyNhanVienDAO = new QuanLyNhanVienDAO();
 	private NhanVienDao quanLyNhanVienDAO = new NhanVienImpl();
 
-	public GD_QuanLyNhanVien() {
+	public GD_QuanLyNhanVien() throws RemoteException {
 		setLayout(null);
 		setBounds(0, 0, 1365, 694);
 
@@ -371,7 +373,7 @@ public class GD_QuanLyNhanVien extends JPanel {
 		loadData();
 	}
 
-	private void loadData() {
+	private void loadData() throws RemoteException {
 		listNhanVien = quanLyNhanVienDAO.duyetDanhSach();
 		tblNhanVien.removeAll();
 		tblNhanVien.setRowSelectionAllowed(false);
@@ -390,7 +392,7 @@ public class GD_QuanLyNhanVien extends JPanel {
 		}
 	}
 
-	public void hienThiThongTin() {
+	public void hienThiThongTin() throws RemoteException {
 		int row = tblNhanVien.getSelectedRow();
 		if (row >= 0) {
 			NhanVienEntity nhanVienEntity = quanLyNhanVienDAO.timTheoMa(tblNhanVien.getValueAt(row, 1).toString());
@@ -419,7 +421,7 @@ public class GD_QuanLyNhanVien extends JPanel {
 		}
 	}
 
-	public void chonLamMoi() {
+	public void chonLamMoi() throws RemoteException {
 		txtMaNhanVien.setText("");
 		txtHoVaTen.setText("");
 		txtNamSinh.setText("");
@@ -441,7 +443,7 @@ public class GD_QuanLyNhanVien extends JPanel {
 		loadData();
 	}
 
-	public void chonTimKiem() {
+	public void chonTimKiem() throws RemoteException {
 		if (kiemTraDuLieuTim()) {
 			String hoTen = txtTimTheoHoVaTen.getText().trim();
 			String soDienThoai = txtTimTheoSoDienThoai.getText().trim();
@@ -465,7 +467,7 @@ public class GD_QuanLyNhanVien extends JPanel {
 		}
 	}
 
-	public void chonThem() {
+	public void chonThem() throws  RemoteException {
 		if (kiemTraDuLieuThem()) {
 			String hoTen = txtHoVaTen.getText();
 			String cccd = txtCCCD.getText();
@@ -490,7 +492,7 @@ public class GD_QuanLyNhanVien extends JPanel {
 		return;
 	}
 
-	public void chonChinhSua() {
+	public void chonChinhSua() throws RemoteException {
 		int row = tblNhanVien.getSelectedRow();
 		if (row >= 0) {
 			if (kiemTraDuLieuChinhSua()) {
@@ -522,7 +524,7 @@ public class GD_QuanLyNhanVien extends JPanel {
 		}
 	}
 
-	private boolean kiemTraDuLieuThem() {
+	private boolean kiemTraDuLieuThem() throws RemoteException {
 		if (!kiemTraHoTen())
 			return false;
 
@@ -547,7 +549,7 @@ public class GD_QuanLyNhanVien extends JPanel {
 		return true;
 	}
 
-	private boolean kiemTraDuLieuChinhSua() {
+	private boolean kiemTraDuLieuChinhSua() throws RemoteException {
 		if (!kiemTraSoDienThoaiChinhSua())
 			return false;
 
@@ -586,7 +588,7 @@ public class GD_QuanLyNhanVien extends JPanel {
 		return true;
 	}
 
-	private boolean kiemtraCCCD() {
+	private boolean kiemtraCCCD() throws RemoteException {
 		listNhanVien = quanLyNhanVienDAO.duyetDanhSach();
 		String cccd = txtCCCD.getText().trim();
 		if (cccd.length() > 0) {
@@ -611,7 +613,7 @@ public class GD_QuanLyNhanVien extends JPanel {
 		return true;
 	}
 
-	private boolean kiemTraSoDienThoaiThem() {
+	private boolean kiemTraSoDienThoaiThem() throws RemoteException {
 		listNhanVien = quanLyNhanVienDAO.duyetDanhSach();
 		String soDienThoai = txtSDT.getText().trim();
 		if (soDienThoai.length() > 0) {
@@ -636,7 +638,7 @@ public class GD_QuanLyNhanVien extends JPanel {
 		return true;
 	}
 
-	private boolean kiemTraSoDienThoaiChinhSua() {
+	private boolean kiemTraSoDienThoaiChinhSua() throws RemoteException {
 		listNhanVien = new ArrayList<>();
 		listNhanVien = quanLyNhanVienDAO.duyetDanhSach();
 		String soDienThoai = txtSDT.getText().trim();

@@ -1,5 +1,6 @@
 package test;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 import Dao.DatPhongDao;
@@ -25,7 +26,7 @@ import entities.PhieuDatPhongEntity;
 import entities.PhongEntity;
 
 public class test2 {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws RemoteException {
 //		KhachHangDao khachHangDao = new KhachHangImpl();
 //		System.out.println(khachHangDao.timTheoMa("KH001"));
 //		NhanVienDao nhanVienDao = new NhanVienImpl();

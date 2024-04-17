@@ -1,5 +1,7 @@
 package Dao.Impl;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -14,16 +16,16 @@ import jakarta.persistence.Persistence;
 import util.DateFormatter;
 import util.TimeFormatter;
 
-public class DatPhongImpl implements DatPhongDao{
+public class DatPhongImpl extends UnicastRemoteObject implements DatPhongDao{
 	private String persistenceUnitName = "quanliKaraoke_ver2 mssql";
 	private EntityManager em;
 	
-	public DatPhongImpl() {
+	public DatPhongImpl()throws RemoteException {
 		em = Persistence.createEntityManagerFactory(persistenceUnitName).createEntityManager();
 	}
 
 	@Override
-	public List<PhongEntity> timPhong(String trangThai, String loaiPhong, int soPhong, int sucChua) {
+	public List<PhongEntity> timPhong(String trangThai, String loaiPhong, int soPhong, int sucChua)throws RemoteException  {
 		String query = "SELECT p FROM PhongEntity p WHERE p.trangThai LIKE :trangThai AND p.loaiPhong.tenLoaiPhong LIKE :loaiPhong AND CAST(p.soPhong AS STRING) like :soPhong AND (p.sucChuaCAST AS STRING) like :sucChua";
 		if (trangThai.equals("Tất cả"))
 			trangThai = "";
@@ -38,7 +40,7 @@ public class DatPhongImpl implements DatPhongDao{
 	}
 
 	@Override
-	public boolean doiPhong(ChiTietDatPhongEntity chiTietDatPhongEntity, String maPhong) {
+	public boolean doiPhong(ChiTietDatPhongEntity chiTietDatPhongEntity, String maPhong) throws RemoteException {
 		chiTietDatPhongEntity.getPhong().setMaPhong(maPhong);
 		EntityTransaction tr = em.getTransaction();
 		try {
@@ -54,7 +56,7 @@ public class DatPhongImpl implements DatPhongDao{
 	}
 
 	@Override
-	public List<PhongEntity> timPhongTrongTheoNgayVaGio(LocalDate ngay, LocalTime gioNhan, LocalTime gioTra) {
+	public List<PhongEntity> timPhongTrongTheoNgayVaGio(LocalDate ngay, LocalTime gioNhan, LocalTime gioTra) throws RemoteException {
 		String query = "SELECT * FROM Phong P\r\n"
 				+ "WHERE NOT EXISTS (SELECT MaPhong FROM ChiTietDatPhong CTDP JOIN ChiTietHoaDon CTHD\r\n"
 				+ "	ON CTDP.MaChiTietDatPhong = CTHD.MaChiTietDatPhong \r\n"
@@ -68,7 +70,7 @@ public class DatPhongImpl implements DatPhongDao{
 	}
 
 	@Override
-	public List<ChiTietDatPhongEntity> duyetChiTietDatPhongChuaThanhToanTheoPhong(PhongEntity phongEntity) {
+	public List<ChiTietDatPhongEntity> duyetChiTietDatPhongChuaThanhToanTheoPhong(PhongEntity phongEntity) throws RemoteException {
         String query = "SELECT c FROM ChiTietDatPhongEntity c  join c.chiTietHoaDon h WHERE c.phong.maPhong = :phong AND h.hoaDon IS NULL order by c.ngayDatPhong";
         return em.createQuery(query, ChiTietDatPhongEntity.class).setParameter("phong", phongEntity.getMaPhong()).getResultList();
 	}

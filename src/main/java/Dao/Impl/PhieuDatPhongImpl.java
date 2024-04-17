@@ -1,5 +1,7 @@
 package Dao.Impl;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 import Dao.PhieuDatPhongDao;
@@ -10,17 +12,17 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
-public class PhieuDatPhongImpl implements PhieuDatPhongDao {
+public class PhieuDatPhongImpl extends UnicastRemoteObject implements PhieuDatPhongDao {
 	
 	private String persistenceUnitName="quanliKaraoke_ver2 mssql";
 	private EntityManager em;
 	
-	public PhieuDatPhongImpl() {
+	public PhieuDatPhongImpl()throws RemoteException  {
 		this.em = Persistence.createEntityManagerFactory(persistenceUnitName).createEntityManager();
 	}
 
 	@Override
-	public List<ChiTietPhieuDatPhongEntity> duyetChiTietPhieuDatPhongChuaThanhToan() {
+	public List<ChiTietPhieuDatPhongEntity> duyetChiTietPhieuDatPhongChuaThanhToan()throws RemoteException  {
 //		String query = "SELECT * FROM ChiTietPhieuDatPhong CTPDP\r\n"
 //				+ "WHERE EXISTS (SELECT * FROM ChiTietDatPhong CTDP JOIN ChiTietHoaDon CTHD\r\n"
 //				+ "	ON CTDP.MaChiTietDatPhong = CTHD.MaChiTietDatPhong JOIN Phong P\r\n"
@@ -34,7 +36,7 @@ public class PhieuDatPhongImpl implements PhieuDatPhongDao {
 	}
 	
 	@Override
-	public boolean themChiTietPhieuDatPhong(ChiTietPhieuDatPhongEntity chiTietPhieuDatPhongEntity) {
+	public boolean themChiTietPhieuDatPhong(ChiTietPhieuDatPhongEntity chiTietPhieuDatPhongEntity) throws RemoteException {
 		EntityTransaction tx = em.getTransaction();
 		String query = "INSERT INTO ChiTietPhieuDatPhong (MaPhieuDatPhong, MaChiTietDatPhong) VALUES (?, ?)";
 		try {
@@ -53,7 +55,7 @@ public class PhieuDatPhongImpl implements PhieuDatPhongDao {
 	}
 
 	@Override
-	public ChiTietPhieuDatPhongEntity timChiTietPhieuDatPhongTheoMa(String maChiTietPhieuDatPhong) {
+	public ChiTietPhieuDatPhongEntity timChiTietPhieuDatPhongTheoMa(String maChiTietPhieuDatPhong) throws RemoteException {
 //		String query = "select ctpdp from ChiTietPhieuDatPhongEntity ctpdp where ctpdp.maChiTietPhieuDatPhong = :maChiTietPhieuDatPhong";
 		EntityTransaction tx = em.getTransaction();
 		try {
@@ -70,7 +72,7 @@ public class PhieuDatPhongImpl implements PhieuDatPhongDao {
 
 	@Override
 	public List<ChiTietPhieuDatPhongEntity> timChiTietPhieuDatPhongTheoSoPhongVaMa(int soPhong,
-			String maPhieuDatPhong) {
+			String maPhieuDatPhong) throws RemoteException {
 //		"SELECT * FROM ChiTietPhieuDatPhong CTPDP\r\n"
 //				+ "WHERE MaPhieuDatPhong LIKE '%%%s%%' \r\n"
 //				+ "	AND EXISTS (SELECT * FROM ChiTietDatPhong CTDP JOIN ChiTietHoaDon CTHD\r\n"
@@ -82,7 +84,7 @@ public class PhieuDatPhongImpl implements PhieuDatPhongDao {
 	}
 
 	@Override
-	public List<ChiTietPhieuDatPhongEntity> timChiTietPhieuDatPhongTheoMaPhieuDatPhong(String maPhieuDatPhong) {
+	public List<ChiTietPhieuDatPhongEntity> timChiTietPhieuDatPhongTheoMaPhieuDatPhong(String maPhieuDatPhong)throws RemoteException  {
 //		String query = "SELECT * FROM ChiTietPhieuDatPhong CTPDP\r\n" + "WHERE MaPhieuDatPhong LIKE ? \r\n"
 //				+ "	AND EXISTS (SELECT * FROM ChiTietDatPhong CTDP JOIN ChiTietHoaDon CTHD\r\n"
 //				+ "	ON CTDP.MaChiTietDatPhong = CTHD.MaChiTietDatPhong\r\n"
@@ -93,7 +95,7 @@ public class PhieuDatPhongImpl implements PhieuDatPhongDao {
 
 
 	@Override
-	public boolean xoaChiTietPhieuDatPhong(String maChiTietDatPhong) {
+	public boolean xoaChiTietPhieuDatPhong(String maChiTietDatPhong)throws RemoteException  {
 		String query = "delete from ChiTietPhieuDatPhongEntity ctpdp where ctpdp.chiTietDatPhong.maChiTietDatPhong =:maChiTietDatPhong";
 		EntityTransaction tx = em.getTransaction();
 		try {
@@ -109,7 +111,7 @@ public class PhieuDatPhongImpl implements PhieuDatPhongDao {
 	}
 
 	@Override
-	public List<PhieuDatPhongEntity> duyetDanhSachDatPhong() {
+	public List<PhieuDatPhongEntity> duyetDanhSachDatPhong()throws RemoteException  {
 //		String query = "SELECT * FROM PhieuDatPhong PDP\r\n"
 //				+ "WHERE EXISTS (SELECT * FROM ChiTietPhieuDatPhong CTPDP JOIN ChiTietDatPhong CTDP\r\n"
 //				+ "ON CTPDP.MaChiTietDatPhong = CTDP.MaChiTietDatPhong JOIN Phong P\r\n"
@@ -121,7 +123,7 @@ public class PhieuDatPhongImpl implements PhieuDatPhongDao {
 	}
 
 	@Override
-	public boolean themPhieuDatPhong(String maKhachHang) {
+	public boolean themPhieuDatPhong(String maKhachHang)throws RemoteException  {
 		KhachHangEntity kh = em.find(KhachHangEntity.class, maKhachHang);
 		if (kh == null) {
 			return false;
@@ -141,12 +143,12 @@ public class PhieuDatPhongImpl implements PhieuDatPhongDao {
 	}
 
 	@Override
-	public PhieuDatPhongEntity timPhieuDatPhongTheoMa(String maPhieuDatPhong) {
+	public PhieuDatPhongEntity timPhieuDatPhongTheoMa(String maPhieuDatPhong)throws RemoteException  {
 		return em.find(PhieuDatPhongEntity.class, maPhieuDatPhong);
 	}
 
 	@Override
-	public List<PhieuDatPhongEntity> timPhieuDatPhongTruocTheoSoPhongVaKhachHang(int soPhong, String khachHang) {
+	public List<PhieuDatPhongEntity> timPhieuDatPhongTruocTheoSoPhongVaKhachHang(int soPhong, String khachHang)throws RemoteException  {
 		StringBuilder query = new StringBuilder(
 				"SELECT PDP.MaPhieuDatPhong, PDP.MaKhachHang FROM PhieuDatPhong PDP JOIN KhachHang KH\r\n"
 						+ "ON PDP.MaKhachHang = KH.MaKhachHang\r\n"
@@ -167,14 +169,14 @@ public class PhieuDatPhongImpl implements PhieuDatPhongDao {
 	}
 
 	@Override
-	public PhieuDatPhongEntity timPhieuDatPhongVuaTao() {
+	public PhieuDatPhongEntity timPhieuDatPhongVuaTao()throws RemoteException  {
 //		String query = "select TOP 1 * from PhieuDatPhong ORDER BY MaPhieuDatPhong DESC";
 		String query = "select pdp from PhieuDatPhongEntity pdp order by pdp.maPhieuDatPhong desc";
 		return em.createQuery(query, PhieuDatPhongEntity.class).setMaxResults(1).getSingleResult();
 	}
 
 	@Override
-	public boolean xoaPhieuDatPhong(String maPhieuDatPhong) {
+	public boolean xoaPhieuDatPhong(String maPhieuDatPhong)throws RemoteException  {
 //		String query = "DELETE FROM PhieuDatPhong WHERE MaPhieuDatPhong LIKE ?";
 		EntityTransaction tx = em.getTransaction();
 		try {
@@ -190,7 +192,7 @@ public class PhieuDatPhongImpl implements PhieuDatPhongDao {
 	}
 
 	@Override
-	public List<PhieuDatPhongEntity> duyetDanhSachPhieuDatPhongChuaThanhToan() {
+	public List<PhieuDatPhongEntity> duyetDanhSachPhieuDatPhongChuaThanhToan()throws RemoteException  {
 		String query = "select *from PhieuDatPhong pdp\r\n"
 				+ "where exists (select *from ChiTietPhieuDatPhong ctpdp \r\n"
 				+ "join ChiTietDatPhong ctdp on ctdp.MaChiTietDatPhong = ctpdp.MaChiTietDatPhong\r\n"
@@ -200,7 +202,7 @@ public class PhieuDatPhongImpl implements PhieuDatPhongDao {
 	}
 
 	@Override
-	public List<ChiTietPhieuDatPhongEntity> duyetDanhSachChiTietPhieuDatPhongTheoPhieuDatPhong(String maPhieuDatPhong) {
+	public List<ChiTietPhieuDatPhongEntity> duyetDanhSachChiTietPhieuDatPhongTheoPhieuDatPhong(String maPhieuDatPhong) throws RemoteException {
 		String query = "select ctpdp from ChiTietPhieuDatPhongEntity ctpdp where ctpdp.phieuDatPhong.maPhieuDatPhong =:maPhieuDatPhong";
 		return em.createQuery(query, ChiTietPhieuDatPhongEntity.class).setParameter("maPhieuDatPhong", maPhieuDatPhong).getResultList();
 	}

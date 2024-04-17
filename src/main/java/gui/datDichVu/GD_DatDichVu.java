@@ -2,6 +2,7 @@ package gui.datDichVu;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,7 +119,7 @@ public class GD_DatDichVu extends JPanel {
 	private KhachHangEntity khachHangEntity = null;
 	private ChiTietHoaDonEntity chiTietHoaDonEntity = null;
 
-	public GD_DatDichVu() {
+	public GD_DatDichVu() throws RemoteException {
 		setLayout(null);
 		setBounds(0, 0, 1365, 694);
 
@@ -404,8 +405,9 @@ public class GD_DatDichVu extends JPanel {
 
 	/*********************************
 	 * LOAD DATA
+	 * @throws RemoteException 
 	 *********************************/
-	private void loadData() {
+	private void loadData() throws RemoteException {
 		tblDichVu.removeAll();
 		tblmodelDichVu.setRowCount(0);
 		listDichVu = quanLyDichVuDAO.duyetDanhSach();
@@ -417,7 +419,7 @@ public class GD_DatDichVu extends JPanel {
 		}
 	}
 
-	private void loadDataPhong() {
+	private void loadDataPhong() throws RemoteException {
 		cmbmodelChonPhong.removeAllElements();
 		listChiTietPhieuDatPhong = quanLyPhieuDatPhongDAO.duyetChiTietPhieuDatPhongChuaThanhToan();
 
@@ -436,7 +438,7 @@ public class GD_DatDichVu extends JPanel {
 		}
 	}
 
-	private void loadDataCmbDichVuTim() {
+	private void loadDataCmbDichVuTim() throws RemoteException {
 		cmbmodelTimLoaiDichVu.removeAllElements();
 		listLoaiDichVu = quanLyDichVuDAO.duyetDanhSachLoaiDichVu();
 
@@ -446,7 +448,7 @@ public class GD_DatDichVu extends JPanel {
 		}
 	}
 
-	private void loadDataCmbDichVu() {
+	private void loadDataCmbDichVu() throws RemoteException {
 		cmbmodelLoaiDichVu.removeAllElements();
 		listLoaiDichVu = quanLyDichVuDAO.duyetDanhSachLoaiDichVu();
 
@@ -458,8 +460,9 @@ public class GD_DatDichVu extends JPanel {
 
 	/*********************************
 	 * HIỂN THỊ THÔNG TIN
+	 * @throws RemoteException 
 	 *********************************/
-	public void hienThiThongTin() {
+	public void hienThiThongTin() throws RemoteException {
 		listDichVu = quanLyDichVuDAO.duyetDanhSach();
 		int row = tblDichVu.getSelectedRow();
 		if (row >= 0) {
@@ -471,8 +474,9 @@ public class GD_DatDichVu extends JPanel {
 
 	/*********************************
 	 * LÀM MỚI
+	 * @throws RemoteException 
 	 *********************************/
-	public void chonLamMoi() {
+	public void chonLamMoi() throws RemoteException {
 		txtGiaDichVuToiDa.setText("");
 		txtGiaDichVu.setText("");
 		txtGiaDichVuToiThieu.setText("");
@@ -486,8 +490,9 @@ public class GD_DatDichVu extends JPanel {
 
 	/*********************************
 	 * TÌM KIẾM
+	 * @throws RemoteException 
 	 *********************************/
-	public void chonTimKiem() {
+	public void chonTimKiem() throws RemoteException {
 		if (kiemTraDuLieuTim()) {
 			String tenDV = txtTimKiemTheoTenDichVu.getText().trim();
 			String loaiDV = cmbmodelTimLoaiDichVu.getSelectedItem().toString().trim();
@@ -516,8 +521,9 @@ public class GD_DatDichVu extends JPanel {
 
 	/*********************************
 	 * CHỌN PHIẾU ĐẶT
+	 * @throws RemoteException 
 	 *********************************/
-	public void chonPhong() {
+	public void chonPhong() throws RemoteException {
 		int row = cmbChonPhong.getSelectedIndex();
 		if (row > 0) {
 			listChiTietPhieuDatPhong = quanLyPhieuDatPhongDAO.duyetChiTietPhieuDatPhongChuaThanhToan();
@@ -558,8 +564,9 @@ public class GD_DatDichVu extends JPanel {
 
 	/*********************************
 	 * THÊM
+	 * @throws RemoteException 
 	 *********************************/
-	public void chonThem() {
+	public void chonThem() throws RemoteException {
 		if (kiemTraDuLieuThem()) {
 			int row = tblDichVu.getSelectedRow();
 			listDichVu = quanLyDichVuDAO.duyetDanhSach();
@@ -590,7 +597,7 @@ public class GD_DatDichVu extends JPanel {
 	}
 
 	// duyet danh sach dich vu dat va tinh tong thanh tien
-	private void tinhTongThanhTien() {
+	private void tinhTongThanhTien() throws RemoteException {
 		double tongThanhTien = 0;
 		int row = tblDichVuDaChon.getRowCount();
 		if (row > 0) {
@@ -606,8 +613,9 @@ public class GD_DatDichVu extends JPanel {
 
 	/*********************************
 	 * XÓA ĐÃ CHỌN
+	 * @throws RemoteException 
 	 *********************************/
-	public void chonXoaDaChon() {
+	public void chonXoaDaChon() throws RemoteException {
 		int row = tblDichVuDaChon.getSelectedRow();
 		if (row >= 0) {
 			if (JOptionPane.showConfirmDialog(this, "Xác nhận xóa ?", "Thông báo",
@@ -633,8 +641,9 @@ public class GD_DatDichVu extends JPanel {
 
 	/*********************************
 	 * XÓA TẤT CẢ
+	 * @throws RemoteException 
 	 *********************************/
-	public void chonXoaTatCa() {
+	public void chonXoaTatCa() throws RemoteException {
 		if (JOptionPane.showConfirmDialog(this, "Xác nhận xóa tất cả?", "Thông báo",
 				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 			tblDichVuDaChon.removeAll();
@@ -646,8 +655,9 @@ public class GD_DatDichVu extends JPanel {
 
 	/*********************************
 	 * CHỈNH SỬA SỐ LƯỢNG
+	 * @throws RemoteException 
 	 *********************************/
-	public void chonChinhSua() {
+	public void chonChinhSua() throws RemoteException {
 		int row = tblDichVuDaChon.getSelectedRow();
 		if (row >= 0) {
 			int soLuongCu = Integer.parseInt(tblDichVuDaChon.getValueAt(row, 4).toString().trim());
@@ -691,8 +701,9 @@ public class GD_DatDichVu extends JPanel {
 
 	/*********************************
 	 * ĐẶT DỊCH VỤ
+	 * @throws RemoteException 
 	 *********************************/
-	public void chonDat() {
+	public void chonDat() throws RemoteException {
 		if (kiemTraDuLieuDat()) {
 //			chiTietDatPhongEntity = quanLyHoaDonDAO
 //					.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
@@ -718,7 +729,7 @@ public class GD_DatDichVu extends JPanel {
 		}
 	}
 
-	private void loadSauKhiDat() {
+	private void loadSauKhiDat() throws RemoteException {
 		cmbChonPhong.setSelectedIndex(0);
 		txtSoDienThoaiKhachHang.setText("");
 		txtThanhTien.setText("");
@@ -765,7 +776,7 @@ public class GD_DatDichVu extends JPanel {
 		return true;
 	}
 
-	private boolean kiemTraDuLieuThem() {
+	private boolean kiemTraDuLieuThem() throws RemoteException {
 		listDichVu = quanLyDichVuDAO.duyetDanhSach();
 		int row = tblDichVu.getSelectedRow();
 		if (row < 0) {

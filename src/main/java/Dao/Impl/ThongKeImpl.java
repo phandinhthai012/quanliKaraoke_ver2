@@ -1,5 +1,7 @@
 package Dao.Impl;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -9,23 +11,23 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
 import util.DateFormatter;
 
-public class ThongKeImpl implements ThongKeDao {
+public class ThongKeImpl extends UnicastRemoteObject implements ThongKeDao {
 	
 	private String persistenceUnitName = "quanliKaraoke_ver2 mssql";
 	private EntityManager em;
 	
-	public ThongKeImpl() {
+	public ThongKeImpl() throws RemoteException {
 		em = Persistence.createEntityManagerFactory(persistenceUnitName).createEntityManager();
 	}
 	@Override
-	public List<HoaDonEntity> duyetDanhSachHoaDonTheoNgay(LocalDate ngay) {
+	public List<HoaDonEntity> duyetDanhSachHoaDonTheoNgay(LocalDate ngay) throws RemoteException {
 		String query = "SELECT hd FROM HoaDonEntity hd WHERE hd.ngayLap =:ngay";
 		return em.createQuery(query, HoaDonEntity.class).setParameter("ngay", DateFormatter.formatSql(ngay)).getResultList();
 		
 	}
 
 	@Override
-	public List<HoaDonEntity> duyetDanhSachHoaDonTheoNamThang(LocalDate ngay) {
+	public List<HoaDonEntity> duyetDanhSachHoaDonTheoNamThang(LocalDate ngay)throws RemoteException  {
 //		String query = "SELECT * FROM HoaDon\r\n"
 //				+ "WHERE DATEPART(MM, NgayLap) = ? AND DATEPART(yyyy, NgayLap) = ?";
 		String query = "SELECT hd FROM HoaDonEntity hd WHERE MONTH(hd.ngayLap) =:thang AND YEAR(hd.ngayLap) =:nam";
@@ -33,13 +35,13 @@ public class ThongKeImpl implements ThongKeDao {
 	}
 
 	@Override
-	public List<HoaDonEntity> duyetDanhSachHoaDonTheoNam(LocalDate ngay) {
+	public List<HoaDonEntity> duyetDanhSachHoaDonTheoNam(LocalDate ngay)throws RemoteException  {
 		String query = "SELECT hd FROM HoaDonEntity hd WHERE YEAR(hd.ngayLap) =:nam";
 		return em.createQuery(query, HoaDonEntity.class).setParameter("nam", ngay.getYear()).getResultList();
 	}
 
 	@Override
-	public double tinhTongTienDichVuCuaHoaDon(HoaDonEntity hoaDonEntity) {
+	public double tinhTongTienDichVuCuaHoaDon(HoaDonEntity hoaDonEntity)throws RemoteException  {
 //		String query = "SELECT SUM((SoLuong*Gia)) AS N'Tổng' FROM ChiTietDichVu CTDV\r\n"
 //				+ "JOIN ChiTietHoaDon CTHD ON CTHD.MaChiTietHoaDon = CTDV.MaChiTietHoaDon\r\n"
 //				+ "JOIN HoaDon HD ON HD.MaHoaDon = CTHD.MaHoaDon \r\n"

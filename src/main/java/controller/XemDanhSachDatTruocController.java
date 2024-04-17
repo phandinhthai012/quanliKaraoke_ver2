@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 import gui.datPhong.GD_XemChiTietDatPhongTruoc;
 
@@ -23,7 +24,12 @@ public class XemDanhSachDatTruocController implements ActionListener {
 		} else if (o.equals(giaoDien.btnChon)) {
 			giaoDien.chonPhieu();
 		} else if (o.equals(giaoDien.btnLamMoi)) {
-			giaoDien.chonLamMoi();
+			try {
+				giaoDien.chonLamMoi();
+			} catch (RemoteException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 

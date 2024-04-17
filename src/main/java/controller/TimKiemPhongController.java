@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.rmi.RemoteException;
 
 import gui.timKiem.GD_TimKiemPhong;
 
@@ -47,11 +48,16 @@ public class TimKiemPhongController implements ActionListener, MouseListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if (o.equals(giaoDienTimKiemPhong.btnLamMoi)) {
-			giaoDienTimKiemPhong.chonLamMoi();
-		} else if (o.equals(giaoDienTimKiemPhong.btnTimKiem)) {
-			giaoDienTimKiemPhong.chonTimKiem();
+		try {
+			if (o.equals(giaoDienTimKiemPhong.btnLamMoi)) {
+				giaoDienTimKiemPhong.chonLamMoi();
+			} else if (o.equals(giaoDienTimKiemPhong.btnTimKiem)) {
+				giaoDienTimKiemPhong.chonTimKiem();
+			}
+		} catch (RemoteException e2) {
+			e2.printStackTrace();
 		}
+		
 	}
 
 }

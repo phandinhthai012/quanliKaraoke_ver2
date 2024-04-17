@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class GD_XemChiTietHoaDonLapHoaDon extends JFrame implements ActionListen
 	/**
 	 * Create the frame.
 	 */
-	public GD_XemChiTietHoaDonLapHoaDon(PhieuDatPhongEntity phieuDatPhongEntity) {
+	public GD_XemChiTietHoaDonLapHoaDon(PhieuDatPhongEntity phieuDatPhongEntity) throws RemoteException {
 		this.phieuDatPhongEntity = phieuDatPhongEntity;
 		setBackground(new Color(230, 230, 250));
 		setTitle("Xem chi tiết hóa đơn");
@@ -143,7 +144,7 @@ public class GD_XemChiTietHoaDonLapHoaDon extends JFrame implements ActionListen
 		loadPhong();
 	}
 
-	private void loadPhong() {
+	private void loadPhong() throws RemoteException {
 		listChiTietPhieuDatPhong = new ArrayList<>();
 		listChiTietPhieuDatPhong = quanLyPhieuDatPhongDAO
 				.duyetDanhSachChiTietPhieuDatPhongTheoPhieuDatPhong(phieuDatPhongEntity.getMaPhieuDatPhong());
@@ -166,7 +167,7 @@ public class GD_XemChiTietHoaDonLapHoaDon extends JFrame implements ActionListen
 		}
 	}
 
-	public void chonPhong() {
+	public void chonPhong() throws RemoteException {
 		int row = tblPhong.getSelectedRow();
 		listChiTietPhieuDatPhong = quanLyPhieuDatPhongDAO
 				.duyetDanhSachChiTietPhieuDatPhongTheoPhieuDatPhong(phieuDatPhongEntity.getMaPhieuDatPhong());
@@ -220,7 +221,12 @@ public class GD_XemChiTietHoaDonLapHoaDon extends JFrame implements ActionListen
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		chonPhong();
+		try {
+			chonPhong();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	@Override

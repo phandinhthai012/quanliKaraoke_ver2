@@ -6,10 +6,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.rmi.RemoteException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -179,7 +181,7 @@ public class GD_DatPhong extends JPanel {
 
 	private String maPhongMoi = null;
 
-	public GD_DatPhong(NhanVienEntity nhanVienEntity) {
+	public GD_DatPhong(NhanVienEntity nhanVienEntity) throws RemoteException {
 		this.nhanVienEntity = nhanVienEntity;
 		setLayout(null);
 		setBounds(0, 0, 1365, 694);
@@ -704,7 +706,7 @@ public class GD_DatPhong extends JPanel {
 		loadData();
 	}
 
-	private void loadData() {
+	private void loadData() throws RemoteException {
 		tblPhong.removeAll();
 		tblPhong.setRowSelectionAllowed(false);
 		tblmodelPhong.setRowCount(0);
@@ -728,7 +730,7 @@ public class GD_DatPhong extends JPanel {
 		}
 	}
 
-	private void capNhatTrangThaiPhong(List<PhongEntity> listPhong) {
+	private void capNhatTrangThaiPhong(List<PhongEntity> listPhong) throws RemoteException {
 		List<ChiTietDatPhongEntity> listChiTietDatPhong = new ArrayList<>();
 		for (PhongEntity phongEntity : listPhong) {
 			String trangThai = "Trống";
@@ -751,8 +753,9 @@ public class GD_DatPhong extends JPanel {
 		}
 	}
 
-	/****************** CHỌN ĐẶT PHÒNG NGAY ******************/
-	public void chonDatPhongNgay() {
+	/****************** CHỌN ĐẶT PHÒNG NGAY 
+	 * @throws RemoteException ******************/
+	public void chonDatPhongNgay() throws RemoteException {
 		cmbGioNhanPhong.setEnabled(true);
 		cmbPhutNhanPhong.setEnabled(true);
 
@@ -823,8 +826,9 @@ public class GD_DatPhong extends JPanel {
 		}
 	}
 
-	/****************** LÀM MỚI ******************/
-	public void chonLamMoi() {
+	/****************** LÀM MỚI 
+	 * @throws RemoteException ******************/
+	public void chonLamMoi() throws RemoteException {
 		txtSoPhong.setText("");
 		txtLoaiPhong.setText("");
 		txtSucChua.setText("");
@@ -845,8 +849,9 @@ public class GD_DatPhong extends JPanel {
 
 	/************************************
 	 * TÌM KIẾM PHÒNG
+	 * @throws RemoteException 
 	 ************************************/
-	public void chonTimKiemPhong() {
+	public void chonTimKiemPhong() throws RemoteException {
 		if (kiemTraSoPhong()) {
 			String trangThai = cmbTimKiemTheoTrangThai.getSelectedItem().toString();
 			String loaiPhong = cmbTimKiemTheoLoaiPhong.getSelectedItem().toString();
@@ -876,8 +881,9 @@ public class GD_DatPhong extends JPanel {
 
 	/************************************
 	 * TÌM KIẾM KHÁCH HÀNG
+	 * @throws RemoteException 
 	 ************************************/
-	public void chonTimKiemKhachHang() {
+	public void chonTimKiemKhachHang() throws RemoteException {
 		if (kiemTraSoDienThoai()) {
 			String soDienThoai = txtSDTKhachHang.getText().trim();
 			khachHangEntity = quanLyKhachHangDAO.timTheoSoDienThoai(soDienThoai);
@@ -895,8 +901,9 @@ public class GD_DatPhong extends JPanel {
 
 	/************************************
 	 * CHỌN PHÒNG
+	 * @throws RemoteException 
 	 ************************************/
-	public void chonChonPhong() {
+	public void chonChonPhong() throws RemoteException {
 		int row = tblPhong.getSelectedRow();
 		if (row >= 0) {
 			String trangThai = tblPhong.getValueAt(row, 5).toString();
@@ -932,8 +939,9 @@ public class GD_DatPhong extends JPanel {
 		}
 	}
 
-	/****************** XÓA PHÒNG ĐÃ CHỌN ******************/
-	public void chonXoaPhongDaChon() {
+	/****************** XÓA PHÒNG ĐÃ CHỌN 
+	 * @throws RemoteException ******************/
+	public void chonXoaPhongDaChon() throws RemoteException {
 		int row = tblPhongDaChon.getSelectedRow();
 		if (row >= 0) {
 			for (int i = row + 1; i < tblPhongDaChon.getRowCount(); i++) {
@@ -949,8 +957,9 @@ public class GD_DatPhong extends JPanel {
 
 	/************************************
 	 * NHẬN PHÒNG
+	 * @throws RemoteException 
 	 ************************************/
-	public void chonNhanPhong() {
+	public void chonNhanPhong() throws RemoteException {
 		new GD_XemChiTietDatPhongTruoc(new SendData<ChiTietPhieuDatPhongEntity>() {
 			@Override
 			public void send(ChiTietPhieuDatPhongEntity e) {
@@ -961,16 +970,29 @@ public class GD_DatPhong extends JPanel {
 				} else {
 //					chiTietDatPhongEntity = quanLyHoaDonDAO
 //							.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
-					chiTietDatPhongEntity = quanLyHoaDonDAO.timChiTietDatPhongTheoMa(
-							chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
+					try {
+						chiTietDatPhongEntity = quanLyHoaDonDAO.timChiTietDatPhongTheoMa(
+								chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					// kiem tra neu ngay nhan phong cua phieu dat do la hom nay + gio nhan phong
 					// trước gio hien tai 5 phut hoac sau gio hien tai 15 phut
 					if (chiTietDatPhongEntity.getNgayNhanPhong().equals(LocalDate.now())
 							&& chiTietDatPhongEntity.getGioNhanPhong().isAfter(LocalTime.now().minusMinutes(5))
 							&& chiTietDatPhongEntity.getGioNhanPhong().isBefore(LocalTime.now().plusMinutes(15))) {
 						String trangThai = "Đang sử dụng";
-						if (quanLyPhongDAO.capNhatTrangThaiPhong(chiTietDatPhongEntity.getPhong(), trangThai)) {
-							JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
+						try {
+							if (quanLyPhongDAO.capNhatTrangThaiPhong(chiTietDatPhongEntity.getPhong(), trangThai)) {
+								JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
+							}
+						} catch (HeadlessException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (RemoteException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Hiện tại không được phép nhận phòng");
@@ -983,8 +1005,9 @@ public class GD_DatPhong extends JPanel {
 
 	/************************************
 	 * ĐỔI PHÒNG
+	 * @throws RemoteException 
 	 ************************************/
-	public void chonDoiPhong() {
+	public void chonDoiPhong() throws RemoteException {
 		new GD_XemChiTietDatPhongTruoc(new SendData<ChiTietPhieuDatPhongEntity>() {
 			@Override
 			public void send(ChiTietPhieuDatPhongEntity e) {
@@ -995,8 +1018,13 @@ public class GD_DatPhong extends JPanel {
 				} else {
 //					chiTietDatPhongEntity = quanLyHoaDonDAO
 //							.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
-					chiTietDatPhongEntity = quanLyHoaDonDAO.timChiTietDatPhongTheoMa(
-							chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
+					try {
+						chiTietDatPhongEntity = quanLyHoaDonDAO.timChiTietDatPhongTheoMa(
+								chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					btnDoiPhong.setText("Kiểm tra");
 					btnDoiPhong.setIcon(new ImageIcon(GD_DatPhong.class.getResource("/images/iconDanhMuc1.png")));
 				}
@@ -1004,7 +1032,7 @@ public class GD_DatPhong extends JPanel {
 		}).setVisible(true);
 	}
 
-	public void chonKiemTra() {
+	public void chonKiemTra() throws RemoteException {
 		btnDoiPhong.setText("Xác nhận đổi");
 		btnDoiPhong.setIcon(new ImageIcon(GD_DatPhong.class.getResource("/images/iconChon1.png")));
 		tblPhong.removeAll();
@@ -1021,7 +1049,7 @@ public class GD_DatPhong extends JPanel {
 		}
 	}
 
-	public void chonXacNhanDoiPhong() {
+	public void chonXacNhanDoiPhong() throws HeadlessException, RemoteException {
 		int row = tblPhong.getSelectedRow();
 		if (row >= 0) {
 			maPhongMoi = tblPhong.getValueAt(row, 1).toString();
@@ -1040,69 +1068,76 @@ public class GD_DatPhong extends JPanel {
 
 	/************************************
 	 * HỦY PHÒNG ĐẶT TRƯỚC
+	 * @throws RemoteException 
 	 ************************************/
-	public void chonHuyPhongDatTruoc() {
+	public void chonHuyPhongDatTruoc() throws RemoteException {
 		new GD_XemChiTietDatPhongTruoc(new SendData<ChiTietPhieuDatPhongEntity>() {
 			@Override
 			public void send(ChiTietPhieuDatPhongEntity e) {
 				chiTietPhieuDatPhongEntity = e;
-				if (chiTietPhieuDatPhongEntity != null) {
-					ChiTietDatPhongEntity chiTietDatPhongEntity = quanLyHoaDonDAO.timChiTietDatPhongTheoMa(
-							chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
-//					
-					PhieuDatPhongEntity phieuDatPhongEntity = quanLyPhieuDatPhongDAO
-							.timPhieuDatPhongTheoMa(chiTietPhieuDatPhongEntity.getPhieuDatPhong().getMaPhieuDatPhong());
-					// neu gio nhan phong sau gio hien tai 1 gio nua thi duoc phep huy phong
-					if (chiTietDatPhongEntity.getNgayNhanPhong().isAfter(LocalDate.now()) || (chiTietDatPhongEntity
-							.getNgayNhanPhong().equals(LocalDate.now())
-							&& chiTietDatPhongEntity.getGioNhanPhong().isAfter(LocalTime.now().minusHours(1)))) {
-						String maChiTietDatPhong = chiTietDatPhongEntity.getMaChiTietDatPhong();
-						ChiTietHoaDonEntity chiTietHoaDonEntity = quanLyHoaDonDAO
-								.timChiTietHoaDonTheoChiTietDatPhong(chiTietDatPhongEntity);
-						// neu phong do co dat dich vu thi xoa cac don dat dich vu truoc
-						// thu tu xoa: chiTietDichVu -> chiTietHoaDon -> chiTietPhieuDatPhong ->
-						// phieuDatPhong + chiTietDatPhong -> cap nhat trang thai phong
-						List<ChiTietDichVuEntity> listChiTietDichVu = quanLyHoaDonDAO
-								.duyetDanhSachChiTietDichVuTheoChiTietHoaDon(chiTietHoaDonEntity.getMaChiTietHoaDon());
-						if (listChiTietDichVu.size() > 0)
-							if (!quanLyHoaDonDAO.xoaChiTietDichvuTheoMaHoaDon(chiTietHoaDonEntity.getMaChiTietHoaDon()))
-								return;
+				try {
+					if (chiTietPhieuDatPhongEntity != null) {
+						ChiTietDatPhongEntity chiTietDatPhongEntity = quanLyHoaDonDAO.timChiTietDatPhongTheoMa(
+								chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
+//						
+						PhieuDatPhongEntity phieuDatPhongEntity = quanLyPhieuDatPhongDAO
+								.timPhieuDatPhongTheoMa(chiTietPhieuDatPhongEntity.getPhieuDatPhong().getMaPhieuDatPhong());
+						// neu gio nhan phong sau gio hien tai 1 gio nua thi duoc phep huy phong
+						if (chiTietDatPhongEntity.getNgayNhanPhong().isAfter(LocalDate.now()) || (chiTietDatPhongEntity
+								.getNgayNhanPhong().equals(LocalDate.now())
+								&& chiTietDatPhongEntity.getGioNhanPhong().isAfter(LocalTime.now().minusHours(1)))) {
+							String maChiTietDatPhong = chiTietDatPhongEntity.getMaChiTietDatPhong();
+							ChiTietHoaDonEntity chiTietHoaDonEntity = quanLyHoaDonDAO
+									.timChiTietHoaDonTheoChiTietDatPhong(chiTietDatPhongEntity);
+							// neu phong do co dat dich vu thi xoa cac don dat dich vu truoc
+							// thu tu xoa: chiTietDichVu -> chiTietHoaDon -> chiTietPhieuDatPhong ->
+							// phieuDatPhong + chiTietDatPhong -> cap nhat trang thai phong
+							List<ChiTietDichVuEntity> listChiTietDichVu = quanLyHoaDonDAO
+									.duyetDanhSachChiTietDichVuTheoChiTietHoaDon(chiTietHoaDonEntity.getMaChiTietHoaDon());
+							if (listChiTietDichVu.size() > 0)
+								if (!quanLyHoaDonDAO.xoaChiTietDichvuTheoMaHoaDon(chiTietHoaDonEntity.getMaChiTietHoaDon()))
+									return;
 
-						if (quanLyHoaDonDAO.xoaChiTietHoaDon(maChiTietDatPhong)) {
-							if (quanLyPhieuDatPhongDAO.xoaChiTietPhieuDatPhong(maChiTietDatPhong)) {
-								// neu phieu dat phong do khong con phong nao thi xoa phieu dat phong
-								List<ChiTietPhieuDatPhongEntity> listChiTietPhieuDatPhong = quanLyPhieuDatPhongDAO
-										.duyetDanhSachChiTietPhieuDatPhongTheoPhieuDatPhong(
-												phieuDatPhongEntity.getMaPhieuDatPhong());
-								if (listChiTietPhieuDatPhong.size() == 0) {
-									if (!quanLyPhieuDatPhongDAO
-											.xoaPhieuDatPhong(phieuDatPhongEntity.getMaPhieuDatPhong())) {
-										return;
+							if (quanLyHoaDonDAO.xoaChiTietHoaDon(maChiTietDatPhong)) {
+								if (quanLyPhieuDatPhongDAO.xoaChiTietPhieuDatPhong(maChiTietDatPhong)) {
+									// neu phieu dat phong do khong con phong nao thi xoa phieu dat phong
+									List<ChiTietPhieuDatPhongEntity> listChiTietPhieuDatPhong = quanLyPhieuDatPhongDAO
+											.duyetDanhSachChiTietPhieuDatPhongTheoPhieuDatPhong(
+													phieuDatPhongEntity.getMaPhieuDatPhong());
+									if (listChiTietPhieuDatPhong.size() == 0) {
+										if (!quanLyPhieuDatPhongDAO
+												.xoaPhieuDatPhong(phieuDatPhongEntity.getMaPhieuDatPhong())) {
+											return;
+										}
 									}
-								}
-								if (quanLyHoaDonDAO.xoaChiTietDatPhong(maChiTietDatPhong)) {
-									JOptionPane.showMessageDialog(null, "Hủy phòng thành công");
-									chonLamMoi();
-								}
+									if (quanLyHoaDonDAO.xoaChiTietDatPhong(maChiTietDatPhong)) {
+										JOptionPane.showMessageDialog(null, "Hủy phòng thành công");
+										chonLamMoi();
+									}
 
+								}
 							}
+						} else {
+							JOptionPane.showMessageDialog(null, "Chỉ được phép hủy trước giờ hiện tại 2 giờ");
+							return;
 						}
 					} else {
-						JOptionPane.showMessageDialog(null, "Chỉ được phép hủy trước giờ hiện tại 2 giờ");
+						JOptionPane.showMessageDialog(null, "Hãy chọn phòng");
 						return;
 					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Hãy chọn phòng");
-					return;
+				} catch (Exception e2) {
+					e2.printStackTrace();
 				}
+				
 			}
 		}).setVisible(true);
 	}
 
 	/************************************
 	 * XEM PHÒNG ĐẶT TRƯỚC
+	 * @throws RemoteException 
 	 ************************************/
-	public void chonXemDatTruoc() {
+	public void chonXemDatTruoc() throws RemoteException {
 		new GD_XemChiTietDatPhongTruoc(new SendData<ChiTietPhieuDatPhongEntity>() {
 
 			@Override
@@ -1114,8 +1149,9 @@ public class GD_DatPhong extends JPanel {
 
 	/************************************
 	 * ĐẶT PHÒNG
+	 * @throws RemoteException 
 	 ************************************/
-	public void chonDatPhong() {
+	public void chonDatPhong() throws RemoteException {
 		if (kiemTraDuLieuDatPhong()) {
 			List<PhongEntity> listPhongDuocChon = new ArrayList<>();
 			List<ChiTietDatPhongEntity> listChiTietDatPhong = new ArrayList<>();

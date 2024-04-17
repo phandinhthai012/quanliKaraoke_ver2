@@ -1,5 +1,7 @@
 package Dao.Impl;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -11,34 +13,34 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
-public class DichVuImpl implements DichVuDao {
+public class DichVuImpl extends UnicastRemoteObject implements DichVuDao {
 
 	private String persistenceUnitName = "quanliKaraoke_ver2 mssql";
 	private EntityManager em;
 
-	public DichVuImpl() {
+	public DichVuImpl() throws RemoteException  {
 		em = Persistence.createEntityManagerFactory(persistenceUnitName).createEntityManager();
 	}
 
 	@Override
-	public LoaiDichVu timTheoMaLoaiDichVu(String maLoaiDichVu) {
+	public LoaiDichVu timTheoMaLoaiDichVu(String maLoaiDichVu)throws RemoteException  {
 		return em.find(LoaiDichVu.class, maLoaiDichVu);
 	}
 
 	@Override
-	public LoaiDichVu timTheoTenLoaiDichVu(String tenLoaiDichVu) {
+	public LoaiDichVu timTheoTenLoaiDichVu(String tenLoaiDichVu)throws RemoteException  {
 		String query = "SELECT l FROM LoaiDichVu l WHERE l.tenLoaiDichVu like :tenLoaiDichVu";
 		return em.createQuery(query, LoaiDichVu.class).setParameter("tenLoaiDichVu", "%"+tenLoaiDichVu+"%").getSingleResult();
 	}
 
 	@Override
-	public List<LoaiDichVu> duyetDanhSachLoaiDichVu() {
+	public List<LoaiDichVu> duyetDanhSachLoaiDichVu() throws RemoteException {
 		String query = "SELECT l FROM LoaiDichVu l";
 		return em.createQuery(query, LoaiDichVu.class).getResultList();
 	}
 
 	@Override
-	public boolean themLoaiDichVu(LoaiDichVu loaiDichVu) {
+	public boolean themLoaiDichVu(LoaiDichVu loaiDichVu)throws RemoteException  {
 		EntityTransaction tr = em.getTransaction();
 		String query = "INSERT LoaiDichVu (TenLoaiDichVu)\r\n" + "VALUES (?)";
 		try {
@@ -54,7 +56,7 @@ public class DichVuImpl implements DichVuDao {
 	}
 
 	@Override
-	public boolean xoaLoaiDichVu(String maLoaiDichVu) {
+	public boolean xoaLoaiDichVu(String maLoaiDichVu)throws RemoteException  {
 		EntityTransaction tr = em.getTransaction();
 		LoaiDichVu loaiDichVu = timTheoMaLoaiDichVu(maLoaiDichVu);
 		if (loaiDichVu == null)
@@ -72,7 +74,7 @@ public class DichVuImpl implements DichVuDao {
 	}
 
 	@Override
-	public boolean chinhSuaLoaiDichVu(LoaiDichVu loaiDichVu) {
+	public boolean chinhSuaLoaiDichVu(LoaiDichVu loaiDichVu)throws RemoteException  {
 		EntityTransaction tr = em.getTransaction();
 		LoaiDichVu loaiDichVu2 = timTheoMaLoaiDichVu(loaiDichVu.getMaLoaiDichVu());
 		if (loaiDichVu2 == null)
@@ -91,13 +93,13 @@ public class DichVuImpl implements DichVuDao {
 	}
 
 	@Override
-	public List<DichVuEntity> duyetDanhSach() {
+	public List<DichVuEntity> duyetDanhSach()throws RemoteException  {
 		String query = "SELECT d FROM DichVuEntity d";
 		return em.createQuery(query, DichVuEntity.class).getResultList();
 	}
 
 	@Override
-	public boolean them(DichVuEntity dichVuEntity) {
+	public boolean them(DichVuEntity dichVuEntity) throws RemoteException {
 		EntityTransaction tr = em.getTransaction();
 		try {
 			tr.begin();
@@ -112,7 +114,7 @@ public class DichVuImpl implements DichVuDao {
 	}
 
 	@Override
-	public boolean xoa(String maDichVu) {
+	public boolean xoa(String maDichVu) throws RemoteException {
 		EntityTransaction tr = em.getTransaction();
 		DichVuEntity dichVuEntity = timTheoMa(maDichVu);
 		if (dichVuEntity == null)
@@ -130,7 +132,7 @@ public class DichVuImpl implements DichVuDao {
 	}
 
 	@Override
-	public boolean chinhSua(DichVuEntity dichVuEntity) {
+	public boolean chinhSua(DichVuEntity dichVuEntity) throws RemoteException {
 		EntityTransaction tr = em.getTransaction();
 		DichVuEntity dichVuEntity2 = timTheoMa(dichVuEntity.getMaDichVu());
 		if (dichVuEntity2 == null)
@@ -148,7 +150,7 @@ public class DichVuImpl implements DichVuDao {
 	}
 
 	@Override
-	public List<DichVuEntity> timKiem(String loaiDV, Double giaTu, Double giaDen) {
+	public List<DichVuEntity> timKiem(String loaiDV, Double giaTu, Double giaDen)throws RemoteException  {
 //		StringBuilder query = new StringBuilder(
 //				"SELECT MaDichVu, TenDichVu, LD.MaLoaiDichVu, TenLoaiDichVu, Gia\r\n"
 //						+ "FROM [dbo].[DichVu] D JOIN [dbo].[LoaiDichVu] LD ON D.MaLoaiDichVu = LD.MaLoaiDichVu ");
@@ -232,7 +234,7 @@ public class DichVuImpl implements DichVuDao {
 	}
 
 	@Override
-	public DichVuEntity timTheoMa(String maDichVu) {
+	public DichVuEntity timTheoMa(String maDichVu)throws RemoteException  {
 		return em.find(DichVuEntity.class, maDichVu);
 	}
 

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.rmi.RemoteException;
 
 import gui.hoaDon.GD_XemChiTietHoaDonThongKe;
 
@@ -17,7 +18,12 @@ public class XemChiTietHoaDonController implements ActionListener, MouseListener
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		giaoDienXemChiTietHoaDon.chonPhong();
+		try {
+			giaoDienXemChiTietHoaDon.chonPhong();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	@Override

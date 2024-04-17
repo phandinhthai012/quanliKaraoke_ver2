@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
+import java.rmi.RemoteException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -322,39 +323,39 @@ public class GD_TrangChu extends JFrame {
 		this.thayDoiPanelChinh(pnlBannner, mniTrangChu);
 	}
 
-	public void chonDanhMucPhong() {
+	public void chonDanhMucPhong() throws RemoteException {
 		this.thayDoiPanelChinh(new GD_QuanLyPhong(nhanVienEntity), mniPhong);
 	}
 
-	public void chonDanhMucDichVu() {
+	public void chonDanhMucDichVu() throws RemoteException {
 		this.thayDoiPanelChinh(new GD_QuanLyDichVu(nhanVienEntity), mniDichVu);
 	}
 
-	public void chonDanhMucNhanVien() {
+	public void chonDanhMucNhanVien()  throws RemoteException{
 		this.thayDoiPanelChinh(new GD_QuanLyNhanVien(), mniNhanVien);
 	}
 
-	public void chonDanhMucKhachHang() {
+	public void chonDanhMucKhachHang() throws RemoteException {
 		this.thayDoiPanelChinh(new GD_QuanLyKhachHang(), mniKhachHang);
 	}
 
-	public void chonDatPhong() {
+	public void chonDatPhong()  throws RemoteException{
 		this.thayDoiPanelChinh(new GD_DatPhong(nhanVienEntity), mniDatPhong);
 	}
 
-	public void chonDatDichVu() {
+	public void chonDatDichVu()  throws RemoteException{
 		this.thayDoiPanelChinh(new GD_DatDichVu(), mniDatDichVu);
 	}
 
-	public void chonLapHoaDon() {
+	public void chonLapHoaDon() throws RemoteException {
 		this.thayDoiPanelChinh(new GD_LapHoaDon(nhanVienEntity), mniLapHoaDon);
 	}
 
-	public void chonThongKe() {
+	public void chonThongKe()  throws RemoteException{
 		this.thayDoiPanelChinh(new GD_ThongKe(), mniThongKe);
 	}
 
-	public void chonTaiKhoan() {
+	public void chonTaiKhoan() throws RemoteException {
 		this.thayDoiPanelChinh(new GD_QuanLyTaiKhoan(nhanVienEntity), new JMenuItem());
 	}
 }

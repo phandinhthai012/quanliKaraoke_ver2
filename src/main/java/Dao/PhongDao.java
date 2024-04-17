@@ -1,53 +1,55 @@
 package Dao;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.List;
 
 import entities.LoaiPhong;
 import entities.PhongEntity;
 
-public interface PhongDao {
-	public LoaiPhong timTheoMaLoaiPhong(String maLoaiPhong);
-	public LoaiPhong timTheoTenLoaiPhong(String tenLoaiPhong);
+public interface PhongDao extends Remote {
+	public LoaiPhong timTheoMaLoaiPhong(String maLoaiPhong)throws RemoteException;
+	public LoaiPhong timTheoTenLoaiPhong(String tenLoaiPhong)throws RemoteException;
 	/**
 	 * duyệt toàn bộ danh sách loại phòng
 	 */
-	public List<LoaiPhong> duyetDanhSachLoaiPhong();
+	public List<LoaiPhong> duyetDanhSachLoaiPhong()throws RemoteException;
 	/**
 	 * thêm loại phòng
 	 */
-	public boolean themLoaiPhong(LoaiPhong loaiPhong);
+	public boolean themLoaiPhong(LoaiPhong loaiPhong)throws RemoteException;
 	/**
 	 * Xóa loại phòng
 	 */
-	public boolean xoaLoaiPhong(String maLoaiPhong) ;
+	public boolean xoaLoaiPhong(String maLoaiPhong) throws RemoteException;
 	/**
 	 * Chỉnh sửa loại phòng
 	 */
-	public boolean chinhSuaLoaiPhong(LoaiPhong loaiPhong);
+	public boolean chinhSuaLoaiPhong(LoaiPhong loaiPhong)throws RemoteException;
 	/***** PHÒNG *****/
 
 	/**
 	 * duyệt toàn bộ danh sách phòng
 	 */
-	public List<PhongEntity> duyetDanhSach();
+	public List<PhongEntity> duyetDanhSach()throws RemoteException;
 	/**
 	 * Thêm phòng
 	 */
-	public boolean themPhong(PhongEntity phongEntity);
+	public boolean themPhong(PhongEntity phongEntity)throws RemoteException;
 	/**
 	 * Chỉnh sửa phòng
 	 */
-	public boolean chinhSuaPhong(PhongEntity phongEntity);
+	public boolean chinhSuaPhong(PhongEntity phongEntity)throws RemoteException;
 	/**
 	 * Xóa phòng
 	 */
-	public boolean xoaPhong(String maPhong);
+	public boolean xoaPhong(String maPhong)throws RemoteException;
 	/**
 	 * Tìm kiếm phòng
 	 */
-	public List<PhongEntity> timKiemPhong(int soPhong, int sucChua, String trangThai, String loaiPhong);
+	public List<PhongEntity> timKiemPhong(int soPhong, int sucChua, String trangThai, String loaiPhong)throws RemoteException;
 	
-	public boolean capNhatTrangThaiPhong(PhongEntity phongEntity, String trangThai);
-	public PhongEntity timTheoMa(String maPhong);
+	public boolean capNhatTrangThaiPhong(PhongEntity phongEntity, String trangThai) throws RemoteException;
+	public PhongEntity timTheoMa(String maPhong)throws RemoteException;
 	
 }

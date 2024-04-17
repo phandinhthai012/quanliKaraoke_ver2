@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.rmi.RemoteException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,6 +27,7 @@ import Dao.NhanVienDao;
 import Dao.Impl.NhanVienImpl;
 import controller.DangNhapController;
 import entities.NhanVienEntity;
+import gui.timKiem.GD_TimKiemPhong;
 //import gui.timKiem.GD_TimKiemPhong;
 //import gui.trangChu.GD_TrangChu;
 import gui.trangChu.GD_TrangChu;
@@ -71,11 +73,12 @@ public class GD_DangNhap extends JFrame {
 	// Controller
 	private DangNhapController controller;
 //	private QuanLyNhanVienDAO quanLyNhanVienDAO = new QuanLyNhanVienDAO();
+	
 	private NhanVienDao quanLyNhanVienDAO = new NhanVienImpl();
 
 	private NhanVienEntity nhanVienEntity;
 
-	public GD_DangNhap() {
+	public GD_DangNhap() throws RemoteException {
 		try {
 			
 		} catch (Exception e) {
@@ -167,7 +170,7 @@ public class GD_DangNhap extends JFrame {
 		btnNhinMatKhau.setIcon(new ImageIcon(GD_DangNhap.class.getResource("/images/iconMatNham.png")));
 		btnNhinMatKhau.setBounds(421, 253, 40, 35);
 		contentPane.add(btnNhinMatKhau);
-
+		
 		controller = new DangNhapController(this);
 		btnDangNhap.addActionListener(controller);
 		btnDanhChoKhachHang.addActionListener(controller);
@@ -175,8 +178,9 @@ public class GD_DangNhap extends JFrame {
 		btnNhinMatKhau.addActionListener(controller);
 	}
 
-	/************ ĐĂNG NHẬP ****************/
-	public void chonDangNhap() {
+	/************ ĐĂNG NHẬP 
+	 * @throws RemoteException ****************/
+	public void chonDangNhap() throws RemoteException {
 		if (kiemTraDuLieuNhap()) {
 			@SuppressWarnings("deprecation")
 			String password = pwd.getText().trim();
@@ -203,9 +207,10 @@ public class GD_DangNhap extends JFrame {
 		}
 	}
 
-	/*********** DÀNH CHO KHÁCH HÀNG ****************/
-	public void chonDanhChoKhachHang() {
-//		new GD_TimKiemPhong().setVisible(true);
+	/*********** DÀNH CHO KHÁCH HÀNG 
+	 * @throws RemoteException ****************/
+	public void chonDanhChoKhachHang() throws RemoteException {
+		new GD_TimKiemPhong().setVisible(true);
 		this.dispose();
 	}
 

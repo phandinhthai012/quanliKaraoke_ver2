@@ -3,6 +3,7 @@ package gui.lapHoaDon;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -12,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -136,7 +138,7 @@ public class GD_LapHoaDon extends JPanel {
 	private double tienTra = 0;
 	private double tienDichVu = 0;
 
-	public GD_LapHoaDon(NhanVienEntity nhanVienEntity) {
+	public GD_LapHoaDon(NhanVienEntity nhanVienEntity) throws RemoteException {
 		this.nhanVienEntity = nhanVienEntity;
 		setLayout(null);
 		setBounds(0, 0, 1365, 694);
@@ -393,7 +395,12 @@ public class GD_LapHoaDon extends JPanel {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				tinhTienTraKhach();
+				try {
+					tinhTienTraKhach();
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 
 			@Override
@@ -411,8 +418,9 @@ public class GD_LapHoaDon extends JPanel {
 		loadData();
 	}
 
-	/***** loadData *****/
-	private void loadData() {
+	/***** loadData 
+	 * @throws RemoteException *****/
+	private void loadData() throws RemoteException {
 		tblHoaDon.removeAll();
 		tblHoaDon.setRowSelectionAllowed(false);
 		tblmodelHoaDon.setRowCount(0);
@@ -428,8 +436,9 @@ public class GD_LapHoaDon extends JPanel {
 		}
 	}
 
-	/***** HIỂN THỊ THÔNG TIN *****/
-	public void hienThiThongTin() {
+	/***** HIỂN THỊ THÔNG TIN 
+	 * @throws RemoteException *****/
+	public void hienThiThongTin() throws RemoteException {
 		listPhieuDatPhong = quanLyPhieuDatPhongDAO.duyetDanhSachPhieuDatPhongChuaThanhToan();
 		int row = tblHoaDon.getSelectedRow();
 		if (row >= 0) {
@@ -448,8 +457,9 @@ public class GD_LapHoaDon extends JPanel {
 		}
 	}
 
-	/***** LÀM MỚI *****/
-	public void chonLamMoi() {
+	/***** LÀM MỚI 
+	 * @throws RemoteException *****/
+	public void chonLamMoi() throws RemoteException {
 		txtTienDichVu.setText("");
 		txtSoDienThoai.setText("");
 		txtTenKhachHang.setText("");
@@ -461,8 +471,9 @@ public class GD_LapHoaDon extends JPanel {
 		loadData();
 	}
 
-	/***** TÌM KIẾM *****/
-	public void chonTimKiem() {
+	/***** TÌM KIẾM 
+	 * @throws RemoteException *****/
+	public void chonTimKiem() throws RemoteException {
 		if (kiemTraDuLieuTim()) {
 			String sdt = textField.getText().trim();
 			tblHoaDon.removeAll();
@@ -479,8 +490,9 @@ public class GD_LapHoaDon extends JPanel {
 		}
 	}
 
-	/***** XEM CHI TIẾT *****/
-	public void chonXemChiTiet() {
+	/***** XEM CHI TIẾT 
+	 * @throws RemoteException *****/
+	public void chonXemChiTiet() throws RemoteException {
 		int row = tblHoaDon.getSelectedRow();
 		if (row >= 0) {
 			listPhieuDatPhong = quanLyPhieuDatPhongDAO.duyetDanhSachPhieuDatPhongChuaThanhToan();
@@ -489,8 +501,10 @@ public class GD_LapHoaDon extends JPanel {
 		}
 	}
 
-	/***** LẬP HÓA ĐƠN *****/
-	public void chonLapHoaDon() {
+	/***** LẬP HÓA ĐƠN 
+	 * @throws RemoteException 
+	 * @throws HeadlessException *****/
+	public void chonLapHoaDon() throws  RemoteException {
 		if (kiemTraTienNhan()) {
 //			hoaDonEntity = new HoaDonEntity(nhanVienEntity.getMaNhanVien(), khachHangEntity.getMaKhachHang(),
 //					LocalDate.now(), LocalTime.now());
@@ -542,8 +556,9 @@ public class GD_LapHoaDon extends JPanel {
 		return gioHat * 150000.0;
 	}
 
-	/***** TÍNH TỔNG TIỀN HÁT *****/
-	private double tinhTongTienHat(String maPhieuDatPhong) {
+	/***** TÍNH TỔNG TIỀN HÁT 
+	 * @throws RemoteException *****/
+	private double tinhTongTienHat(String maPhieuDatPhong) throws RemoteException {
 		double tienHat = 0;
 		listChiTietPhieuDatPhong = quanLyPhieuDatPhongDAO
 				.duyetDanhSachChiTietPhieuDatPhongTheoPhieuDatPhong(maPhieuDatPhong);
@@ -560,15 +575,17 @@ public class GD_LapHoaDon extends JPanel {
 		return tienHat;
 	}
 
-	/***** TÍNH TỔNG TIỀN CẦN THANH TOÁN *****/
-	private double tinhTongTienThanhToan(String maPhieuDatPhong) {
+	/***** TÍNH TỔNG TIỀN CẦN THANH TOÁN 
+	 * @throws RemoteException *****/
+	private double tinhTongTienThanhToan(String maPhieuDatPhong) throws RemoteException {
 		double tienDichVu = lapHoaDonDAO.tinhTienDichVu(maPhieuDatPhong);
 		double tienHat = tinhTongTienHat(maPhieuDatPhong);
 		return tienDichVu + tienHat;
 	}
 
-	/**** TÍNH TIỀN TRẢ KHÁCH *****/
-	private void tinhTienTraKhach() {
+	/**** TÍNH TIỀN TRẢ KHÁCH 
+	 * @throws RemoteException *****/
+	private void tinhTienTraKhach() throws RemoteException {
 		listPhieuDatPhong = quanLyPhieuDatPhongDAO.duyetDanhSachPhieuDatPhongChuaThanhToan();
 		int row = tblHoaDon.getSelectedRow();
 		if (row >= 0) {

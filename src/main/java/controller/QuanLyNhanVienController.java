@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.rmi.RemoteException;
 
 import gui.nhanVien.GD_QuanLyNhanVien;
 
@@ -17,7 +18,12 @@ public class QuanLyNhanVienController implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		giaoDienQuanLyNhanVien.hienThiThongTin();
+		try {
+			giaoDienQuanLyNhanVien.hienThiThongTin();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	@Override
@@ -47,15 +53,20 @@ public class QuanLyNhanVienController implements ActionListener, MouseListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if (o.equals(giaoDienQuanLyNhanVien.btnLamMoi)) {
-			giaoDienQuanLyNhanVien.chonLamMoi();
-		} else if (o.equals(giaoDienQuanLyNhanVien.btnTimKiem)) {
-			giaoDienQuanLyNhanVien.chonTimKiem();
-		} else if (o.equals(giaoDienQuanLyNhanVien.btnThem)) {
-			giaoDienQuanLyNhanVien.chonThem();
-		} else if (o.equals(giaoDienQuanLyNhanVien.btnChinhSua)) {
-			giaoDienQuanLyNhanVien.chonChinhSua();
+		try {
+			if (o.equals(giaoDienQuanLyNhanVien.btnLamMoi)) {
+				giaoDienQuanLyNhanVien.chonLamMoi();
+			} else if (o.equals(giaoDienQuanLyNhanVien.btnTimKiem)) {
+				giaoDienQuanLyNhanVien.chonTimKiem();
+			} else if (o.equals(giaoDienQuanLyNhanVien.btnThem)) {
+				giaoDienQuanLyNhanVien.chonThem();
+			} else if (o.equals(giaoDienQuanLyNhanVien.btnChinhSua)) {
+				giaoDienQuanLyNhanVien.chonChinhSua();
+			}
+		} catch (RemoteException e2) {
+			e2.printStackTrace();
 		}
+		
 	}
 
 }

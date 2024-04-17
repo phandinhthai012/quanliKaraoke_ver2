@@ -2,6 +2,7 @@ package gui.hoaDon;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -52,8 +53,9 @@ public class GD_XemChiTietHoaDonThongKe extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws RemoteException 
 	 */
-	public GD_XemChiTietHoaDonThongKe(HoaDonEntity hoaDonEntity) {
+	public GD_XemChiTietHoaDonThongKe(HoaDonEntity hoaDonEntity) throws RemoteException {
 		setBackground(new Color(230, 230, 250));
 		this.hoaDonEntity = hoaDonEntity;
 		setTitle("Xem chi tiết hóa đơn");
@@ -135,7 +137,7 @@ public class GD_XemChiTietHoaDonThongKe extends JFrame {
 		loadPhong();
 	}
 
-	private void loadPhong() {
+	private void loadPhong() throws RemoteException {
 		listChiTietHoaDon = quanLyHoaDonDAO.duyetDanhSachChiTietHoaDonTheoMaHoaDon(hoaDonEntity.getMaHoaDon());
 		tblPhong.removeAll();
 		tblPhong.setRowSelectionAllowed(false);
@@ -152,7 +154,7 @@ public class GD_XemChiTietHoaDonThongKe extends JFrame {
 		}
 	}
 
-	public void chonPhong() {
+	public void chonPhong() throws RemoteException {
 		int row = tblPhong.getSelectedRow();
 		listChiTietHoaDon = quanLyHoaDonDAO.duyetDanhSachChiTietHoaDonTheoMaHoaDon(hoaDonEntity.getMaHoaDon());
 		if (row >= 0) {

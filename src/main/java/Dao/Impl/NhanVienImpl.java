@@ -1,5 +1,7 @@
 package Dao.Impl;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 import Dao.NhanVienDao;
@@ -11,42 +13,46 @@ import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import util.PasswordHasher;
 
-public class NhanVienImpl implements NhanVienDao {
+public class NhanVienImpl extends UnicastRemoteObject implements NhanVienDao {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String persistenceUnitName = "quanliKaraoke_ver2 mssql";
 	private EntityManager em;
 
-	public NhanVienImpl() {
+	public NhanVienImpl()throws RemoteException  {
 		em = Persistence.createEntityManagerFactory(persistenceUnitName).createEntityManager();
 	}
 
 	@Override
-	public List<NhanVienEntity> duyetDanhSach() {
+	public List<NhanVienEntity> duyetDanhSach() throws RemoteException {
 		String quey = "select nv from NhanVienEntity nv";
 		return em.createQuery(quey, NhanVienEntity.class).getResultList();
 	}
 
 	@Override
-	public List<NhanVienEntity> duyetDanhSachNhanVienDangLamViec() {
+	public List<NhanVienEntity> duyetDanhSachNhanVienDangLamViec()throws RemoteException  {
 		// 1 dang lam viec 0 nghi viec
 		String query = "select nv from NhanVienEntity nv where nv.trangThai = 1";
 		return em.createQuery(query, NhanVienEntity.class).getResultList();
 	}
 
 	@Override
-	public NhanVienEntity timTheoMa(String maNhanvien) {
+	public NhanVienEntity timTheoMa(String maNhanvien)throws RemoteException  {
 		return em.find(NhanVienEntity.class, maNhanvien);
 	}
 
 	@Override
-	public NhanVienEntity timTheoTenVaSoDienThoai(String hoTen, String soDienThoai) {
+	public NhanVienEntity timTheoTenVaSoDienThoai(String hoTen, String soDienThoai) throws RemoteException {
 		String query = "select nv from NhanVienEntity nv where nv.hoTen = :hoTen and nv.soDienThoai = :soDienThoai";
 		return em.createQuery(query, NhanVienEntity.class).setParameter("hoTen", hoTen)
 				.setParameter("soDienThoai", soDienThoai).getSingleResult();
 	}
 
 	@Override
-	public boolean them(NhanVienEntity nhanVienEntity) {
+	public boolean them(NhanVienEntity nhanVienEntity)throws RemoteException  {
 		String query = "INSERT INTO [dbo].[NhanVien] "
 				+ "([HoTen], [SoDienThoai], [Email], [CCCD], [Password], [NamSinh], [MucLuong], [ChucVu], [TrangThai])"
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -71,7 +77,7 @@ public class NhanVienImpl implements NhanVienDao {
 	}
 	
 	@Override
-	public NhanVienEntity timTheoSoDienThoaiVaPassword(String soDienThoai, String password) {
+	public NhanVienEntity timTheoSoDienThoaiVaPassword(String soDienThoai, String password) throws RemoteException {
 //		statement.setString(2, PasswordHasher.hashPassword(password));
 		String password2 = PasswordHasher.hashPassword(password);
 		String query = "select nv from NhanVienEntity nv where nv.soDienThoai = :soDienThoai and nv.password = :password";
@@ -81,7 +87,7 @@ public class NhanVienImpl implements NhanVienDao {
 	}
 
 	@Override
-	public boolean chinhSua(NhanVienEntity nhanVienEntity) {
+	public boolean chinhSua(NhanVienEntity nhanVienEntity)throws RemoteException  {
 		EntityTransaction tx = em.getTransaction();
 		NhanVienEntity exitsNhanVien = em.find(NhanVienEntity.class, nhanVienEntity.getMaNhanVien());
 		if (exitsNhanVien == null)
@@ -99,7 +105,7 @@ public class NhanVienImpl implements NhanVienDao {
 	}
 
 	@Override
-	public List<NhanVienEntity> timKiem(String hoTen, String soDienThoai, String chucVu, String trangThai) {
+	public List<NhanVienEntity> timKiem(String hoTen, String soDienThoai, String chucVu, String trangThai) throws RemoteException {
 
 		StringBuilder query = new StringBuilder("SELECT n FROM NhanVienEntity n WHERE 1=1 ");
 
@@ -140,7 +146,7 @@ public class NhanVienImpl implements NhanVienDao {
 	}
 	/***** ĐỔI MẬT KHẨU *****/
 	@Override
-	public boolean doiMatKhau(String matKhauMoi, String soDienThoai) {
+	public boolean doiMatKhau(String matKhauMoi, String soDienThoai) throws RemoteException {
 		String query = "update NhanVienEntity nv set nv.matKhau = :matKhauMoi where nv.soDienThoai = :soDienThoai";
 		EntityTransaction tx = em.getTransaction();
 		try {

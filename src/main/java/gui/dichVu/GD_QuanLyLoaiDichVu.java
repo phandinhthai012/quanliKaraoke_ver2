@@ -4,12 +4,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
+import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.HeadlessException;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -57,8 +60,9 @@ public class GD_QuanLyLoaiDichVu extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws RemoteException 
 	 */
-	public GD_QuanLyLoaiDichVu(NhanVienEntity nhanVienEntity) {
+	public GD_QuanLyLoaiDichVu(NhanVienEntity nhanVienEntity) throws RemoteException {
 		this.nhanVienEntity = nhanVienEntity;
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(GD_QuanLyLoaiDichVu.class.getResource("/images/iconLogo.png")));
@@ -172,7 +176,7 @@ public class GD_QuanLyLoaiDichVu extends JFrame {
 		kiemTraQuyen();
 	}
 
-	private void loadData() {
+	private void loadData() throws RemoteException {
 		tblLoaiDichVu.removeAll();
 		tblLoaiDichVu.setRowSelectionAllowed(false);
 		tblmodelLoaiDichVu.setRowCount(0);
@@ -185,7 +189,7 @@ public class GD_QuanLyLoaiDichVu extends JFrame {
 
 	}
 
-	public void hienThiThongTin() {
+	public void hienThiThongTin() throws RemoteException {
 		listLoaiDichVu = quanLyDichVuDAO.duyetDanhSachLoaiDichVu();
 		int row = tblLoaiDichVu.getSelectedRow();
 		if (row >= 0) {
@@ -194,7 +198,7 @@ public class GD_QuanLyLoaiDichVu extends JFrame {
 		}
 	}
 
-	public void chonChinhSua() {
+	public void chonChinhSua() throws  RemoteException {
 		int row = tblLoaiDichVu.getSelectedRow();
 		if (row >= 0) {
 			if (kiemTraDuLieuChinhSua()) {
@@ -218,7 +222,7 @@ public class GD_QuanLyLoaiDichVu extends JFrame {
 		}
 	}
 
-	public void chonXoa() {
+	public void chonXoa() throws HeadlessException, RemoteException {
 		int row = tblLoaiDichVu.getSelectedRow();
 		if (row >= 0) {
 			if (JOptionPane.showConfirmDialog(this, "Xác nhận xóa?", "Thông báo",
@@ -237,7 +241,7 @@ public class GD_QuanLyLoaiDichVu extends JFrame {
 		}
 	}
 
-	public void chonLamMoi() {
+	public void chonLamMoi() throws RemoteException {
 		txtMaLoaiDichVu.setText("");
 		txtTenLoaiDichVu.setText("");
 		loadData();
@@ -247,7 +251,7 @@ public class GD_QuanLyLoaiDichVu extends JFrame {
 		this.dispose();
 	}
 
-	private boolean kiemTraDuLieuChinhSua() {
+	private boolean kiemTraDuLieuChinhSua() throws RemoteException {
 		listLoaiDichVu = quanLyDichVuDAO.duyetDanhSachLoaiDichVu();
 		if (txtTenLoaiDichVu.getText().trim().length() > 0) {
 			if (listLoaiDichVu.contains(new LoaiDichVu("", txtTenLoaiDichVu.getText()))) {

@@ -1,5 +1,7 @@
 package Dao.Impl;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 import Dao.PhongDao;
@@ -10,33 +12,33 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
-public class PhongImpl implements PhongDao {
+public class PhongImpl extends UnicastRemoteObject implements PhongDao {
 	private String persistenceUnitName = "quanliKaraoke_ver2 mssql";
 	private EntityManager em;
 
-	public PhongImpl() {
+	public PhongImpl() throws RemoteException {
 		em = Persistence.createEntityManagerFactory(persistenceUnitName).createEntityManager();
 	}
 
 	@Override
-	public LoaiPhong timTheoMaLoaiPhong(String maLoaiPhong) {
+	public LoaiPhong timTheoMaLoaiPhong(String maLoaiPhong)throws RemoteException  {
 		return em.find(LoaiPhong.class, maLoaiPhong);
 	}
 
 	@Override
-	public LoaiPhong timTheoTenLoaiPhong(String tenLoaiPhong) {
+	public LoaiPhong timTheoTenLoaiPhong(String tenLoaiPhong)throws RemoteException  {
 		String query = "SELECT l FROM LoaiPhong l WHERE l.tenLoaiPhong = :tenLoai";
 		return em.createQuery(query, LoaiPhong.class).setParameter("tenLoai", tenLoaiPhong).getSingleResult();
 	}
 
 	@Override
-	public List<LoaiPhong> duyetDanhSachLoaiPhong() {
+	public List<LoaiPhong> duyetDanhSachLoaiPhong()throws RemoteException  {
 		String query = "SELECT l FROM LoaiPhong l";
 		return em.createQuery(query, LoaiPhong.class).getResultList();
 	}
 
 	@Override
-	public boolean themLoaiPhong(LoaiPhong loaiPhong) {
+	public boolean themLoaiPhong(LoaiPhong loaiPhong)throws RemoteException  {
 		EntityTransaction tr = em.getTransaction();
 		String query = "INSERT LoaiPhong (TenLoai)\r\n" + "VALUES (?)";
 		try {
@@ -52,7 +54,7 @@ public class PhongImpl implements PhongDao {
 	}
 
 	@Override
-	public boolean xoaLoaiPhong(String maLoaiPhong) {
+	public boolean xoaLoaiPhong(String maLoaiPhong) throws RemoteException {
 		EntityTransaction tr = em.getTransaction();
 		LoaiPhong loaiPhong = em.find(LoaiPhong.class, maLoaiPhong);
 		if (loaiPhong == null) {
@@ -71,7 +73,7 @@ public class PhongImpl implements PhongDao {
 	}
 
 	@Override
-	public boolean chinhSuaLoaiPhong(LoaiPhong loaiPhong) {
+	public boolean chinhSuaLoaiPhong(LoaiPhong loaiPhong)throws RemoteException  {
 		// UPDATE LoaiPhong\r\n" + "SET TenLoai = ?\r\n" + "WHERE MaLoaiPhong LIKE ?";
 		EntityTransaction tr = em.getTransaction();
 		LoaiPhong lp = em.find(LoaiPhong.class, loaiPhong.getMaLoai());
@@ -91,7 +93,7 @@ public class PhongImpl implements PhongDao {
 	}
 
 	@Override
-	public List<PhongEntity> duyetDanhSach() {
+	public List<PhongEntity> duyetDanhSach() throws RemoteException {
 		// SELECT MaPhong, SoPhong, LP.MaLoaiPhong, TenLoai, SucChua, TrangThai\r\n"
 //				+ "FROM [dbo].[Phong] P JOIN [dbo].[LoaiPhong] LP ON P.MaLoaiPhong = LP.MaLoaiPhong
 		String query = "SELECT p FROM PhongEntity p join p.loaiPhong lp";
@@ -99,7 +101,7 @@ public class PhongImpl implements PhongDao {
 	}
 
 	@Override
-	public boolean themPhong(PhongEntity phongEntity) {
+	public boolean themPhong(PhongEntity phongEntity)throws RemoteException  {
 		EntityTransaction tr = em.getTransaction();
 		String query = "INSERT Phong (SoPhong, MaLoaiPhong, SucChua, TrangThai)\r\n" + "VALUES(?, ?, ?, ?)";
 		try {
@@ -117,7 +119,7 @@ public class PhongImpl implements PhongDao {
 	}
 
 	@Override
-	public boolean chinhSuaPhong(PhongEntity phongEntity) {
+	public boolean chinhSuaPhong(PhongEntity phongEntity)throws RemoteException  {
 		EntityTransaction tr = em.getTransaction();
 		PhongEntity pe = em.find(PhongEntity.class, phongEntity.getMaPhong());
 		if (pe == null) {
@@ -136,7 +138,7 @@ public class PhongImpl implements PhongDao {
 	}
 
 	@Override
-	public boolean xoaPhong(String maPhong) {
+	public boolean xoaPhong(String maPhong) throws RemoteException {
 		EntityTransaction tr = em.getTransaction();
 		PhongEntity pe = em.find(PhongEntity.class, maPhong);
 		if (pe == null) {
@@ -155,7 +157,7 @@ public class PhongImpl implements PhongDao {
 	}
 
 	@Override
-	public List<PhongEntity> timKiemPhong(int soPhong, int sucChua, String trangThai, String loaiPhong) {
+	public List<PhongEntity> timKiemPhong(int soPhong, int sucChua, String trangThai, String loaiPhong)throws RemoteException  {
 //		String query = "SELECT p FROM PhongEntity p WHERE p.soPhong LIKE :soPhong AND p.sucChua LIKE :sucChua AND p.trangThai LIKE :trangThai AND p.loaiPhong.tenLoaiPhong LIKE :loaiPhong";
 //
 //		return em.createQuery(query, PhongEntity.class).setParameter("soPhong", soPhong)
@@ -215,7 +217,7 @@ public class PhongImpl implements PhongDao {
 	}
 
 	@Override
-	public boolean capNhatTrangThaiPhong(PhongEntity phongEntity, String trangThai) {
+	public boolean capNhatTrangThaiPhong(PhongEntity phongEntity, String trangThai) throws RemoteException {
 //		"UPDATE Phong\r\n" + "SET TrangThai = ?\r\n" + "WHERE MaPhong LIKE ?";
 		String query = "UPDATE PhongEntity p SET p.trangThai = :trangThai WHERE p.maPhong LIKE :maPhong";
 		EntityTransaction tr = em.getTransaction();
@@ -233,7 +235,7 @@ public class PhongImpl implements PhongDao {
 	}
 
 	@Override
-	public PhongEntity timTheoMa(String maPhong) {
+	public PhongEntity timTheoMa(String maPhong) throws RemoteException {
 		
 		return em.find(PhongEntity.class, maPhong);
 	}

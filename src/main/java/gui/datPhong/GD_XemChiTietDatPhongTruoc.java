@@ -35,6 +35,7 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.rmi.RemoteException;
 import java.util.List;
 import java.awt.Dimension;
 import java.awt.Insets;
@@ -70,8 +71,9 @@ public class GD_XemChiTietDatPhongTruoc extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @throws RemoteException 
 	 */
-	public GD_XemChiTietDatPhongTruoc(SendData<ChiTietPhieuDatPhongEntity> e) {
+	public GD_XemChiTietDatPhongTruoc(SendData<ChiTietPhieuDatPhongEntity> e) throws RemoteException {
 		this.send = e;
 		setTitle("Xem danh sách đặt trước");
 		setBounds(100, 100, 673, 467);
@@ -167,7 +169,7 @@ public class GD_XemChiTietDatPhongTruoc extends JDialog {
 		loadData();
 	}
 
-	private void loadData() {
+	private void loadData() throws RemoteException {
 		tblDanhSachDatPhong.removeAll();
 		tblDanhSachDatPhong.setRowSelectionAllowed(false);
 		tblmodelDanhSachDatPhong.setRowCount(0);
@@ -240,7 +242,7 @@ public class GD_XemChiTietDatPhongTruoc extends JDialog {
 		}
 	}
 
-	public void chonLamMoi() {
+	public void chonLamMoi() throws RemoteException {
 		txtSoPhong.setText("");
 		txtKhachHang.setText("");
 		loadData();

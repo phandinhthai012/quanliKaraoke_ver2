@@ -2,7 +2,9 @@ package gui.nhanVien;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.SystemColor;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,12 +60,12 @@ public class GD_QuanLyTaiKhoan extends JPanel {
 	
 	private NhanVienEntity nhanVienEntity = new NhanVienEntity();
 //	private QuanLyNhanVienDAO quanLyNhanVienDAO = new QuanLyNhanVienDAO();
-	private NhanVienDao quanLyNhanVienDAO = new NhanVienImpl();
+	private NhanVienDao quanLyNhanVienDAO  = new NhanVienImpl();
 
 	private QuanLyTaiKhoanController controller;
 	
 
-	public GD_QuanLyTaiKhoan(NhanVienEntity nhanVienEntity) {
+	public GD_QuanLyTaiKhoan(NhanVienEntity nhanVienEntity) throws RemoteException {
 		this.nhanVienEntity = nhanVienEntity;
 		setLayout(null);
 		setBounds(0, 0, 1365, 694);
@@ -231,7 +233,7 @@ public class GD_QuanLyTaiKhoan extends JPanel {
 		lblAnhDaiDien.setIcon(new ImageIcon(GD_QuanLyTaiKhoan.class.getResource("/images/iconAvatar.png")));
 		lblAnhDaiDien.setBounds(607, 112, 150, 150);
 		pnlTaiKhoan.add(lblAnhDaiDien);
-
+		
 		controller = new QuanLyTaiKhoanController(this);
 		btnDangXuat.addActionListener(controller);
 		btnChinhSua.addActionListener(controller);
@@ -250,11 +252,11 @@ public class GD_QuanLyTaiKhoan extends JPanel {
 
 	}
 
-	public void chonDoiMatKhau() {
+	public void chonDoiMatKhau() throws RemoteException {
 		new GD_DoiMatKhau(nhanVienEntity).setVisible(true);
 	}
 
-	public void chonDangXuat() {
+	public void chonDangXuat() throws RemoteException {
 		if (JOptionPane.showConfirmDialog(this, "Thông báo", "Xác nhận đăng xuất?",
 				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 			new GD_DangNhap().setVisible(true);
@@ -263,7 +265,7 @@ public class GD_QuanLyTaiKhoan extends JPanel {
 		}
 	}
 
-	public void chonChinhSua() {
+	public void chonChinhSua() throws HeadlessException, RemoteException {
 		if (kiemTraDuLieuChinhSua()) {
 			if (JOptionPane.showConfirmDialog(this, "Xác nhận chỉnh sửa?", "Thông báo",
 					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -292,7 +294,7 @@ public class GD_QuanLyTaiKhoan extends JPanel {
 		}
 	}
 
-	private boolean kiemTraDuLieuChinhSua() {
+	private boolean kiemTraDuLieuChinhSua() throws RemoteException {
 		if (!kiemTraSoDienThoaiChinhSua())
 			return false;
 
@@ -302,7 +304,7 @@ public class GD_QuanLyTaiKhoan extends JPanel {
 		return true;
 	}
 
-	private boolean kiemTraSoDienThoaiChinhSua() {
+	private boolean kiemTraSoDienThoaiChinhSua() throws RemoteException {
 		listNhanVien = new ArrayList<>();
 		listNhanVien = quanLyNhanVienDAO.duyetDanhSach();
 		String soDienThoai = txtSoDienThoai.getText().trim();

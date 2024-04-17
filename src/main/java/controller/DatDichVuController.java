@@ -6,6 +6,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.rmi.RemoteException;
 
 import gui.datDichVu.GD_DatDichVu;
 
@@ -19,13 +20,23 @@ public class DatDichVuController implements ActionListener, MouseListener, ItemL
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		giaoDienDatDichVu.chonPhong();
+		try {
+			giaoDienDatDichVu.chonPhong();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		giaoDienDatDichVu.hienThiThongTin();
+		try {
+			giaoDienDatDichVu.hienThiThongTin();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 	}
 
@@ -56,21 +67,26 @@ public class DatDichVuController implements ActionListener, MouseListener, ItemL
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if (o.equals(giaoDienDatDichVu.btnLamMoi)) {
-			giaoDienDatDichVu.chonLamMoi();
-		} else if (o.equals(giaoDienDatDichVu.btnTimKiem)) {
-			giaoDienDatDichVu.chonTimKiem();
-		} else if (o.equals(giaoDienDatDichVu.btnThem)) {
-			giaoDienDatDichVu.chonThem();
-		} else if (o.equals(giaoDienDatDichVu.btnXoaDaChon)) {
-			giaoDienDatDichVu.chonXoaDaChon();
-		} else if (o.equals(giaoDienDatDichVu.btnXoaTatCa)) {
-			giaoDienDatDichVu.chonXoaTatCa();
-		} else if (o.equals(giaoDienDatDichVu.btnChinhSua)) {
-			giaoDienDatDichVu.chonChinhSua();
-		} else if (o.equals(giaoDienDatDichVu.btnDat)) {
-			giaoDienDatDichVu.chonDat();
+		try {
+			if (o.equals(giaoDienDatDichVu.btnLamMoi)) {
+				giaoDienDatDichVu.chonLamMoi();
+			} else if (o.equals(giaoDienDatDichVu.btnTimKiem)) {
+				giaoDienDatDichVu.chonTimKiem();
+			} else if (o.equals(giaoDienDatDichVu.btnThem)) {
+				giaoDienDatDichVu.chonThem();
+			} else if (o.equals(giaoDienDatDichVu.btnXoaDaChon)) {
+				giaoDienDatDichVu.chonXoaDaChon();
+			} else if (o.equals(giaoDienDatDichVu.btnXoaTatCa)) {
+				giaoDienDatDichVu.chonXoaTatCa();
+			} else if (o.equals(giaoDienDatDichVu.btnChinhSua)) {
+				giaoDienDatDichVu.chonChinhSua();
+			} else if (o.equals(giaoDienDatDichVu.btnDat)) {
+				giaoDienDatDichVu.chonDat();
+			}
+		} catch (RemoteException e2) {
+			e2.printStackTrace();
 		}
+		
 	}
 
 }

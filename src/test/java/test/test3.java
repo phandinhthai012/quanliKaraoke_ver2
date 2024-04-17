@@ -1,5 +1,6 @@
 package test;
 
+import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -12,7 +13,7 @@ import entities.ChiTietDatPhongEntity;
 import entities.PhongEntity;
 
 public class test3 {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws RemoteException {
 		DatPhongDao datPhongDao = new DatPhongImpl();
 		LocalDate ngay = LocalDate.of(2021, 5, 25);
 		LocalTime gioNhan = LocalTime.of(10, 0);

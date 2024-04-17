@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.rmi.RemoteException;
 
 import gui.datPhong.GD_DatPhong;
 
@@ -50,39 +51,44 @@ public class DatPhongController implements ActionListener, MouseListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)  {
 		Object o = e.getSource();
 		String action = e.getActionCommand();
-
-		if (o.equals(giaoDienDatPhong.btnLamMoi)) {
-			giaoDienDatPhong.chonLamMoi();
-		} else if (o.equals(giaoDienDatPhong.btnTimKiemPhong)) {
-			giaoDienDatPhong.chonTimKiemPhong();
-		} else if (o.equals(giaoDienDatPhong.btnTimKiemKhachHang)) {
-			giaoDienDatPhong.chonTimKiemKhachHang();
-		} else if (o.equals(giaoDienDatPhong.btnChonPhong)) {
-			giaoDienDatPhong.chonChonPhong();
-		} else if (o.equals(giaoDienDatPhong.btnXoaPhongDaChon)) {
-			giaoDienDatPhong.chonXoaPhongDaChon();
-		} else if (o.equals(giaoDienDatPhong.btnNhanPhong)) {
-			giaoDienDatPhong.chonNhanPhong();
-		} else if (action.equals("Đổi phòng")) {
-			giaoDienDatPhong.chonDoiPhong();
-		} else if (action.equals("Kiểm tra")) {
-			giaoDienDatPhong.chonKiemTra();
-		} else if (action.equals("Xác nhận đổi")) {
-			giaoDienDatPhong.chonXacNhanDoiPhong();
-		} else if (o.equals(giaoDienDatPhong.btnHuyPhongDatTruoc)) {
-			giaoDienDatPhong.chonHuyPhongDatTruoc();
-		} else if (o.equals(giaoDienDatPhong.btnXemDatTruoc)) {
-			giaoDienDatPhong.chonXemDatTruoc();
-		} else if (o.equals(giaoDienDatPhong.btnDatPhong)) {
-			giaoDienDatPhong.chonDatPhong();
-		} else if (o.equals(giaoDienDatPhong.radDatPhongNgay)) {
-			giaoDienDatPhong.chonDatPhongNgay();
-		} else if (o.equals(giaoDienDatPhong.radDatPhongTruoc)) {
-			giaoDienDatPhong.chonDatPhongTruoc();
+		try {
+			if (o.equals(giaoDienDatPhong.btnLamMoi)) {
+				giaoDienDatPhong.chonLamMoi();
+			} else if (o.equals(giaoDienDatPhong.btnTimKiemPhong)) {
+				giaoDienDatPhong.chonTimKiemPhong();
+			} else if (o.equals(giaoDienDatPhong.btnTimKiemKhachHang)) {
+				giaoDienDatPhong.chonTimKiemKhachHang();
+			} else if (o.equals(giaoDienDatPhong.btnChonPhong)) {
+				giaoDienDatPhong.chonChonPhong();
+			} else if (o.equals(giaoDienDatPhong.btnXoaPhongDaChon)) {
+				giaoDienDatPhong.chonXoaPhongDaChon();
+			} else if (o.equals(giaoDienDatPhong.btnNhanPhong)) {
+				giaoDienDatPhong.chonNhanPhong();
+			} else if (action.equals("Đổi phòng")) {
+				giaoDienDatPhong.chonDoiPhong();
+			} else if (action.equals("Kiểm tra")) {
+				giaoDienDatPhong.chonKiemTra();
+			} else if (action.equals("Xác nhận đổi")) {
+				giaoDienDatPhong.chonXacNhanDoiPhong();
+			} else if (o.equals(giaoDienDatPhong.btnHuyPhongDatTruoc)) {
+				giaoDienDatPhong.chonHuyPhongDatTruoc();
+			} else if (o.equals(giaoDienDatPhong.btnXemDatTruoc)) {
+				giaoDienDatPhong.chonXemDatTruoc();
+			} else if (o.equals(giaoDienDatPhong.btnDatPhong)) {
+				giaoDienDatPhong.chonDatPhong();
+			} else if (o.equals(giaoDienDatPhong.radDatPhongNgay)) {
+				giaoDienDatPhong.chonDatPhongNgay();
+			} else if (o.equals(giaoDienDatPhong.radDatPhongTruoc)) {
+				giaoDienDatPhong.chonDatPhongTruoc();
+			}
+		} catch (Exception e2) {
+			e2.printStackTrace();
+			
 		}
+		
 	}
 
 }

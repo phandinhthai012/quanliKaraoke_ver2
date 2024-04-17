@@ -3,6 +3,7 @@ package gui.thongKe;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -125,10 +126,11 @@ public class GD_ThongKe extends JPanel {
 	private ThongKeDao thongKeDAO = new ThongKeImpl();
 
 	/**
+	 * @throws RemoteException 
 	 * 
 	 */
 
-	public GD_ThongKe() {
+	public GD_ThongKe() throws RemoteException {
 		setBackground(new Color(230, 230, 250));
 		setLayout(null);
 		setBounds(0, 0, 1365, 695);
@@ -406,11 +408,11 @@ public class GD_ThongKe extends JPanel {
 		loadDataHoaDon();
 	}
 
-	private void loadDataHoaDon() {
+	private void loadDataHoaDon() throws RemoteException {
 		chonTimKiemDoanhThuNgay();
 	}
 
-	public void chonTheoNgay() {
+	public void chonTheoNgay() throws RemoteException {
 		this.pnlTimKiemDoanhThu.removeAll();
 		this.pnlTimKiemDoanhThu.repaint();
 		this.pnlTimKiemDoanhThu.revalidate();
@@ -423,7 +425,7 @@ public class GD_ThongKe extends JPanel {
 		chonTimKiemDoanhThuNgay();
 	}
 
-	public void chonTheoThang() {
+	public void chonTheoThang() throws RemoteException {
 		this.pnlTimKiemDoanhThu.removeAll();
 		this.pnlTimKiemDoanhThu.repaint();
 		this.pnlTimKiemDoanhThu.revalidate();
@@ -438,7 +440,7 @@ public class GD_ThongKe extends JPanel {
 		chonTimKiemDoanhThuThang();
 	}
 
-	public void chonTheoNam() {
+	public void chonTheoNam() throws RemoteException {
 		this.pnlTimKiemDoanhThu.removeAll();
 		this.pnlTimKiemDoanhThu.repaint();
 		this.pnlTimKiemDoanhThu.revalidate();
@@ -451,7 +453,7 @@ public class GD_ThongKe extends JPanel {
 		chonTimKiemDoanhThuNam();
 	}
 
-	private void hienThiThongTinDoanhThu() {
+	private void hienThiThongTinDoanhThu() throws RemoteException {
 		if (tblHoaDon.getRowCount() != 0) {
 			lblTongDoanhThuKetQua.setText(MoneyFormatter.format(tinhTongTienTatCaHoaDon()));
 			lblTongSoHDKetQua.setText(tblHoaDon.getRowCount() + "");
@@ -472,7 +474,7 @@ public class GD_ThongKe extends JPanel {
 		lblDoanhThuTrungBinhKetQua.setText(MoneyFormatter.format(0));
 	}
 
-	public void chonTimKiemDoanhThuNgay() {
+	public void chonTimKiemDoanhThuNgay() throws RemoteException {
 		LocalDate ngay = DateFormatter.toLocalDate(chonNgayDoanhThu);
 		tblHoaDon.removeAll();
 		tblHoaDon.setRowSelectionAllowed(false);
@@ -492,7 +494,7 @@ public class GD_ThongKe extends JPanel {
 		hienThiThongTinDoanhThu();
 	}
 
-	public void chonTimKiemDoanhThuThang() {
+	public void chonTimKiemDoanhThuThang() throws RemoteException {
 		int thang = cmbThangDoanhThu.getSelectedIndex() + 1;
 		int nam = cmbNamDoanhThuThang.getYear();
 		LocalDate ngay = LocalDate.of(nam, thang, 1);
@@ -516,7 +518,7 @@ public class GD_ThongKe extends JPanel {
 		hienThiThongTinDoanhThu();
 	}
 
-	public void chonTimKiemDoanhThuNam() {
+	public void chonTimKiemDoanhThuNam() throws RemoteException {
 		int nam = cmbNamDoanhThuNam.getYear();
 		LocalDate ngay = LocalDate.of(nam, 1, 1);
 		tblmodelHoaDon.setRowCount(0);
@@ -537,14 +539,14 @@ public class GD_ThongKe extends JPanel {
 		hienThiThongTinDoanhThu();
 	}
 
-	public void chonXemChiTietDoanhThu() {
+	public void chonXemChiTietDoanhThu() throws RemoteException {
 		int row = tblHoaDon.getSelectedRow();
 		if (row >= 0) {
 			new GD_XemChiTietHoaDonThongKe(listHoaDon.get(row)).setVisible(true);
 		}
 	}
 
-	private double tinhTongTienDichVu() {
+	private double tinhTongTienDichVu() throws RemoteException {
 		double tong = 0;
 		for (HoaDonEntity hoaDonEntity : listHoaDon)
 			tong += thongKeDAO.tinhTongTienDichVuCuaHoaDon(hoaDonEntity);
@@ -560,8 +562,9 @@ public class GD_ThongKe extends JPanel {
 		return tien;
 	}
 
-	/***** TÍNH TỔNG TIỀN HÁT *****/
-	private double tinhTongTienHatHoaDon(HoaDonEntity hoaDonEntity) {
+	/***** TÍNH TỔNG TIỀN HÁT 
+	 * @throws RemoteException *****/
+	private double tinhTongTienHatHoaDon(HoaDonEntity hoaDonEntity) throws RemoteException {
 		double tienHat = 0;
 		listChiTietHoaDon = quanLyHoaDonDAO.duyetDanhSachChiTietHoaDonTheoMaHoaDon(hoaDonEntity.getMaHoaDon());
 		for (ChiTietHoaDonEntity chiTietHoaDonEntity : listChiTietHoaDon) {
@@ -572,18 +575,18 @@ public class GD_ThongKe extends JPanel {
 		return tienHat;
 	}
 
-	private double tinhTongTienHatTatCaHoaDon() {
+	private double tinhTongTienHatTatCaHoaDon() throws RemoteException {
 		double tong = 0;
 		for (HoaDonEntity hoaDonEntity : listHoaDon)
 			tong += tinhTongTienHatHoaDon(hoaDonEntity);
 		return tong;
 	}
 
-	private double tinhTongTienCuaHoaDon(HoaDonEntity hoaDonEntity) {
+	private double tinhTongTienCuaHoaDon(HoaDonEntity hoaDonEntity) throws RemoteException {
 		return thongKeDAO.tinhTongTienDichVuCuaHoaDon(hoaDonEntity) + tinhTongTienHatHoaDon(hoaDonEntity);
 	}
 
-	private double tinhTongTienTatCaHoaDon() {
+	private double tinhTongTienTatCaHoaDon() throws RemoteException {
 		double tong = 0;
 		for (HoaDonEntity hoaDonEntity : listHoaDon)
 			tong += tinhTongTienCuaHoaDon(hoaDonEntity);
