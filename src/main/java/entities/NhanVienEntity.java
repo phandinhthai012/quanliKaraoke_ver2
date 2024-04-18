@@ -1,5 +1,6 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,12 +11,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "NhanVien")
-public class NhanVienEntity {
+public class NhanVienEntity implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "MaNhanVien",nullable = true)

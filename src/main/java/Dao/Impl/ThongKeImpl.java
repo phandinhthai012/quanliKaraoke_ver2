@@ -22,8 +22,8 @@ public class ThongKeImpl extends UnicastRemoteObject implements ThongKeDao {
 	@Override
 	public List<HoaDonEntity> duyetDanhSachHoaDonTheoNgay(LocalDate ngay) throws RemoteException {
 		String query = "SELECT hd FROM HoaDonEntity hd WHERE hd.ngayLap =:ngay";
-		return em.createQuery(query, HoaDonEntity.class).setParameter("ngay", DateFormatter.formatSql(ngay)).getResultList();
-		
+//		return em.createQuery(query, HoaDonEntity.class).setParameter("ngay", DateFormatter.formatSql(ngay)).getResultList();
+		return em.createQuery(query, HoaDonEntity.class).setParameter("ngay", ngay).getResultList();	
 	}
 
 	@Override

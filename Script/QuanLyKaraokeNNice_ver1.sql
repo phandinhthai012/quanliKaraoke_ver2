@@ -1,13 +1,13 @@
 ﻿﻿USE [master]
 GO
 
-DROP DATABASE QuanLyKaraokeNNice
+DROP DATABASE Karaoke3
 GO
 
-CREATE DATABASE QuanLyKaraokeNNice
+CREATE DATABASE Karaoke3
 GO
 
-USE QuanLyKaraokeNNice
+USE  Karaoke3
 GO
 
 -- 1 tao ma tu tang bang nhan vien

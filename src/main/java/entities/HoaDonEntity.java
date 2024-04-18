@@ -1,5 +1,6 @@
 package entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -13,12 +14,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "HoaDon")
-public class HoaDonEntity {
+public class HoaDonEntity implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "MaHoaDon")
 	private String maHoaDon;

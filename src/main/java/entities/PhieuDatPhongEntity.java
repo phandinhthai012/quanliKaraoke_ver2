@@ -1,5 +1,6 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,7 +14,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 @Entity
 @Table(name = "PhieuDatPhong")
-public class PhieuDatPhongEntity {
+public class PhieuDatPhongEntity implements Serializable{
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "MaPhieuDatPhong")
 	private String maPhieuDatPhong;
