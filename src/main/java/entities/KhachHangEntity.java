@@ -30,6 +30,7 @@ public class KhachHangEntity implements Serializable {
 	
 	@OneToMany(mappedBy = "khachHang", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HoaDonEntity> dsHoaDon;
+	
 	@OneToMany(mappedBy = "khachHang", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<PhieuDatPhongEntity> dsPhieuDatPhong;
 

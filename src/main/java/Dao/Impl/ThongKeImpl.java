@@ -9,10 +9,13 @@ import Dao.ThongKeDao;
 import entities.HoaDonEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
-import util.DateFormatter;
 
 public class ThongKeImpl extends UnicastRemoteObject implements ThongKeDao {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String persistenceUnitName = "quanliKaraoke_ver2 mssql";
 	private EntityManager em;
 	
@@ -42,14 +45,19 @@ public class ThongKeImpl extends UnicastRemoteObject implements ThongKeDao {
 
 	@Override
 	public double tinhTongTienDichVuCuaHoaDon(HoaDonEntity hoaDonEntity)throws RemoteException  {
-//		String query = "SELECT SUM((SoLuong*Gia)) AS N'Tổng' FROM ChiTietDichVu CTDV\r\n"
-//				+ "JOIN ChiTietHoaDon CTHD ON CTHD.MaChiTietHoaDon = CTDV.MaChiTietHoaDon\r\n"
-//				+ "JOIN HoaDon HD ON HD.MaHoaDon = CTHD.MaHoaDon \r\n"
-//				+ "JOIN DichVu DV ON DV.MaDichVu = CTDV.MaDichVu\r\n" + "WHERE CTHD.MaHoaDon = ?";
-//		String query = "SELECT SUM(ctdv.soLuong*ctdv.gia) FROM ChiTietDichVuEntity ctdv JOIN ctdv.chiTietHoaDon cthd JOIN cthd.hoaDon hd WHERE hd.maHoaDon =:maHoaDon";
-		String query = "SELECT SUM(ctdv.soLuongtdv.gia) FROM ChiTietDichVuEntity ctdv join ctdv.chiTietHoaDon cthd join cthd.hoaDon hd WHERE hd join ctdv.dichVu dv WHERE hd.maHoaDon =:maHoaDon";
+
+////		String query = "SELECT SUM(ctdv.soLuong*ctdv.gia) FROM ChiTietDichVuEntity ctdv JOIN ctdv.chiTietHoaDon cthd JOIN cthd.hoaDon hd WHERE hd.maHoaDon =:maHoaDon";
+//		String query = "SELECT SUM(ctdv.soLuongtdv.gia) FROM ChiTietDichVuEntity ctdv join ctdv.chiTietHoaDon cthd join cthd.hoaDon hd WHERE hd join ctdv.dichVu dv WHERE hd.maHoaDon =:maHoaDon";
 //		return em.createQuery(query, Double.class).setParameter("maHoaDon", hoaDonEntity.getMaHoaDon()).getSingleResult();
-		return em.createQuery(query, Double.class).setParameter("maHoaDon", hoaDonEntity.getMaHoaDon()).getSingleResult();
+		
+		String query = "SELECT SUM((SoLuong*Gia)) AS N'Tổng' FROM ChiTietDichVu CTDV\r\n"
+				+ "JOIN ChiTietHoaDon CTHD ON CTHD.MaChiTietHoaDon = CTDV.MaChiTietHoaDon\r\n"
+				+ "JOIN HoaDon HD ON HD.MaHoaDon = CTHD.MaHoaDon \r\n"
+				+ "JOIN DichVu DV ON DV.MaDichVu = CTDV.MaDichVu\r\n" + "WHERE CTHD.MaHoaDon = ?";
+		Object rs  = em.createNativeQuery(query).setParameter(1, hoaDonEntity.getMaHoaDon()).getSingleResult();
+		return rs == null ? 0 : Double.parseDouble(rs.toString());
+		
+		
 	
 	}
 }

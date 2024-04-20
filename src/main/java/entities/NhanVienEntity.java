@@ -39,6 +39,7 @@ public class NhanVienEntity implements Serializable {
 	private String chucVu;
 	@Column(name = "TrangThai")
 	private boolean trangThai;
+	
 	@OneToMany(mappedBy = "nhanVien",cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<HoaDonEntity> dsHoaDon;
 

@@ -22,13 +22,15 @@ public class ChiTietHoaDonEntity implements Serializable {
 	@Id
 	@Column(name = "MaChiTietHoaDon")
 	private String maChiTietHoaDon;
-	@ManyToOne(fetch = FetchType.LAZY)
+
+	@ManyToOne()
 	@JoinColumn(name = "MaHoaDon")
 	private HoaDonEntity hoaDon;
-	@OneToOne(fetch = FetchType.LAZY)
+
+	@OneToOne()
 	@JoinColumn(name = "MaChiTietDatPhong")
 	private ChiTietDatPhongEntity chiTietDatPhong;
-	
+
 	@OneToMany(mappedBy = "chiTietHoaDon", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ChiTietDichVuEntity> listChiTietDatDichVu;
 
@@ -36,8 +38,8 @@ public class ChiTietHoaDonEntity implements Serializable {
 		super();
 	}
 
-
-	//	public ChiTietHoaDonEntity(String maChiTietHoaDon, String maHoaDon, ChiTietDatPhongEntity chiTietDatPhong,
+	// public ChiTietHoaDonEntity(String maChiTietHoaDon, String maHoaDon,
+	// ChiTietDatPhongEntity chiTietDatPhong,
 //			List<ChiTietDichVuEntity> listChiTietDatDichVu) {
 //		super();
 //		this.maChiTietHoaDon = maChiTietHoaDon;
@@ -45,14 +47,7 @@ public class ChiTietHoaDonEntity implements Serializable {
 //		this.chiTietDatPhong = chiTietDatPhong;
 //		this.listChiTietDatDichVu = listChiTietDatDichVu;
 //	}
-	public ChiTietHoaDonEntity(String maChiTietHoaDon, HoaDonEntity hoaDon, ChiTietDatPhongEntity chiTietDatPhong,
-			List<ChiTietDichVuEntity> listChiTietDatDichVu) {
-		super();
-		this.maChiTietHoaDon = maChiTietHoaDon;
-		this.hoaDon = hoaDon;
-		this.chiTietDatPhong = chiTietDatPhong;
-		this.listChiTietDatDichVu = listChiTietDatDichVu;
-	}
+
 //
 //	public ChiTietHoaDonEntity(String maHoaDon, ChiTietDatPhongEntity chiTietDatPhong,
 //			List<ChiTietDichVuEntity> listChiTietDatDichVu) {
@@ -68,27 +63,27 @@ public class ChiTietHoaDonEntity implements Serializable {
 		this.chiTietDatPhong = chiTietDatPhong;
 		this.listChiTietDatDichVu = listChiTietDatDichVu;
 	}
-//
-//	public ChiTietHoaDonEntity(ChiTietDatPhongEntity chiTietDatPhong, List<ChiTietDichVuEntity> listChiTietDatDichVu) {
-//		super();
-//		this.chiTietDatPhong = chiTietDatPhong;
-//		this.listChiTietDatDichVu = listChiTietDatDichVu;
-//	}
-	public ChiTietHoaDonEntity(ChiTietDatPhongEntity chiTietDatPhong, List<ChiTietDichVuEntity> listChiTietDatDichVu) {
+
+	public ChiTietHoaDonEntity(String maChiTietHoaDon, HoaDonEntity hoaDon, ChiTietDatPhongEntity chiTietDatPhong,
+			List<ChiTietDichVuEntity> listChiTietDatDichVu) {
 		super();
+		this.maChiTietHoaDon = maChiTietHoaDon;
+		this.hoaDon = hoaDon;
 		this.chiTietDatPhong = chiTietDatPhong;
 		this.listChiTietDatDichVu = listChiTietDatDichVu;
 	}
-	
+
+	public ChiTietHoaDonEntity(ChiTietDatPhongEntity chiTietDatPhong, List<ChiTietDichVuEntity> listChiTietDatDichVu) {
+
+		this.chiTietDatPhong = chiTietDatPhong;
+		this.listChiTietDatDichVu = listChiTietDatDichVu;
+	}
+
 	public ChiTietHoaDonEntity(String maChiTietHoaDon, ChiTietDatPhongEntity chiTietDatPhong) {
-		super();
+
 		this.maChiTietHoaDon = maChiTietHoaDon;
 		this.chiTietDatPhong = chiTietDatPhong;
 	}
-
-
-
-
 
 //	public ChiTietHoaDonEntity(String maChiTietHoaDon, String maHoaDon, ChiTietDatPhongEntity chiTietDatPhong) {
 //		super();
@@ -118,8 +113,6 @@ public class ChiTietHoaDonEntity implements Serializable {
 	public void setMaChiTietHoaDon(String maChiTietHoaDon) {
 		this.maChiTietHoaDon = maChiTietHoaDon;
 	}
-
-	
 
 	public ChiTietDatPhongEntity getChiTietDatPhong() {
 		return chiTietDatPhong;
@@ -152,5 +145,12 @@ public class ChiTietHoaDonEntity implements Serializable {
 		return Objects.equals(maChiTietHoaDon, other.maChiTietHoaDon);
 	}
 
+	@Override
+	public String toString() {
+		return "ChiTietHoaDonEntity [maChiTietHoaDon=" + maChiTietHoaDon + ", hoaDon=" + hoaDon + ", chiTietDatPhong="
+				+ chiTietDatPhong + ", listChiTietDatDichVu=" + listChiTietDatDichVu + "]";
+	}
+	
+	
 
 }

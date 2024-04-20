@@ -638,3 +638,12 @@ values ('NV007', 'CT003', '2023-12-14')
 
 insert into PhieuPhanCong(MaNhanVien, MaCaTruc, Ngay)
 values ('NV008', 'CT003', '2023-12-14')
+
+select * from KhachHang
+select * from NhanVien
+selecT* from DichVu
+select *from Phong
+select * from LoaiDichVu
+select * from LoaiPhong
+
+select * from ChiTietHoaDon

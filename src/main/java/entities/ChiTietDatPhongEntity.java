@@ -3,6 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -10,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -21,23 +24,22 @@ public class ChiTietDatPhongEntity implements Serializable {
 	@Id
 	@Column(name = "MaChiTietDatPhong")
 	private String maChiTietDatPhong;
-	
-	@OneToOne(fetch = FetchType.LAZY)
+
+	@ManyToOne
 	@JoinColumn(name = "MaPhong")
 	private PhongEntity phong;
 	@Column(name = "GioNhanPhong")
 	private LocalTime gioNhanPhong;
 	@Column(name = "GioTraPhong")
 	private LocalTime gioTraPhong;
-	@Column(name = "NgayNhanPhong")
-	private LocalDate ngayNhanPhong;
 	@Column(name = "NgayDatPhong")
-	private LocalDate ngayDatPhong;
-	
-	@OneToOne(mappedBy = "chiTietDatPhong",fetch = FetchType.LAZY)
+	private LocalDate ngayNhanPhong;
+
+	@OneToOne(mappedBy = "chiTietDatPhong")
 	private ChiTietHoaDonEntity chiTietHoaDon;
-	@OneToOne(mappedBy = "chiTietDatPhong",fetch = FetchType.LAZY)
-	private ChiTietPhieuDatPhongEntity chiTietPhieuDatPhong;
+
+	@OneToMany(mappedBy = "chiTietDatPhong")
+	private List<ChiTietPhieuDatPhongEntity> listChiTietPhieuDatPhong;
 
 	public ChiTietDatPhongEntity() {
 	}
@@ -60,6 +62,8 @@ public class ChiTietDatPhongEntity implements Serializable {
 		this.gioTraPhong = gioTraPhong;
 		this.ngayNhanPhong = ngayNhanPhong;
 	}
+
+	
 
 	public String getMaChiTietDatPhong() {
 		return maChiTietDatPhong;
@@ -97,12 +101,8 @@ public class ChiTietDatPhongEntity implements Serializable {
 		return ngayNhanPhong;
 	}
 
-	public LocalDate getNgayDatPhong() {
-		return ngayDatPhong;
-	}
-
-	public void setNgayDatPhong(LocalDate ngayDatPhong) {
-		this.ngayDatPhong = ngayDatPhong;
+	public void setNgayNhanPhong(LocalDate ngayNhanPhong) {
+		this.ngayNhanPhong = ngayNhanPhong;
 	}
 
 	public ChiTietHoaDonEntity getChiTietHoaDon() {
@@ -113,16 +113,12 @@ public class ChiTietDatPhongEntity implements Serializable {
 		this.chiTietHoaDon = chiTietHoaDon;
 	}
 
-	public ChiTietPhieuDatPhongEntity getChiTietPhieuDatPhong() {
-		return chiTietPhieuDatPhong;
+	public List<ChiTietPhieuDatPhongEntity> getListChiTietPhieuDatPhong() {
+		return listChiTietPhieuDatPhong;
 	}
 
-	public void setChiTietPhieuDatPhong(ChiTietPhieuDatPhongEntity chiTietPhieuDatPhong) {
-		this.chiTietPhieuDatPhong = chiTietPhieuDatPhong;
-	}
-
-	public void setNgayNhanPhong(LocalDate ngayNhanPhong) {
-		this.ngayNhanPhong = ngayNhanPhong;
+	public void setListChiTietPhieuDatPhong(List<ChiTietPhieuDatPhongEntity> listChiTietPhieuDatPhong) {
+		this.listChiTietPhieuDatPhong = listChiTietPhieuDatPhong;
 	}
 
 	public double tinhTienHat() {

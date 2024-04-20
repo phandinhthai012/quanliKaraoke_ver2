@@ -5,14 +5,21 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import Dao.KhachHangDao;
 import entities.KhachHangEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 
 public class KhachHangImpl extends UnicastRemoteObject implements KhachHangDao {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String persistenceUnitName = "quanliKaraoke_ver2 mssql";
 	private EntityManager em;
 
@@ -33,6 +40,7 @@ public class KhachHangImpl extends UnicastRemoteObject implements KhachHangDao {
 				+ "([HoTen],[SoDienThoai],[Email],[NamSinh],[SoLanDatPhong]) VALUES (:hoTen, :soDienThoai, :email, :namSinh, :soLanDatPhong)";
 		try {
 			tx.begin();
+			@SuppressWarnings("unused")
 			boolean result = em.createNativeQuery(query).setParameter("hoTen", khachHangEntity.getHoTen())
 					.setParameter("soDienThoai", khachHangEntity.getSoDienThoai())
 					.setParameter("email", khachHangEntity.getEmail())
@@ -72,10 +80,20 @@ public class KhachHangImpl extends UnicastRemoteObject implements KhachHangDao {
 
 	@Override
 	public KhachHangEntity timTheoSoDienThoai(String soDienThoai) throws RemoteException {
-		String query = "SELECT kh FROM KhachHangEntity kh WHERE kh.soDienThoai = :soDienThoai";
-		KhachHangEntity kh = em.createQuery(query, KhachHangEntity.class).setParameter("soDienThoai", soDienThoai)
-				.getSingleResult();
-		return kh;
+		String query = "SELECT kh FROM KhachHangEntity kh WHERE kh.soDienThoai like :soDienThoai";
+//		
+//		Result rs = (Result) em.createQuery(query, KhachHangEntity.class).setParameter("soDienThoai", soDienThoai);
+//		if (rs == null) {
+//			return null;
+//		}
+//		KhachHangEntity  khachHangEntity = ((TypedQuery<KhachHangEntity>) rs).getSingleResult();
+//		return khachHangEntity;
+		 TypedQuery<KhachHangEntity> typedQuery = em.createQuery(query, KhachHangEntity.class).setParameter("soDienThoai", "%" + soDienThoai + "%");
+		    try {
+		        return typedQuery.getSingleResult();
+		    } catch (NoResultException e) {
+		        return null;
+		    }
 	}
 
 	@Override

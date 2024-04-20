@@ -2,7 +2,6 @@ package gui.dangNhap;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.rmi.RemoteException;
 

@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -9,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -30,8 +32,8 @@ public class PhongEntity  implements Serializable{
 	@Column(name = "SucChua")
 	private int sucChua;
 	
-	@OneToOne(mappedBy = "phong")
-	private ChiTietDatPhongEntity chiTietDatPhong;
+	@OneToMany(mappedBy = "phong")
+	private List<ChiTietDatPhongEntity> listChiTietDatPhong;
 
 	public PhongEntity() {
 	}
@@ -74,6 +76,14 @@ public class PhongEntity  implements Serializable{
 
 	public void setLoaiPhong(LoaiPhong loaiPhong) {
 		this.loaiPhong = loaiPhong;
+	}
+
+	public List<ChiTietDatPhongEntity> getListChiTietDatPhong() {
+		return listChiTietDatPhong;
+	}
+
+	public void setListChiTietDatPhong(List<ChiTietDatPhongEntity> listChiTietDatPhong) {
+		this.listChiTietDatPhong = listChiTietDatPhong;
 	}
 
 	public String getTrangThai() {

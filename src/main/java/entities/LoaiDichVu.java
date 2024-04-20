@@ -20,7 +20,7 @@ public class LoaiDichVu implements Serializable {
 	@Column(name = "TenLoaiDichVu")
 	private String tenLoaiDichVu;
 	
-	@OneToMany(mappedBy = "loaiDichVu",fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "loaiDichVu")
 	private List<DichVuEntity> listDichVu;
 
 	public LoaiDichVu() {

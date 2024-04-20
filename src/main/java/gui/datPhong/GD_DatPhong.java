@@ -53,11 +53,6 @@ import Dao.Impl.KhachHangImpl;
 import Dao.Impl.PhieuDatPhongImpl;
 import Dao.Impl.PhongImpl;
 import controller.DatPhongController;
-//import dao.DatPhongDAO;
-//import dao.QuanLyHoaDonDAO;
-//import dao.QuanLyKhachHangDAO;
-//import dao.QuanLyPhieuDatPhongDAO;
-//import dao.QuanLyPhongDAO;
 import entities.ChiTietDatPhongEntity;
 import entities.ChiTietDichVuEntity;
 import entities.ChiTietHoaDonEntity;
@@ -164,15 +159,15 @@ public class GD_DatPhong extends JPanel {
 	private List<PhongEntity> listPhong;
 
 //	private QuanLyPhongDAO quanLyPhongDAO = new QuanLyPhongDAO();
-	private PhongDao quanLyPhongDAO = new PhongImpl();
 //	private QuanLyKhachHangDAO quanLyKhachHangDAO = new QuanLyKhachHangDAO();
-	private KhachHangDao quanLyKhachHangDAO = new KhachHangImpl();
 //	private DatPhongDAO datPhongDAO = new DatPhongDAO();
-	private DatPhongDao datPhongDAO = new DatPhongImpl();
 //	private QuanLyHoaDonDAO quanLyHoaDonDAO = new QuanLyHoaDonDAO();
-	private HoaDonDao quanLyHoaDonDAO = new HoaDonImpl();
 //	private QuanLyPhieuDatPhongDAO quanLyPhieuDatPhongDAO = new QuanLyPhieuDatPhongDAO();
-	private PhieuDatPhongDao quanLyPhieuDatPhongDAO = new PhieuDatPhongImpl();
+	private PhongDao quanLyPhongDAO;
+	private KhachHangDao quanLyKhachHangDAO;
+	private DatPhongDao datPhongDAO;
+	private HoaDonDao quanLyHoaDonDAO;
+	private PhieuDatPhongDao quanLyPhieuDatPhongDAO;
 
 	private NhanVienEntity nhanVienEntity = null;
 	private KhachHangEntity khachHangEntity = null;
@@ -182,6 +177,17 @@ public class GD_DatPhong extends JPanel {
 	private String maPhongMoi = null;
 
 	public GD_DatPhong(NhanVienEntity nhanVienEntity) throws RemoteException {
+
+		try {
+			quanLyPhongDAO = new PhongImpl();
+			quanLyKhachHangDAO = new KhachHangImpl();
+			datPhongDAO = new DatPhongImpl();
+			quanLyHoaDonDAO = new HoaDonImpl();
+			quanLyPhieuDatPhongDAO = new PhieuDatPhongImpl();
+		} catch (RemoteException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		this.nhanVienEntity = nhanVienEntity;
 		setLayout(null);
 		setBounds(0, 0, 1365, 694);
@@ -948,7 +954,12 @@ public class GD_DatPhong extends JPanel {
 				tblPhongDaChon.setValueAt(i, i, 0);
 			}
 			tblmodelPhongDaChon.removeRow(row);
-			loadData();
+			try {
+				loadData();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 			JOptionPane.showMessageDialog(this, "Hãy chọn phòng cần xóa");
 			return;
@@ -968,15 +979,13 @@ public class GD_DatPhong extends JPanel {
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn phòng");
 					return;
 				} else {
-//					chiTietDatPhongEntity = quanLyHoaDonDAO
-//							.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
 					try {
-						chiTietDatPhongEntity = quanLyHoaDonDAO.timChiTietDatPhongTheoMa(
-								chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
-					} catch (RemoteException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						chiTietDatPhongEntity = quanLyHoaDonDAO						
+								.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
+					} catch (Exception e2) {
+						e2.printStackTrace();
 					}
+					
 					// kiem tra neu ngay nhan phong cua phieu dat do la hom nay + gio nhan phong
 					// trước gio hien tai 5 phut hoac sau gio hien tai 15 phut
 					if (chiTietDatPhongEntity.getNgayNhanPhong().equals(LocalDate.now())
@@ -987,10 +996,7 @@ public class GD_DatPhong extends JPanel {
 							if (quanLyPhongDAO.capNhatTrangThaiPhong(chiTietDatPhongEntity.getPhong(), trangThai)) {
 								JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
 							}
-						} catch (HeadlessException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (RemoteException e1) {
+						} catch (HeadlessException | RemoteException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
@@ -1016,11 +1022,10 @@ public class GD_DatPhong extends JPanel {
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn phòng");
 					return;
 				} else {
-//					chiTietDatPhongEntity = quanLyHoaDonDAO
-//							.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getMaChiTietDatPhong());
 					try {
-						chiTietDatPhongEntity = quanLyHoaDonDAO.timChiTietDatPhongTheoMa(
-								chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
+						chiTietDatPhongEntity = quanLyHoaDonDAO
+								
+								.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
 					} catch (RemoteException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -1074,30 +1079,60 @@ public class GD_DatPhong extends JPanel {
 		new GD_XemChiTietDatPhongTruoc(new SendData<ChiTietPhieuDatPhongEntity>() {
 			@Override
 			public void send(ChiTietPhieuDatPhongEntity e) {
-				chiTietPhieuDatPhongEntity = e;
-				try {
-					if (chiTietPhieuDatPhongEntity != null) {
-						ChiTietDatPhongEntity chiTietDatPhongEntity = quanLyHoaDonDAO.timChiTietDatPhongTheoMa(
-								chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
-//						
-						PhieuDatPhongEntity phieuDatPhongEntity = quanLyPhieuDatPhongDAO
+				chiTietPhieuDatPhongEntity = e;//getMaChiTietDatPhong()
+				if (chiTietPhieuDatPhongEntity != null) {
+					ChiTietDatPhongEntity chiTietDatPhongEntity = null;
+					try {
+						chiTietDatPhongEntity = quanLyHoaDonDAO
+								.timChiTietDatPhongTheoMa(chiTietPhieuDatPhongEntity.getChiTietDatPhong().getMaChiTietDatPhong());
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					PhieuDatPhongEntity phieuDatPhongEntity = null;
+					try {
+						phieuDatPhongEntity = quanLyPhieuDatPhongDAO
 								.timPhieuDatPhongTheoMa(chiTietPhieuDatPhongEntity.getPhieuDatPhong().getMaPhieuDatPhong());
-						// neu gio nhan phong sau gio hien tai 1 gio nua thi duoc phep huy phong
-						if (chiTietDatPhongEntity.getNgayNhanPhong().isAfter(LocalDate.now()) || (chiTietDatPhongEntity
-								.getNgayNhanPhong().equals(LocalDate.now())
-								&& chiTietDatPhongEntity.getGioNhanPhong().isAfter(LocalTime.now().minusHours(1)))) {
-							String maChiTietDatPhong = chiTietDatPhongEntity.getMaChiTietDatPhong();
-							ChiTietHoaDonEntity chiTietHoaDonEntity = quanLyHoaDonDAO
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}  //getMaPhieuDatPhong()
+					// neu gio nhan phong sau gio hien tai 1 gio nua thi duoc phep huy phong
+					if (chiTietDatPhongEntity.getNgayNhanPhong().isAfter(LocalDate.now()) || (chiTietDatPhongEntity
+							.getNgayNhanPhong().equals(LocalDate.now())
+							&& chiTietDatPhongEntity.getGioNhanPhong().isAfter(LocalTime.now().minusHours(1)))) {
+						String maChiTietDatPhong = chiTietDatPhongEntity.getMaChiTietDatPhong();
+						ChiTietHoaDonEntity chiTietHoaDonEntity = null;
+						try {
+							chiTietHoaDonEntity = quanLyHoaDonDAO
 									.timChiTietHoaDonTheoChiTietDatPhong(chiTietDatPhongEntity);
-							// neu phong do co dat dich vu thi xoa cac don dat dich vu truoc
-							// thu tu xoa: chiTietDichVu -> chiTietHoaDon -> chiTietPhieuDatPhong ->
-							// phieuDatPhong + chiTietDatPhong -> cap nhat trang thai phong
-							List<ChiTietDichVuEntity> listChiTietDichVu = quanLyHoaDonDAO
+						} catch (RemoteException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						// neu phong do co dat dich vu thi xoa cac don dat dich vu truoc
+						// thu tu xoa: chiTietDichVu -> chiTietHoaDon -> chiTietPhieuDatPhong ->
+						// phieuDatPhong + chiTietDatPhong -> cap nhat trang thai phong
+						List<ChiTietDichVuEntity> listChiTietDichVu = null;
+						try {
+							listChiTietDichVu = quanLyHoaDonDAO
 									.duyetDanhSachChiTietDichVuTheoChiTietHoaDon(chiTietHoaDonEntity.getMaChiTietHoaDon());
-							if (listChiTietDichVu.size() > 0)
+						} catch (RemoteException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						if (listChiTietDichVu.size() > 0) {
+							try {
 								if (!quanLyHoaDonDAO.xoaChiTietDichvuTheoMaHoaDon(chiTietHoaDonEntity.getMaChiTietHoaDon()))
 									return;
+							} catch (Exception e2) {
+								// TODO Auto-generated catch block
+								e2.printStackTrace();
+							}
+						}
+							
 
+						try {
 							if (quanLyHoaDonDAO.xoaChiTietHoaDon(maChiTietDatPhong)) {
 								if (quanLyPhieuDatPhongDAO.xoaChiTietPhieuDatPhong(maChiTietDatPhong)) {
 									// neu phieu dat phong do khong con phong nao thi xoa phieu dat phong
@@ -1117,18 +1152,18 @@ public class GD_DatPhong extends JPanel {
 
 								}
 							}
-						} else {
-							JOptionPane.showMessageDialog(null, "Chỉ được phép hủy trước giờ hiện tại 2 giờ");
-							return;
+						} catch (HeadlessException | RemoteException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
 					} else {
-						JOptionPane.showMessageDialog(null, "Hãy chọn phòng");
+						JOptionPane.showMessageDialog(null, "Chỉ được phép hủy trước giờ hiện tại 2 giờ");
 						return;
 					}
-				} catch (Exception e2) {
-					e2.printStackTrace();
+				} else {
+					JOptionPane.showMessageDialog(null, "Hãy chọn phòng");
+					return;
 				}
-				
 			}
 		}).setVisible(true);
 	}
@@ -1255,8 +1290,6 @@ public class GD_DatPhong extends JPanel {
 				// chiTietHoaDon
 				if (quanLyHoaDonDAO.themChiTietDatPhong(chiTietDatPhongEntity)) {
 					chiTietDatPhongEntity = quanLyHoaDonDAO.timChiTietDatPhongVuaTao();
-//					ChiTietPhieuDatPhongEntity chiTietPhieuDatPhongEntity = new ChiTietPhieuDatPhongEntity(
-//							phieuDatPhongEntity.getMaPhieuDatPhong(), chiTietDatPhongEntity.getMaChiTietDatPhong());
 					ChiTietPhieuDatPhongEntity chiTietPhieuDatPhongEntity = new ChiTietPhieuDatPhongEntity(
 							phieuDatPhongEntity, chiTietDatPhongEntity);
 

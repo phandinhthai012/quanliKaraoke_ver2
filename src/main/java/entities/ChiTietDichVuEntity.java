@@ -5,12 +5,11 @@ import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
 @Entity
 @Table(name = "ChiTietDichVu")
 public class ChiTietDichVuEntity implements Serializable {
@@ -18,18 +17,28 @@ public class ChiTietDichVuEntity implements Serializable {
 	@Id
 	@Column(name = "MaChiTietDichVu")
 	private String maChiTietDatDichVu;
-	@OneToOne(fetch = FetchType.LAZY)
+
+	@ManyToOne()
 	@JoinColumn(name = "MaDichVu")
 	private DichVuEntity dichVu;
 	@Column(name = "SoLuong")
 	private int soLuong;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
+
+	@ManyToOne()
 	@JoinColumn(name = "MaChiTietHoaDon")
 	private ChiTietHoaDonEntity chiTietHoaDon;
 
 	public ChiTietDichVuEntity() {
 		super();
+	}
+
+	public ChiTietDichVuEntity(String maChiTietDatDichVu, DichVuEntity dichVu, int soLuong,
+			ChiTietHoaDonEntity chiTietHoaDon) {
+		super();
+		this.maChiTietDatDichVu = maChiTietDatDichVu;
+		this.dichVu = dichVu;
+		this.soLuong = soLuong;
+		this.chiTietHoaDon = chiTietHoaDon;
 	}
 
 	public ChiTietDichVuEntity(String maChiTietDatDichVu, DichVuEntity dichVu, int soLuong) {
@@ -38,6 +47,7 @@ public class ChiTietDichVuEntity implements Serializable {
 		this.dichVu = dichVu;
 		this.soLuong = soLuong;
 	}
+
 
 	public ChiTietDichVuEntity(DichVuEntity dichVu, int soLuong) {
 		super();
@@ -57,14 +67,6 @@ public class ChiTietDichVuEntity implements Serializable {
 		return dichVu;
 	}
 
-	public ChiTietHoaDonEntity getChiTietHoaDon() {
-		return chiTietHoaDon;
-	}
-
-	public void setChiTietHoaDon(ChiTietHoaDonEntity chiTietHoaDon) {
-		this.chiTietHoaDon = chiTietHoaDon;
-	}
-
 	public void setDichVu(DichVuEntity dichVu) {
 		this.dichVu = dichVu;
 	}
@@ -75,6 +77,14 @@ public class ChiTietDichVuEntity implements Serializable {
 
 	public void setSoLuong(int soLuong) {
 		this.soLuong = soLuong;
+	}
+
+	public ChiTietHoaDonEntity getChiTietHoaDon() {
+		return chiTietHoaDon;
+	}
+
+	public void setChiTietHoaDon(ChiTietHoaDonEntity chiTietHoaDon) {
+		this.chiTietHoaDon = chiTietHoaDon;
 	}
 
 	public double tinhThanhTien() {

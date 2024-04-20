@@ -18,11 +18,11 @@ public class ChiTietPhieuDatPhongEntity implements Serializable{
 	@Id
 	@Column(name = "MaChiTietPhieuDatPhong")
 	private String maChiTietPhieuDatPhong;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "MaPhieuDatPhong")
 	private PhieuDatPhongEntity phieuDatPhong;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "MaChiTietDatPhong")
 	private ChiTietDatPhongEntity chiTietDatPhong;
 
@@ -37,26 +37,38 @@ public class ChiTietPhieuDatPhongEntity implements Serializable{
 //		this.maChiTietDatPhong = maChiTietDatPhong;
 //	}
 	
-	public ChiTietPhieuDatPhongEntity(String maChiTietPhieuDatPhong, PhieuDatPhongEntity phieuDatPhong,
-			ChiTietDatPhongEntity chiTietDatPhong) {
-		super();
-		this.maChiTietPhieuDatPhong = maChiTietPhieuDatPhong;
-		this.phieuDatPhong = phieuDatPhong;
-		this.chiTietDatPhong = chiTietDatPhong;
-	}
+	
 //
 //	public ChiTietPhieuDatPhongEntity(String maPhieuDatPhong, String maChiTietDatPhong) {
 //		super();
 //		this.maPhieuDatPhong = maPhieuDatPhong;
 //		this.maChiTietDatPhong = maChiTietDatPhong;
 //	}
+	
 	public ChiTietPhieuDatPhongEntity(PhieuDatPhongEntity phieuDatPhong, ChiTietDatPhongEntity chiTietDatPhong) {
-		super();
-		this.phieuDatPhong = phieuDatPhong;
-		this.chiTietDatPhong = chiTietDatPhong;
-	}
+	super();
+	this.phieuDatPhong = phieuDatPhong;
+	this.chiTietDatPhong = chiTietDatPhong;
+}
+
+	public ChiTietPhieuDatPhongEntity(String maChiTietPhieuDatPhong, PhieuDatPhongEntity phieuDatPhong,
+		ChiTietDatPhongEntity chiTietDatPhong) {
+	super();
+	this.maChiTietPhieuDatPhong = maChiTietPhieuDatPhong;
+	this.phieuDatPhong = phieuDatPhong;
+	this.chiTietDatPhong = chiTietDatPhong;
+}
 
 	
+	
+	public String getMaChiTietPhieuDatPhong() {
+		return maChiTietPhieuDatPhong;
+	}
+
+	public void setMaChiTietPhieuDatPhong(String maChiTietPhieuDatPhong) {
+		this.maChiTietPhieuDatPhong = maChiTietPhieuDatPhong;
+	}
+
 	public PhieuDatPhongEntity getPhieuDatPhong() {
 		return phieuDatPhong;
 	}
@@ -73,15 +85,6 @@ public class ChiTietPhieuDatPhongEntity implements Serializable{
 		this.chiTietDatPhong = chiTietDatPhong;
 	}
 
-	public String getMaChiTietPhieuDatPhong() {
-		return maChiTietPhieuDatPhong;
-	}
-
-	public void setMaChiTietPhieuDatPhong(String maChiTietPhieuDatPhong) {
-		this.maChiTietPhieuDatPhong = maChiTietPhieuDatPhong;
-	}
-
-	
 	@Override
 	public int hashCode() {
 		return Objects.hash(maChiTietPhieuDatPhong);

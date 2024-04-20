@@ -19,10 +19,11 @@ public class PhieuDatPhongEntity implements Serializable{
 	@Id
 	@Column(name = "MaPhieuDatPhong")
 	private String maPhieuDatPhong;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "MaKhachHang")
 	private KhachHangEntity khachHang;
-	@OneToMany(mappedBy = "phieuDatPhong", fetch = FetchType.LAZY)
+	
+	@OneToMany(mappedBy = "phieuDatPhong")
 	private List<ChiTietPhieuDatPhongEntity> listPhong;
 
 	public PhieuDatPhongEntity() {
@@ -57,15 +58,6 @@ public class PhieuDatPhongEntity implements Serializable{
 		this.listPhong = listPhong;
 	}
 	
-	
-
-	public KhachHangEntity getKhachHang() {
-		return khachHang;
-	}
-
-	public void setKhachHang(KhachHangEntity khachHang) {
-		this.khachHang = khachHang;
-	}
 
 	public String getMaPhieuDatPhong() {
 		return maPhieuDatPhong;
@@ -73,6 +65,14 @@ public class PhieuDatPhongEntity implements Serializable{
 
 	public void setMaPhieuDatPhong(String maPhieuDatPhong) {
 		this.maPhieuDatPhong = maPhieuDatPhong;
+	}
+
+	public KhachHangEntity getKhachHang() {
+		return khachHang;
+	}
+
+	public void setKhachHang(KhachHangEntity khachHang) {
+		this.khachHang = khachHang;
 	}
 
 	public List<ChiTietPhieuDatPhongEntity> getListPhong() {

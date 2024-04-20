@@ -2,9 +2,9 @@ package Dao.Impl;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
 
 import Dao.DichVuDao;
 import entities.DichVuEntity;
@@ -15,6 +15,10 @@ import jakarta.persistence.Persistence;
 
 public class DichVuImpl extends UnicastRemoteObject implements DichVuDao {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String persistenceUnitName = "quanliKaraoke_ver2 mssql";
 	private EntityManager em;
 
@@ -30,6 +34,7 @@ public class DichVuImpl extends UnicastRemoteObject implements DichVuDao {
 	@Override
 	public LoaiDichVu timTheoTenLoaiDichVu(String tenLoaiDichVu)throws RemoteException  {
 		String query = "SELECT l FROM LoaiDichVu l WHERE l.tenLoaiDichVu like :tenLoaiDichVu";
+		
 		return em.createQuery(query, LoaiDichVu.class).setParameter("tenLoaiDichVu", "%"+tenLoaiDichVu+"%").getSingleResult();
 	}
 
@@ -42,9 +47,10 @@ public class DichVuImpl extends UnicastRemoteObject implements DichVuDao {
 	@Override
 	public boolean themLoaiDichVu(LoaiDichVu loaiDichVu)throws RemoteException  {
 		EntityTransaction tr = em.getTransaction();
-		String query = "INSERT LoaiDichVu (TenLoaiDichVu)\r\n" + "VALUES (?)";
+		String query = "INSERT LoaiDichVu (TenLoaiDichVu)" + "VALUES (?)";
 		try {
 			tr.begin();
+			@SuppressWarnings("unused")
 			boolean result = em.createNativeQuery(query).setParameter(1, loaiDichVu.getTenLoaiDichVu()).executeUpdate() > 0;
 			tr.commit();
 			return true;
@@ -101,11 +107,14 @@ public class DichVuImpl extends UnicastRemoteObject implements DichVuDao {
 	@Override
 	public boolean them(DichVuEntity dichVuEntity) throws RemoteException {
 		EntityTransaction tr = em.getTransaction();
+		String query = "INSERT DichVu (TenDichVu, MaLoaiDichVu, Gia)\r\n" + "VALUES(?, ?, ?)";
 		try {
 			tr.begin();
-			em.persist(dichVuEntity);
+			boolean result = em.createNativeQuery(query).setParameter(1, dichVuEntity.getTenDichVu())
+					.setParameter(2, dichVuEntity.getLoaiDichVu().getMaLoaiDichVu())
+					.setParameter(3, dichVuEntity.getGia()).executeUpdate() > 0;
 			tr.commit();
-			return true;
+			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 			tr.rollback();
@@ -218,7 +227,22 @@ public class DichVuImpl extends UnicastRemoteObject implements DichVuDao {
 			// ten
 			query.append(String.format("WHERE TenDichVu LIKE N'%%%s%%'", tenDV));
 		}
-		return em.createNativeQuery(query.toString(), DichVuEntity.class).getResultList();
+		@SuppressWarnings("unchecked")
+		List<Object[]> rs = em.createNativeQuery(query.toString(), DichVuEntity.class).getResultList();
+		List<DichVuEntity> list = new ArrayList<DichVuEntity>();
+		for (Object[] o : rs) {
+			DichVuEntity d = new DichVuEntity();
+			d.setMaDichVu((String) o[0]);
+			d.setTenDichVu((String) o[1]);
+			LoaiDichVu loaiDichVu = new LoaiDichVu();
+			loaiDichVu.setMaLoaiDichVu((String) o[2]);
+			loaiDichVu.setTenLoaiDichVu((String) o[3]);
+			d.setLoaiDichVu(loaiDichVu);
+			d.setGia((Double) o[4]);
+			list.add(d);
+		}
+		return list;
+//		return em.createNativeQuery(query.toString(), DichVuEntity.class).getResultList();
 //		String query = "SELECT d FROM DichVuEntity d WHERE d.tenDichVu like :tenDV AND d.loaiDichVu.tenLoaiDichVu like :loaiDV AND d.gia >= :giaTu AND d.gia <= :giaDen";
 //		if (tenDV.equals("")) {
 //			query = "SELECT d FROM DichVuEntity d WHERE d.loaiDichVu.tenLoaiDichVu like :loaiDV AND d.gia >= :giaTu AND d.gia <= :giaDen";

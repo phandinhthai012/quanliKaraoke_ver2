@@ -23,10 +23,10 @@ public class HoaDonEntity implements Serializable {
 	@Id
 	@Column(name = "MaHoaDon")
 	private String maHoaDon;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "MaNhanVien")
 	private NhanVienEntity nhanVien;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "MaKhachHang")
 	private KhachHangEntity khachHang;
 	@Column(name = "NgayLap")

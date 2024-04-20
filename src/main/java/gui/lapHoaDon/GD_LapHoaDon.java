@@ -479,6 +479,7 @@ public class GD_LapHoaDon extends JPanel {
 			tblHoaDon.removeAll();
 			tblmodelHoaDon.setRowCount(0);
 			KhachHangEntity khachHangEntity = quanLyKhachHangDAO.timTheoSoDienThoai(sdt);
+			System.out.println(khachHangEntity);
 			listPhieuDatPhong = lapHoaDonDAO.timHoaDonTheoKhachHang(khachHangEntity);
 			int stt = 1;
 			for (PhieuDatPhongEntity phieuDatPhongEntity : listPhieuDatPhong)
