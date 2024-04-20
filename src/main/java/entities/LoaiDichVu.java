@@ -17,7 +17,7 @@ public class LoaiDichVu implements Serializable {
 	@Id
 	@Column(name = "MaLoaiDichVu")
 	private String maLoaiDichVu;
-	@Column(name = "TenLoaiDichVu")
+	@Column(name = "TenLoaiDichVu", columnDefinition = "NVARCHAR(50)")
 	private String tenLoaiDichVu;
 	
 	@OneToMany(mappedBy = "loaiDichVu")

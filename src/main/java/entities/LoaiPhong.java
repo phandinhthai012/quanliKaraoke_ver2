@@ -16,7 +16,7 @@ public class LoaiPhong implements Serializable {
 	@Id
 	@Column(name = "MaLoaiPhong")
 	private String maLoai;
-	@Column(name = "TenLoai")
+	@Column(name = "TenLoai", columnDefinition = "NVARCHAR(50)")
 	private String tenLoaiPhong;
 	
 	@OneToMany(mappedBy = "loaiPhong")

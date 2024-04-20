@@ -654,7 +654,7 @@ public class GD_LapHoaDon extends JPanel {
 			PdfWriter.getInstance(hoaDon, new FileOutputStream("HoaDon.pdf"));
 			hoaDon.open();
 
-			String imagePath = "src/images/iconLogo1.png";
+			String imagePath = "src/main/java/images/iconLogo1.png";
 			Image image = Image.getInstance(imagePath);
 			Paragraph loGo = new Paragraph();
 			loGo.add(image);

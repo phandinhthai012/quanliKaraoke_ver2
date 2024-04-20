@@ -21,7 +21,7 @@ public class NhanVienEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "MaNhanVien",nullable = true)
 	private String maNhanVien;
-	@Column(name = "HoTen")
+	@Column(name = "HoTen", columnDefinition = "NVARCHAR(50)")
 	private String hoTen;
 	@Column(name = "SoDienThoai")
 	private String soDienThoai;
@@ -35,7 +35,7 @@ public class NhanVienEntity implements Serializable {
 	private int namSinh;
 	@Column(name = "MucLuong")
 	private double mucLuong;
-	@Column(name = "ChucVu")
+	@Column(name = "ChucVu", columnDefinition = "NVARCHAR(50)")
 	private String chucVu;
 	@Column(name = "TrangThai")
 	private boolean trangThai;

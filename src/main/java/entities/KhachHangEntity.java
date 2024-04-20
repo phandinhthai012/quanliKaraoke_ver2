@@ -17,7 +17,7 @@ public class KhachHangEntity implements Serializable {
 	@Id
 	@Column(name = "MaKhachHang")
 	private String maKhachHang;
-	@Column(name = "HoTen")
+	@Column(name = "HoTen", columnDefinition = "NVARCHAR(50)")
 	private String hoTen;
 	@Column(name = "SoDienThoai")
 	private String soDienThoai;
@@ -25,7 +25,7 @@ public class KhachHangEntity implements Serializable {
 	private String email;
 	@Column(name = "NamSinh")
 	private int namSinh;
-	@Column(name = "SoLanDatPhong")
+	@Column(name = "SoLanDatPhong", columnDefinition = "INT DEFAULT 0")
 	private int soLanDatPhong;
 	
 	@OneToMany(mappedBy = "khachHang", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -56,6 +56,14 @@ public class KhachHangEntity implements Serializable {
 		this.email = email;
 		this.namSinh = namSinh;
 		this.soLanDatPhong = soLanDatPhong;
+	}
+	
+	public KhachHangEntity(String hoTen, String soDienThoai, String email, int namSinh) {
+		super();
+		this.hoTen = hoTen;
+		this.soDienThoai = soDienThoai;
+		this.email = email;
+		this.namSinh = namSinh;
 	}
 
 	public String getMaKhachHang() {

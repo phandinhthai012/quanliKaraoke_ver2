@@ -21,7 +21,7 @@ public class DichVuEntity implements Serializable {
 	@Id
 	@Column(name = "MaDichVu")
 	private String maDichVu;
-	@Column(name = "TenDichVu")
+	@Column(name = "TenDichVu", columnDefinition = "NVARCHAR(50)")
 	private String tenDichVu;
 	@ManyToOne
 	@JoinColumn(name = "MaLoaiDichVu")

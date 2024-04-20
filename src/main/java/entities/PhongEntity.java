@@ -27,7 +27,7 @@ public class PhongEntity  implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "MaLoaiPhong")
 	private LoaiPhong loaiPhong;
-	@Column(name = "TrangThai")
+	@Column(name = "TrangThai", columnDefinition = "NVARCHAR(50)")
 	private String trangThai;
 	@Column(name = "SucChua")
 	private int sucChua;
