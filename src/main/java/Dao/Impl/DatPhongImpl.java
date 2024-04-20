@@ -14,6 +14,7 @@ import entities.PhongEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 import util.DateFormatter;
 import util.TimeFormatter;
 
@@ -32,21 +33,50 @@ public class DatPhongImpl extends UnicastRemoteObject implements DatPhongDao {
 	@Override
 	public List<PhongEntity> timPhong(String trangThai, String loaiPhong, int soPhong, int sucChua)
 			throws RemoteException {
-		String query = "SELECT p FROM PhongEntity p WHERE p.trangThai LIKE :trangThai AND p.loaiPhong.tenLoaiPhong LIKE :loaiPhong AND CAST(p.soPhong AS STRING) like :soPhong AND (p.sucChuaCAST AS STRING) like :sucChua";
-		if (trangThai.equals("Tất cả"))
-			trangThai = "";
-		if (loaiPhong.equals("Tất cả"))
-			loaiPhong = "";
-		if (soPhong <= 0)
-			soPhong = 0;
-		if (sucChua <= 0)
-			sucChua = 0;
-		@SuppressWarnings("unchecked")
-		List<PhongEntity>  list = em.createNativeQuery(query, PhongEntity.class).setParameter("trangThai", "%" + trangThai + "%")
-				.setParameter("loaiPhong", "%" + loaiPhong + "%")
-				.setParameter("soPhong", "%" + String.valueOf(soPhong) + "%")
-				.setParameter("sucChua", String.valueOf(sucChua)).getResultList();
-		 return list;
+//		String query = "SELECT p FROM PhongEntity p WHERE p.trangThai LIKE :trangThai AND p.loaiPhong.tenLoaiPhong LIKE :loaiPhong AND CAST(p.soPhong AS STRING) like :soPhong AND (p.sucChuaCAST AS STRING) like :sucChua";
+//		if (trangThai.equals("Tất cả"))
+//			trangThai = "";
+//		if (loaiPhong.equals("Tất cả"))
+//			loaiPhong = "";
+//		if (soPhong <= 0 ) {
+//			soPhong = 0;
+//		}
+//			
+//		if (sucChua <= 0)
+//			sucChua = 0;
+//		@SuppressWarnings("unchecked")
+//		List<PhongEntity>  list = em.createQuery(query, PhongEntity.class).setParameter("trangThai", "%" + trangThai + "%")
+//				.setParameter("loaiPhong", "%" + loaiPhong + "%")
+//				.setParameter("soPhong", "%" + String.valueOf(soPhong) + "%")
+//				.setParameter("sucChua", String.valueOf(sucChua)).getResultList();
+//		 return list;
+		 String query = "SELECT p FROM PhongEntity p WHERE p.trangThai LIKE :trangThai AND p.loaiPhong.tenLoaiPhong LIKE :loaiPhong";
+		    if (soPhong > 0) {
+		        query += " AND p.soPhong = :soPhong";
+		    }
+		    if (sucChua > 0) {
+		        query += " AND p.sucChua = :sucChua";
+		    }
+
+		    if (trangThai.equals("Tất cả")) {
+		        trangThai = "";
+		    }
+		    if (loaiPhong.equals("Tất cả")) {
+		        loaiPhong = "";
+		    }
+
+		    TypedQuery<PhongEntity> typedQuery = em.createQuery(query, PhongEntity.class)
+		            .setParameter("trangThai", "%" + trangThai + "%")
+		            .setParameter("loaiPhong", "%" + loaiPhong + "%");
+
+		    if (soPhong > 0) {
+		        typedQuery.setParameter("soPhong", soPhong);
+		    }
+		    if (sucChua > 0) {
+		        typedQuery.setParameter("sucChua", sucChua);
+		    }
+
+		    return typedQuery.getResultList();
 	}
 
 	@Override
